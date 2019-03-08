@@ -1,0 +1,180 @@
+/**
+ * @author Joey 2018-09-12
+ * @param {string} domain_pre host of current page, for example: www, acitvity, bbs, etc.
+ * @param {object} jsonParamEvent The extended parameter is defined by the json string method. 
+ * 				   It is mainly used to pass in some public parameters or specific parameters, such as user account identifier UserAccount, 
+ * 				   sub-user ID MemberID, whether to enable debug mode parameter isdebug, etc.
+ * @description 
+ *    Set bi event tracking automatically when there is no manual event tracking on the target element(or its parent elements). 
+ *    First parse all elements and get elements which show report bi event tracking. Then bind click event on those elements.
+ *    In the click event callback function, the code will evaluate bi report string by text of the element, bi_name and bi_parent_name 注意事项
+ *    on the parents doms before call the sendBiReport function.
+ * 	  Cautions: The following variables of current page need to be defined before execution autoEventTracking.
+ * 			window.pageMatedataPrefix   -------------------   E.g  "www_china_zh-cn_product_evs.click."  
+ * 			window.headerMatedataPrefix   -----------------   E.g  "www_china_zh-cn_product_evs_navigation.click."  
+ * 			window.footerMatedataPrefix   -----------------   E.g  "www_china_zh-cn_product_evs_footer.click."
+ * 			window.registerMatedataPrefix  ----------------   E.g  "www_china_zh-cn_product_evs_register.click."
+ * 			window.serviceMatedataPrefix  -----------------   E.g  "www_china_zh-cn_product_evs_service.click."
+ * 	  Detailed rules please check event tracking rules.
+ */   
+function autoEventTracking(domain_pre, jsonParamEvent){
+
+    var $mate = $("body").find('*').filter(function () {
+        var that = this;
+
+        // Compatible with old code.
+        if ($(this).closest("[mate_data_ts]").length > 0 || $(this).closest("[pep-nocheck-matedata]").length > 0) {
+            return;
+        }
+
+        var flag_href = !!$(this).attr('href'),
+            flag_jqClick = false,
+            flag_onclick = !!this.onclick,
+            flag_dataclickable = ($(this).attr('data-clickable') == "true"),
+            flag_dataclickable_asyn = ($(this).attr('data-clickable-asyn') == "true"),
+            flag_button = $(this).is("button"),
+            flag_a = $(this).is("a");
+
+        var jqEvents = $._data(this, 'events');
+
+        // 绑定了click事件（非委托）
+        flag_jqClick = jqEvents && jqEvents.click && jqEvents.click.length > jqEvents.click.delegateCount;
+
+        return flag_href || flag_jqClick || flag_onclick || flag_dataclickable || flag_dataclickable_asyn || flag_button || flag_a;
+    });
+
+
+    // 对于未埋点的需要自动埋点
+    $mate.each(function () {
+        var _this = $(this);
+
+        // 已手工埋点的，不再自动埋点
+        if (_this.closest("[mate_data_ts]").length == 0) {
+
+            if (_this.attr('data-clickable-asyn') == "true") {
+
+                // 类似ECS下拉框中option的场景
+                _this.on('click', 'li', function (e) {
+                    var originEle = $(e.target);
+
+                    // 不处理轮播卡片
+                    if (originEle.hasClass("slide-item")) {
+                        return;
+                    }
+
+                    var parentEles = _this.parents("[bi_parent_name]");
+                    var parentStr = "";
+                    for (var i = parentEles.length; i > 0; i--) {
+                        parentStr += $(parentEles[i - 1]).attr("bi_parent_name").split(".").join("") + "_";
+                    }
+
+                    var textStr = originEle.attr("bi_name") || originEle.text().trim();
+
+                    var ge_get = window.pageMatedataPrefix + parentStr + (textStr.indexOf("http") == 0 ? textStr : textStr.split(".").join(""));
+
+                    sendBiReport(ge_get, domain_pre, jsonParamEvent);
+
+                });
+
+                return;
+            }
+
+            _this.bind('click', function () {
+				
+				if(_this.hasClass("J-search-input")) {
+					return;
+				}
+				
+				if(_this.is("button") && _this.parent().is("a")) {
+					return;
+				}
+
+                // 第一次点击的时候，会将mate_data_ts生成上，如果再次点击，则直接使用，不用再生成埋点标志
+                var ge_get = _this.attr('mate_data_ts');
+
+                if (ge_get == undefined) {
+
+                    // 上层和本层模块文本
+                    var parentEles = _this.parents("[bi_parent_name]");
+                    var parentStr = "";
+                    for (var i = parentEles.length; i > 0; i--) {
+                        parentStr += $(parentEles[i - 1]).attr("bi_parent_name").split(".").join("") + "_";
+                    }
+                    var textStr = _this.attr("bi_name") || _this.text().trim().split('\n')[0];
+
+                    // 处理页头搜索场景
+                    if (textStr=="searchresult-search-input") {
+                        textStr = $(textStr).val();
+                    }
+
+					if (_this.attr("bi_name") && _this.attr("bi_name").indexOf("#") == 0) {
+                        textStr = $(textStr).val() || $(textStr).attr("placeholder") + "_defaultSearch";
+                    }
+
+                    if(!textStr){
+						textStr = "";
+                    }
+                    
+                    var ge_get = window.pageMatedataPrefix + parentStr + (textStr.indexOf("http") == 0 ? textStr : textStr.split(".").join(""));
+
+                    if (_this.closest("#header").length > 0) {
+                        ge_get = window.headerMatedataPrefix + parentStr + textStr;
+                    } else if (_this.closest("#footer").length > 0) {
+                        ge_get = window.footerMatedataPrefix + parentStr + textStr;
+                    } else if (_this.closest(".register-area").length > 0) {
+                        ge_get = window.registerMatedataPrefix + parentStr + textStr;
+                    } else if (_this.closest(".footer-service").length > 0) {
+                        ge_get = window.serviceMatedataPrefix + parentStr + textStr;
+                    }
+                   
+                }
+                sendBiReport(ge_get, domain_pre, jsonParamEvent);
+            });
+        }
+    });	
+}
+
+/**
+ * @author Joey 2018-09-12
+ * @param {string} ge_get Bi event tracking string, for example: www_china_zh-cn_product_evs.click.banner_help.
+ * @param {string} domain_pre host of current page, for example: www, acitvity, bbs, etc.
+ * @param {object} jsonParamEvent The extended parameter is defined by the json string method. 
+ * 				   It is mainly used to pass in some public parameters or specific parameters, such as user account identifier UserAccount, 
+ * 				   sub-user ID MemberID, whether to enable debug mode parameter isdebug, etc.
+ * @param {number} viewTime Intervals of the banner or the floor.
+ * @description 
+ *    Call onEvent to send bi report to backend. 
+ */   
+function sendBiReport(ge_get, domain_pre, jsonParamEvent, viewTime) {
+	
+    if(viewTime && viewTime <= 0) {
+        viewTime = 1;
+    }
+	
+    var ge_gets = ge_get.split('.');
+    // deal with banner click event, should add target url in event label
+    if (ge_gets.length > 3) {
+        var tempGeGet = ge_gets.slice(2).join(".");
+        ge_gets.length = 3;
+        ge_gets[2] = tempGeGet;
+    }
+
+    if (ge_gets.length) {
+        var value2 = '';
+        if (ge_gets[2] != '') {
+            value2 = ge_gets[2] + "_" + window.location.href;
+        }
+        var activity = ge_gets[3];
+        if ('recommendation' === ge_gets[0]) {
+            // recommendation in header
+            onEvent(ge_gets[0], 'click', ge_gets[2], ge_gets[3], { "D1": "FIRST_PARTY", });
+        } else {
+            if (activity != undefined) {
+                jsonParamEvent.D17 = activity;
+                onEvent((ge_gets[0] || '').replace("#domain_pre#", domain_pre), ge_gets[1] || '', value2, (viewTime || 1), jsonParamEvent);
+            } else {
+                onEvent((ge_gets[0] || '').replace("#domain_pre#", domain_pre), ge_gets[1] || '', value2, (viewTime || 1), jsonParamEvent);
+            }
+        }
+    }
+}

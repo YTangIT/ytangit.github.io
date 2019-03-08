@@ -1,0 +1,1142 @@
+﻿.s_window * {
+    font-family: "微软雅黑";
+    padding: 0;
+    margin: 0;
+}
+.cloud_suspension {
+    position: fixed;
+    z-index: 99;
+    top: 60%;
+    right: 20px;
+    /*width: 360px;*/
+    color: #fff;
+}
+
+.robot_right {
+    width: 45px;
+    height: 240px;
+    float: right;
+}
+.robot_right li{
+    list-style: none;
+}
+
+.robot_pic01 {
+    margin: 2px 0;
+    background: url(../../../images/v1/minions/robot_a_03.png) no-repeat;
+    height: 39px;
+}
+.robot_pic01:hover {
+    margin: 2px 0;
+    background: url(../../../images/v1/minions/robot_b_03.png) no-repeat;
+    height: 39px;
+}
+.robot_pic02 {
+    margin: 2px 0;
+    background: url(../../../images/v1/minions/robot_a_06.png) no-repeat;
+    height: 39px;
+}
+.robot_pic02:hover {
+    margin: 2px 0;
+    background: url(../../../images/v1/minions/robot_b_06.png) no-repeat;
+    height: 39px;
+}
+
+.robot_pic03 {
+    margin: 2px 0;
+    background: url(../../../images/v1/minions/robot_a_08.png) no-repeat;
+    height: 39px;
+}
+.robot_pic03:hover {
+    margin: 2px 0;
+    background: url(../../../images/v1/minions/robot_b_08.png) no-repeat;
+    height: 39px;
+}
+
+.robot_pic04 {
+    margin: 2px 0;
+    background: url(../../../images/v1/minions/robot_a_11.png) no-repeat;
+    height: 39px;
+}
+.robot_pic04:hover {
+    margin: 2px 0;
+    background: url(../../../images/v1/minions/robot_b_11.png) no-repeat;
+    height: 39px;
+}
+
+.robot_pic05 {
+    background: url(../../../images/v1/minions/robot_a_12.png) no-repeat;
+    height: 39px;
+}
+
+.robot_pic05_a {
+    background: url(../../../images/v1/minions/robot_b_12.png) no-repeat;
+    height: 39px;
+}
+
+.arrow_let {
+    display: none;
+    width: 110px;
+    background: url(../../../images/v1/minions/arrow_03.png) no-repeat;
+    background-size: 100% 100%;
+    position: absolute;
+    top: 0px;
+    right: 45px;
+    height: 40px;
+    font-size: 14px;
+    color: #666;
+    line-height: 40px;
+    padding-left: 15px;
+}
+
+.arrow_let_01 {
+    display: none;
+    width: 110px;
+    background: url(../../../images/v1/minions/arrow_03.png) no-repeat;
+    background-size: 100% 100%;
+    position: absolute;
+    top: 42px;
+    right: 45px;
+    height: 40px;
+    font-size: 14px;
+    color: #666;
+    line-height: 40px;
+    padding-left: 15px;
+}
+
+.arrow_let_01:hover {
+    color: red;
+}
+
+.arrow_let_02 {
+    display: none;
+    width: 110px;
+    background: url(../../../images/v1/minions/arrow_03.png) no-repeat;
+    background-size: 100% 100%;
+    position: absolute;
+    top: 125px;
+    right: 45px;
+    height: 40px;
+    font-size: 14px;
+    color: #666;
+    line-height: 40px;
+    padding-left: 15px;
+}
+
+.arrow_let_02:hover {
+    color: red;
+}
+
+.arrow_let:hover {
+    color: red;
+}
+
+.arrow_let_03 {
+    display: none;
+    width: 215px;
+    background: url(../../../images/v1/minions/arrow_04.png) no-repeat;
+    background-size: 100% 100%;
+    position: absolute;
+    top: 82px;
+    right: 45px;
+    height: 40px;
+    font-size: 14px;
+    color: #666;
+    line-height: 40px;
+    padding-left: 15px;
+}
+
+.s_window {
+    position: fixed;
+    z-index: 9999;
+    top: 114px;
+    right: 100px;
+    width: 325px;
+    color: #fff;
+}
+@media (max-width: 1023px) {
+    .s_window{
+        right: 10%;
+    }
+}
+@media (max-width: 359px) {
+    .s_window{
+        right: 0%;
+        top:0%;
+    }
+}
+.help-page1 {
+    height: 345px;
+}
+
+.window_n {
+    float: right;
+    height: 455px;
+    width: 325px;
+    border: 1px solid #ccc;
+    box-shadow: 5px;
+    background: #fff;
+}
+
+.window_col {
+    height: 70px;
+    background: #494c51;
+}
+
+.window_img {
+    float: left;
+    width: 60px;
+}
+.window_img img{
+    width: 90%;
+    height: auto;
+    padding-left: 5px;
+    margin-top: 0.85em;
+}
+
+.window_col p {
+    float: left;
+    padding-top: 17px;
+    color: #ddd;
+    font-size: 12px;
+}
+.robot_form{
+    height: 220px;
+    overflow-y: auto;
+}
+.window-colose {
+    float: right;
+    height: 70px;
+}
+
+.window_block_01_02,.window_block_02,.window_block_03,.window_block_01 {
+    background: url(../../../images/minions/intelligent-icon.png) no-repeat;
+    width: 25px;
+    height: 25px;
+    margin-right: 5px;
+}
+.window_block_01_02:hover,.window_block_02:hover,.window_block_03:hover,.window_block_01:hover{
+    background-color: #3a3d41;
+}
+.window_block_01{
+    background-position: 0 7px;
+}
+.window_block_01_02{
+    background-position: -20px 7px;
+}
+.window_block_02{
+    background-position: -50px 7px;
+
+}
+.window_block_03{
+    background-position: -80px 7px;
+}
+
+.window_help {
+    height: 40px;
+    line-height: 40px;
+    background: #f7f7f7;
+}
+
+.window_help:hover {
+    color: #e41e2b;
+}
+
+.window_help li {
+    font-size: 14px;
+    float: left;
+    width: 33%;
+    text-align: center;
+    color: #666;
+
+    margin-bottom: 0;
+}
+
+.window_li {
+    border-right: 1px solid #ddd;
+	margin-top: 0;
+}
+.window_li_01{
+	margin-top: 0;
+
+}
+.window_li img {
+    padding-right: 5px;
+}
+
+.window_li_01 img {
+    padding-right: 5px;
+}
+
+.window_qustion {
+
+}
+
+.window_qustion_a {
+    font-size: 16px;
+    color: #333;
+    text-align: left;
+
+}
+
+.window_qustion_a p {
+    margin: 10px 0 0 1px;
+}
+
+.window_qustion_a img {
+    padding: 10px 0 14px 15px;
+    margin-top: 0em;
+}
+
+.window_qustion_a li {
+    font-size: 12px;
+    line-height: 30px;
+    color: #666;
+    list-style: disc;
+    margin-left: 40px;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+.window_col p{
+    line-height: 20px;
+}
+.windows_line {
+    margin-left: auto;
+    margin-right: auto;
+    width: 90%;
+    font-style: normal;
+    display: block;
+    border-bottom: 1px dotted #ddd;
+    height: 20px;
+    z-index: 6;
+}
+
+.baby_say {
+    padding: 0 10px;
+    width: 100%;
+    height: 295px;
+    list-style: none;
+    margin-bottom:9px;
+}
+.baby_say a{
+    color: blue;
+}
+.baby_say li {
+    margin: 10px 10px;
+    list-style:none;
+}
+.baby_del {
+    width: 90%;
+    text-align: left;
+    color: #a9a9a9;
+    font-size: 14px;
+    padding-left: 17px;
+    margin-bottom: 25px;
+}
+.help_page3 {
+    background: #efefef;
+    width: 89%;
+    margin-left: 17px;
+    position: absolute;
+    line-height: 24px;
+    color: #333;
+    bottom: 49px;
+    z-index: 5;
+    opacity: 0.9;
+}
+
+.help_page3_1 {
+    position: relative;
+    bottom: 308px;
+    z-index: 3;
+    text-align: left;
+    font-size: 12px;
+    line-height: 24px;
+    background: #fff;
+    width: 98%;
+}
+.help_page3_1 li{
+    list-style: none;
+}
+
+.help_page4 {
+    height: 480px;
+    width: 98.5%;
+    background: #fff;
+    border-right: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    line-height: 30px;
+    color: #333;
+    padding-top: 10px;
+    text-align: left;
+}
+
+.help_page3 li {
+    list-style: none;
+    font-size: 12px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    margin-bottom: 0;
+    margin-top: 0;
+}
+
+.help_page4 li {
+    list-style: none;
+    font-size: 12px;
+}
+.help_page4 ul{
+    margin: 130px;
+}
+
+.del {
+    padding-left: 5px;
+}
+
+
+.baby_del img {
+    margin-top: -2px;
+    cursor: pointer;
+}
+
+.baby_del_01 {
+    color: #a9a9a9;
+    font-size: 14px;
+    position: absolute;
+    bottom: -160px;
+    margin-left: 12px;
+}
+
+.del_01 {
+    padding-left: 5px;
+}
+
+.del_01:hover {
+    padding-left: 5px;
+    color: #e41e2b;
+}
+
+.baby_del_01 img {}
+
+.say_radio {
+    border-color: #efefef transparent transparent;
+    width: 0;
+    height: 0;
+    margin-top: -40px;
+    display: block;
+    border-style: solid;
+    border-width: 20px;
+}
+
+.baby_time {
+    text-align: center;
+    line-height: 20px;
+    font-size: 12px;
+    color: #666;
+}
+
+.baby_time_01 {
+    text-align: left;
+    font-size: 12px;
+    color: #666;
+    padding-left: 40px;
+}
+
+.baby_time_02 {
+    text-align: right;
+    font-size: 12px;
+    color: #666;
+    padding-right: 80px;
+}
+
+.baby_say_n {
+    margin-top: 10px;
+}
+
+.baby_say i {
+    font-style: normal;
+    color: #666;
+    font-size: 12px;
+}
+
+.baby_say_01 {
+    font-size: 12px;
+    color: #666;
+    width: 90%;
+    text-align: right;
+}
+
+.say_rund_0a {
+    background: #c0f4ff;
+    color: #333;
+    padding: 10px;
+    border: 1px solid #efefef;
+    border-radius: 3px;
+    word-break: break-all;
+}
+
+.say_radio_0a {
+    float: right;
+    border-color: #c0f4ff transparent transparent;
+    width: 0;
+    height: 0;
+    margin-top: -40px;
+    display: block;
+    border-style: solid;
+    border-width: 20px;
+}
+
+.baby_say_n_1 {
+    margin-top: 25px;
+}
+
+.say_rund {
+    background: #efefef;
+    color: #333;
+    padding: 10px;
+    border: 1px solid #efefef;
+    border-radius: 3px;
+    word-break: break-all;
+}
+
+.say_radio_2 {
+    border-color: #efefef transparent transparent;
+    width: 0;
+    height: 0;
+    margin-top: -40px;
+    display: block;
+    border-style: solid;
+    border-width: 20px;
+}
+
+.baby_say_n_2 {
+    margin-top: 0px;
+}
+
+.baby_say_n_1 i {
+    float: right;
+    font-style: normal;
+    color: #333;
+    margin-left: -15px;
+    margin: -25px -12px;
+    font-size: 12px;
+}
+
+.baby_say_n_2 i {
+    font-style: normal;
+    color: #666;
+    margin-left: -15px;
+    margin: -25px -12px;
+    font-size: 12px;
+}
+
+.window_dou {
+    margin-left: auto;
+    margin-right: auto;
+    width: 90%;
+    border-top: 1px dotted #c6c6c6;
+    font-size: 16px;
+    color: #333;
+    line-height: 30px;
+}
+
+.window_dou p {
+    background: url(../../../images/v1/minions/peplo_03.png) no-repeat;
+    background-position: 5px 5px;
+    padding-left: 30px;
+    margin: 10px 0;
+	display:none;
+}
+
+.window_button {
+    margin-left: auto;
+    margin-right: auto;
+    width: 90%;
+    border: 1px dotted #ededed;
+    background: #f7f7f7;
+    height: 40px;
+    margin-top:-23px;
+    border-radius: 3px;
+    padding: 5px;
+    font-size: 14px;
+    color: #cacaca;
+
+}
+
+.window_button button{
+    background: #e41e2b;
+    color: #fff;
+    border-radius:0 3px 3px 0;
+    height: 40px;
+    width: 60px;
+    margin: -36px -5px;
+}
+
+.window_input {
+    float: left;
+    height: 30px;
+    width: 250px;
+    background: #f7f7f7;
+    border: 1px solid #f7f7f7;
+    color: #333;
+    padding-left: 8px;
+    outline: none;
+}
+
+.window_buttom_01 {
+    text-align: center;
+    float: right;
+    background: #f7f7f7;
+    height: 32px;
+    width: 40px;
+    color: #333;
+    border: 0;
+    margin-top: -11px;
+}
+
+.baby_color {
+    background: #ababab;
+    width: 100%;
+    text-align: center;
+}
+
+.baby_window {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 1260px;
+    min-width: 1000px;
+    height: 740px;
+    background: #fff;
+    margin-top: 110px;
+    box-shadow: 0 0 5px #726f6f;
+}
+
+.baby_top {
+    height: 80px;
+    background: #494c51;
+}
+
+.baby_pic {
+    position: absolute;
+    top: 0px;
+    float: left;
+    padding-left: 38px;
+    height: 80px;
+    padding-top: 50px;
+}
+
+.baby_pic li {
+    float: right;
+    text-align: left;
+    color: #ddd;
+}
+
+.baby_pic_01 {
+    float: left;
+    line-height: 5px;
+    color: #fff;
+    text-align: left;
+    padding-left: 210px;
+    font-size: 14px;
+}
+
+.could_baby_font {
+    font-size: 24px;
+}
+
+.could_bany_img {
+    float: right;
+    width: 8%;
+    height: 80px;
+    background: url(../../../images/v1/minions/could_baby_03.png) no-repeat;
+    background-position: 30px 12px;
+    text-align: center;
+    line-height: 125px;
+    font-size: 14px;
+    color: #fff;
+    margin-right: 38px;
+    margin-left: 2%;
+}
+
+.could_bany_img:hover {
+    float: right;
+    width: 8%;
+    height: 80px;
+    background: #424449 url(../../../images/v1/minions/could_baby_03.png) no-repeat;
+    background-position: 30px 12px;
+    text-align: center;
+    line-height: 125px;
+    font-size: 14px;
+    color: #fff;
+    margin-right: 38px;
+    margin-left: 2%;
+}
+
+.left_li a {
+    color: #333;
+    text-decoration: none;
+}
+
+.left_li a:hover {
+    color: #e41e2b;
+    text-decoration: none;
+}
+
+.could_bany_img_01 {
+    float: right;
+    width: 8%;
+    height: 80px;
+    background: url(../../../images/v1/minions/could_baby_05.png) no-repeat;
+    background-position: 30px 12px;
+    text-align: center;
+    line-height: 125px;
+    font-size: 14px;
+    color: #fff;
+}
+
+.could_bany_img_01:hover {
+    width: 8%;
+    height: 80px;
+    background: #424449 url(../../../images/v1/minions/could_baby_05.png) no-repeat;
+    background-position: 30px 12px;
+    text-align: center;
+    line-height: 125px;
+    font-size: 14px;
+    color: #fff;
+}
+
+.baby_left {
+    width: 78%;
+    float: left;
+    text-align: center;
+    border-right: 1px solid #ddd;
+    border-left-style: none;
+    background: #f7f7f7;
+}
+
+.baby_right {
+    width: 21%;
+    float: right;
+    text-align: center;
+}
+
+.baby_right_01 {
+    padding-top: 30px;
+    text-align: center;
+    padding-left: 6px;
+}
+
+.baby_right_news {
+    width: 90%;
+    margin-top: 20px;
+    text-align: left;
+    font-size: 16px;
+}
+
+.baby_right_newpic {
+    padding-top: 10px;
+    padding-left: 6px;
+}
+
+.baby_li {
+    padding-left: 5px;
+    font-style: normal;
+}
+
+.left_li {
+    width: 90%;
+}
+
+.left_li li {
+    text-align: left;
+    font-size: 12px;
+    color: #666;
+    line-height: 220%;
+    margin-left: -18px;
+}
+
+.right_line {
+    border-bottom: 1px dotted #333;
+    width: 90%;
+}
+
+.baby_left_01 {
+    height: 30px;
+    color: #a9a9a9;
+    font-size: 14px;
+    padding-top: 5px;
+    text-align: center;
+}
+
+.baby_left_text {
+    background: #fff;
+    height: 80px;
+    padding: 0 10px;
+}
+
+.baby_say_boder {
+    height: 480px;
+    width: 98.5%;
+    background: #fff;
+    border-right: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+}
+
+#test {
+    overflow-y: auto;
+    overflow-x: none;
+    max-height: 480px;
+    min-height: 460px;
+}
+
+#test_s {
+    overflow-y: auto;
+}
+
+.baby_left_say li {
+    list-style: none;
+    margin-top: 10px;
+}
+
+.baby_left_say {
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.baby_left_say ul {
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.baby_left_say_left {
+    text-align: left;
+    background: url(../../../images/v1/minions/robot_big_03.png)left top no-repeat;
+}
+
+.say_rund_01s {
+    font-size: 14px;
+    color: #666;
+    word-break: break-all;
+    padding: 15px;
+    border-radius: 4px;
+    position: relative;
+    background: #c0f4ff;
+    max-width: 80%;
+    min-width: 20%;
+    text-align: left;
+    border: 1px solid #9cedff;
+}
+
+.say_rund_01s:before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 12px;
+    right: -15px;
+    border: 20px solid;
+    border-color: #c0f4ff transparent transparent;
+}
+
+
+.say_rund_01 {
+    font-size: 14px;
+    color: #666;
+    border: 1px solid #e0e0e0;
+    word-break: break-all;
+    position: relative;
+    background: #efefef;
+    padding: 15px;
+    border-radius: 4px;
+    top: 0;
+    left: 20px;
+    max-width: 80%;
+    line-height: 24px;
+}
+
+.say_rund_01:before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 12px;
+    left: -16px;
+    border: 20px solid;
+    border-color: #efefef transparent transparent;
+}
+
+.say_rund_01a {
+    float: right;
+    font-size: 14px;
+    color: #666;
+    word-break: break-all;
+    padding: 15px;
+    border-radius: 4px;
+    position: relative;
+    background: #c0f4ff;
+    right: 80px;
+    max-width: 80%;
+    display: inline-block;
+    text-align: left;
+    border: 1px solid #9cedff;
+}
+
+.say_rund_01a:before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 12px;
+    right: -15px;
+    border: 20px solid;
+    border-color: #c0f4ff transparent transparent;
+}
+
+.left_radio {
+    border-color: #efefef transparent transparent;
+    width: 0;
+    height: 0;
+    margin-left: 22px;
+    margin-top: -45px;
+    display: block;
+    border-style: solid;
+    border-width: 20px;
+}
+
+.baby_left_say_left_01 {
+    float: left;
+    text-align: left;
+    background: url(../../../images/v1/minions/robot_big_03.png)left top no-repeat;
+    margin-top: 20px;
+}
+
+.say_rund_03 {
+    font-size: 14px;
+    line-height: 25px;
+    background: #efefef;
+    margin-left: 37px;
+    border-radius: 5px;
+    color: #666;
+    padding: 12px;
+    border: 1px solid #e0e0e0;
+    word-break: break-all;
+}
+
+.left_radio_01 {
+    border-color: #efefef transparent transparent;
+    content: "";
+    display: block;
+    position: absolute;
+    top: 12px;
+    left: -16px;
+    border: 20px solid;
+}
+
+.baby_left_say_right {
+    text-align: left;
+    background: url(../../../images/v1/minions/cloud_baby_03.png) right top no-repeat;
+    height: 60px;
+}
+
+.say_rund_02 {
+    font-size: 14px;
+    background: #c0f4ff;
+    border-radius: 5px;
+    color: #666;
+    padding: 12px;
+    margin-right: 104px;
+    border: 1px solid #9cedff;
+    word-break: break-all;
+}
+
+.left_radio_r {
+    float: right;
+    border-color: #c0f4ff transparent transparent;
+    width: 0;
+    height: 0;
+    margin-right: 39px;
+    margin-top: -43px;
+    display: block;
+    border-style: solid;
+    border-width: 20px;
+}
+
+.baby_left_bottom {
+    width: 100%;
+    height: 179px;
+}
+
+.baby_left_input {
+    width: 95%;
+    height: 75px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-top: 15px;
+    padding: 10px;
+    word-break: break-all;
+    resize:none;
+}
+
+.baby_left_bottom p {
+    font-size: 12px;
+    text-align: left;
+    padding-left: 15px;
+    color: #494c51;
+}
+
+.baby_left_bottom a {
+    text-decoration: none;
+    width: 80px;
+    height: 30px;
+    line-height: 30px;
+    background: #e41e2b;
+    float: right;
+    margin-top: -28px;
+    margin-right: 13px;
+    font-size: 14px;
+    color: #fff;
+    border-radius: 3px;
+}
+
+.slideBox {
+    height: 195px;
+    overflow: hidden;
+    position: relative;
+    padding-left: 5px;
+}
+
+.slideBox .hd {
+    overflow: hidden;
+    position: relative;
+    bottom: 35px;
+    z-index: 1;
+    margin-left: 50px;
+}
+
+.slideBox .hd ul {
+    overflow: hidden;
+    zoom: 1;
+    text-align: center;
+}
+
+.slideBox .hd ul li {
+    float: left;
+    display: block;
+    margin-right: 2px;
+    text-align: center;
+    cursor: pointer;
+    background: url(../../../images/v1/minions/page.png) 0 0 no-repeat;
+    width: 10px;
+    height: 8px;
+}
+
+.slideBox .hd ul li.on {
+    background: url(../../../images/v1/minions/page_on.png) 0 0 no-repeat;
+    margin-right: 0;
+    height: 20px;
+}
+
+.slideBox .bd {
+    position: relative;
+    height: 100%;
+    z-index: 0;
+}
+
+.slideBox .bd li {
+    zoom: 1;
+    vertical-align: middle;
+    list-style: none;
+}
+
+.slideBox .bd img {
+    display: block;
+}
+.gotop .topbtn {
+    display: block;
+    width: 38px;
+    height: 38px;
+    padding-top: 18px;
+    text-align: center;
+}
+
+.gotop.topbtn:hover {
+    transition: all .5s ease;
+    background: url(../../../images/v1/minions/robot_b_12.png) no-repeat;
+}
+
+
+.gotop .topbtn .icon-b-arrow-up {
+    display: block;
+    margin-left: 4px;
+    margin-top: -6px;
+}
+
+.gotop {
+    width: 45px;
+    position: fixed;
+    right: 20px;
+    z-index: 99;
+}
+.gotop .topbtn:hover {
+    transition: all .5s ease;
+    background-color: #e41e2b;
+}
+
+.s_window .msg_content {
+    height: 290px;
+
+}
+
+.s_window ul, .s_window ol {
+    list-style: outside none none;
+    margin-bottom: 0;
+    margin-left: 0;
+    margin-top: 0;
+    padding: 0;
+}
+.help-page1 {
+    line-height: 1.71429;
+    margin-top: 0;
+}
+
+.window_help img{
+    margin-top: 0em;
+}
+
+.questionlist a{
+    color: #333;
+}
+.window_button p{
+    margin-top: 0em;
+}
+.robot_window {
+    margin-top: 0em;
+	overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 160px;
+}
+.aboutquestion{
+
+}
+.aboutquestion li{
+    cursor:pointer;
+    margin: 5px 0px;
+    padding: 0;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.search_result li:hover{
+    background: #e0e0e0;
+}
+
+.suggest-hover{
+    background: #e0e0e0;
+}
+.search_result a{
+    padding: 10px 0 0 10px;
+    color: #333;
+}

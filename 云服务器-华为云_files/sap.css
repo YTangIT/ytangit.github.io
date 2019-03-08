@@ -1,0 +1,353 @@
+@media (min-width: 1024px)
+.section-bg-transparent + .section-bg-transparent, .section-bg-white + .section-bg-white {
+    margin-top: -60px;
+}
+
+.hardware-wrap {
+    max-width: 1200px;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.section-title {
+    margin-bottom: 0px;
+    font-size: 24px;
+    line-height: 33px;
+    color: #333;
+    text-align: justify;
+    text-align: center;
+}
+.solution-section p {
+    font-size: 14px;
+    line-height: 22px;
+    color: #666;
+
+}
+.solution-section h2 {
+    font-size: 18px;
+    line-height: 22px;
+    color: #333;
+    text-align: justify;
+}
+.pz-table-title {
+    font-size: 16px;
+    color: #333;
+    margin-top: 18px;
+}
+.sap-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #dddddd;
+    margin-top: 20px;
+    margin-bottom: 30px;
+    font-size: 12px;
+}
+.pz-table:last-child .sap-table {
+    margin-bottom: 0;
+}
+.sap-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #dddddd;
+    margin-top: 20px;
+    margin-bottom: 30px;
+    font-size: 12px;
+}
+*, :after, :before {
+    box-sizing: inherit;
+    -moz-box-sizing: inherit;
+}
+
+thead {
+    display: table-header-group;
+    vertical-align: middle;
+    border-color: inherit;
+}
+.pz-table2 thead tr {
+    height: 40px;
+    font-size: 12px;
+    color: #333;
+}
+.sap-table thead tr {
+    background-color: #ededed;
+    text-align: center;
+}
+*, :after, :before {
+    box-sizing: inherit;
+    -moz-box-sizing: inherit;
+}
+
+tr {
+    display: table-row;
+    vertical-align: inherit;
+    border-color: inherit;
+}
+td, th {
+    display: table-cell;
+    vertical-align: inherit;
+}
+.pz-table2 thead tr {
+    height: 40px;
+    font-size: 12px;
+    color: #333;
+}
+.sap-table thead tr {
+    background-color: #F8F9FF;
+    text-align: center;
+}
+.sap-table tbody td, .sap-table thead th {
+    border-left: 1px solid #dddddd;
+}
+tbody {
+    display: table-row-group;
+    vertical-align: middle;
+    border-color: inherit;
+}
+.sap-table tbody tr {
+    border-top: 1px solid #dddddd;
+}
+.section-title{
+    padding: 50px 10px 30px;
+    font-weight: normal;
+    font-size: 36px;
+    line-height: 46px;
+    color: #252b3a;
+    text-align: center;
+}
+.solution-hardware p {
+    font-size: 16px;
+    line-height: 20px;
+    color: #666A75;
+}
+.sap-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #dddddd;
+    margin-top: 20px;
+    margin-bottom: 30px;
+    font-size: 12px;
+}
+.sap-table-tead {
+    font-weight: bold;
+    color: #333;
+    background-color: #F8F9FF;
+}
+.sap-table-tead .bag-tead {
+    background-color: #F8F9FF;
+}
+
+
+
+
+
+
+
+
+.sol-panorama {
+    padding-top: 0px;
+    padding-bottom: 0px;
+    background-color: rgba(255, 255, 255, 0.9);
+}
+div#section-panorama {
+    background-color: rgba(255, 255, 255, 0.9);
+}
+.sol-panorama .content-section {
+    max-width: 1200px;
+    clear: both;
+    margin: 0 auto;
+    padding: 60px 10px 0px;
+}
+.animated {
+    animation-duration: 1s;
+    animation-fill-mode: both;
+}
+.vmFadeInUp {
+    animation-name: vmFadeInUp;
+    animation-timing-function: cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+
+.section-title {
+    text-align: center;
+
+}
+.section-title {
+
+    font-size: 36px;
+    line-height: 46px;
+    color: #333;
+    text-align: justify;
+    text-align: center;
+}
+.panorama-content {
+    padding: 20px 30px;
+    background: #f4f6f8;
+}
+.panorama-content + .panorama-content {
+    margin-top: 2px;
+}
+.panorama-content {
+    padding: 20px 30px;
+    background: #f4f6f8;
+}
+
+.panorama-title {
+    font-size: 18px;
+    line-height: 22px;
+    color: #333;
+}
+.panorama-mb-title {
+    display: none;
+}
+.solution-section h3 {
+    font-size: 14px;
+    line-height: 18px;
+    color: #333;
+
+}
+.fold-btn {
+    position: absolute;
+    transition: transform 0.5s ease-out;
+}
+.panorama-body-layer.AGrid-row {
+    margin: 0 -10px;
+}
+.AGrid-row.gap [class^=col-], .no-gap .AGrid-row.gap [class^=col-] {
+    padding: 10px;
+}
+@media (min-width: 1024px){
+
+    .col-sm-3 {
+        width: 25%;
+    }
+}
+
+@media (min-width: 1024px){
+    .col-sm-1, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-10, .col-sm-11, .col-sm-12 {
+        float: left;
+    }
+
+}
+.AGrid-row:before, .AGrid-row:after {
+    content: " ";
+    display: table;
+    line-height: 0;
+}
+.AGrid-row:after {
+    clear: both;
+}
+.AGrid-row:before, .AGrid-row:after {
+    content: " ";
+    display: table;
+    line-height: 0;
+}
+.panorama-content + .panorama-content {
+    margin-top: 2px;
+}
+.panorama-card {
+    display: block;
+    height: 80px;
+    line-height: 80px;
+    position: relative;
+    font-size: 0;
+    padding: 0 20px;
+    background: #fff;
+    overflow: hidden;
+    transition: .3s;
+}
+.panorama-card .icons-solution {
+    display: inline-block;
+    vertical-align: middle;
+    width: 32px;
+    height: 32px;
+    margin-right: 20px;
+    font-size: 32px;
+    color: #666;
+    background-size: cover;
+}
+.icons-solution {
+    font-family: 'iconFont-solution' !important;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    display: inline-block;
+    font-size: 48px;
+    color: #333;
+}
+.sap-icon1 {
+    background-image: url(../../images/solution/saponcloud/sap1.svg);
+}
+.panorama-card .card-name {
+    display: inline-block;
+    vertical-align: middle;
+    width: calc(100% - 52px);
+    margin: 0;
+    max-height: 100%;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #555;
+    word-wrap: break-word;
+    word-break: normal;
+    text-align: left;
+}
+
+.sol-panorama .caption {
+
+    font-size:36px;
+    color: #252b3a;
+    text-align: center;
+}
+.sol-panorama .content-section{
+    padding:0px;
+}
+
+
+#section-hardware{
+	padding-top:0px;
+	padding-bottom:50px;
+}
+.table-desc-title {
+    margin-top: 40px;
+    margin-bottom: 4px;
+}
+.sap-icon1 {
+    background-image: url(/content/dam/cloudbu-site/archive/china/zh-cn/solution/sap/sap_SAPHANA.svg);
+}
+.sap-icon2 {
+    background-image: url(/content/dam/cloudbu-site/archive/china/zh-cn/solution/sap/sap_SAPHANAExpressEdition.svg);
+}
+.sap-icon3 {
+    background-image: url(/content/dam/cloudbu-site/archive/china/zh-cn/solution/sap/sap_SAPASE.svg);
+}
+.sap-icon4 {
+    background-image: url(/content/dam/cloudbu-site/archive/china/zh-cn/solution/sap/sap_SAPNetWeaver.svg);
+}
+.sap-icon5 {
+    background-image: url(/content/dam/cloudbu-site/archive/china/zh-cn/solution/sap/sap_SAPS4HANA.svg);
+}
+.sap-icon6 {
+    background-image: url(/content/dam/cloudbu-site/archive/china/zh-cn/solution/sap/sap_SAPBW4HANA.svg);
+}
+.sap-icon7 {
+    background-image: url(/content/dam/cloudbu-site/archive/china/zh-cn/solution/sap/sap_SAPBusinessSuite.svg);
+}
+.sap-icon8 {
+    background-image: url(/content/dam/cloudbu-site/archive/china/zh-cn/solution/sap/sap_SAPBusinessWarehouse.svg);
+}
+
+
+.sap-icon9 {
+    background-image: url(/content/dam/cloudbu-site/archive/china/zh-cn/solution/sap/sap_SAPBusinessOne.svg);
+}
+.sap-icon10 {
+    background-image: url(/content/dam/cloudbu-site/archive/china/zh-cn/solution/sap/sap_SAPHybris.svg);
+}
+.sap-icon11 {
+    background-image: url(/content/dam/cloudbu-site/archive/china/zh-cn/solution/sap/sap_SAPBusinessObject.svg);
+}
