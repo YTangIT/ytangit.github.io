@@ -135,22 +135,29 @@ body {
 }
 
 .gift {
-	width: 3.49rem;
-	height: 0.94rem;
-	margin: 0 auto 0.03rem auto;
-	animation: flyUp 1s ease-in-out;
-	background-size: 3.49rem 0.94rem;
-}
-
-.replay {
-	background-image: url('images/images/again.png');
+    position: fixed;
+    top: .2rem;
+    right: .2rem;
+    color: #fff;
+    font-size: .23rem;
+    transform: translate(0, 0);
+    width: 1.3rem;
+    height: 0.47rem;
+    text-align: center;
+    line-height: 0.47rem;
+    border: #ffffff solid;
+    border-radius: 50px;
+    background: rgba(196, 198, 220, 0.5);
+    animation: flyUp 1s ease-in-out;
+    transition: all 1s ease-in-out;
+    opacity: 1;
 }
 
 .share {
 	position: absolute;
 	width: 3.49rem;
 	height: 0.94rem;
-	bottom: -0.55rem;
+	bottom: 0rem;
 	left: 0;
 	right: 0;
 	margin: 0 auto;
@@ -210,7 +217,7 @@ body {
 
 .btn-bar {
 	position: absolute;
-	top: 69%;
+	top: 70%;
 	height: 19.6%;
 	width: 100%;
 	left: 0;
