@@ -1,0 +1,5080 @@
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1">
+		<title>Demo2</title>
+		<style>
+			html,
+			body {
+				width: 100%;
+				height: 100%;
+				padding: 0px;
+				margin: 0px;
+			}
+
+			#app {
+				width: 100%;
+				height: 100%;
+				overflow: hidden;
+			}
+
+			.app-pc {
+				width: 100%;
+				height: 100%;
+				position: relative;
+				flex-direction: row;
+				align-items: center;
+				justify-content: center;
+				display: flex;
+			}
+
+			.l-contain {
+				flex: 1;
+				width: calc(100% - 300px) !important;
+				height: 100%;
+				background: #292929;
+				position: relative;
+				overflow: hidden;
+			}
+
+			.demo-tool-tip {
+				position: absolute;
+				top: 50%;
+				right: 0px;
+				height: 80px;
+				width: 30px;
+				border-radius: 8px 0px 0px 8px;
+				transform: translateY(-50%);
+				background: rgba(0, 0, 0, .6);
+				color: #fff;
+				text-align: center;
+				line-height: 24px;
+				font-size: 16px;
+				z-index: 899;
+				display: none;
+				padding-top: 5px;
+			}
+
+			.demo-tool-tip:hover {
+				cursor: pointer;
+			}
+
+			.demo-control {
+				width: 200px;
+				height: 100%;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				position: absolute;
+				bottom: 0px;
+				right: -200px;
+				z-index: 900;
+				background: rgba(0, 0, 0, .6);
+				transition: .3s all;
+			}
+
+			.demo-control span {
+				display: inline-block;
+				min-width: 80px;
+				height: 30px;
+				line-height: 30px;
+				text-align: center;
+				margin: 5px 8px;
+				background: #fff;
+				color: #333;
+				border-radius: 4px;
+				font-size: 14px;
+				padding: 0px 5px;
+			}
+
+			.demo-control input {
+				display: inline-block;
+				width: 50px;
+			}
+
+			.demo-control span:hover {
+				cursor: pointer;
+			}
+
+			.l-contain .vh-doc-control {
+				position: absolute;
+				bottom: 0px;
+				right: 0px;
+				/* width:50px; */
+				/* min-height:30px; */
+				width: 100%;
+				height: 30px;
+				display: flex;
+				flex-direction: row;
+				align-items: center;
+				justify-content: center;
+				z-index: 9999;
+				display: none;
+			}
+
+			.l-contain .vh-doc-control span {
+				display: inline-block;
+				width: 80px;
+				height: 30px;
+				text-align: center;
+				line-height: 30px;
+				color: #333;
+				font-size: 16px;
+				border-radius: 8px;
+				background: #eaeaea;
+				color: #333;
+			}
+
+			.l-contain .vh-doc-control span:hover {
+				cursor: pointer;
+			}
+
+			.l-contain .doc-wrap {
+				width: 100%;
+				height: 100%;
+				position: relative;
+				overflow: hidden;
+			}
+
+			.l-contain .doc-wrap #doc-content {
+				top: 50% !important;
+				left: 50% !important;
+				transform: translate(-50%, -50%);
+			}
+
+			.r-contain {
+				width: 300px;
+				height: 100%;
+				overflow: hidden;
+				display: flex;
+				flex-direction: column;
+				background: #000;
+				position: relative;
+			}
+
+			.r-contain .video-wrap {
+				height: 180px;
+				width: 100%;
+				position: relative;
+			}
+
+			.r-contain .menu-tab {
+				width: 100%;
+				height: 40px;
+				display: flex;
+				flex-direction: row;
+				align-items: center;
+				justify-content: center;
+				background: #000;
+			}
+
+			.r-contain .menu-tab span {
+				display: inline-block;
+				width: 70%;
+				height: 38px;
+				line-height: 40px;
+				border-bottom: 2px solid #000;
+				color: #999;
+			}
+
+			.r-contain .menu-tab div {
+				flex: 1;
+				text-align: center;
+			}
+
+			.r-contain .menu-tab .active>span {
+				color: #1e90ff;
+				border-bottom-color: #1e90ff;
+			}
+
+			.r-contain .menu-tab span:hover {
+				color: #1e90ff;
+				cursor: pointer;
+			}
+
+			.r-contain .room-content {
+				flex: 1;
+				height: 100%;
+				position: relative;
+			}
+
+			.r-contain .room-content .chat-content,
+			.r-contain .room-content .qa-content,
+			.r-contain .room-content .doc-wrap,
+			.r-contain .room-content .notice-content {
+				position: absolute;
+				width: 100%;
+				height: 100%;
+				overflow-y: scroll;
+				/* overflow:hidden; */
+				z-index: -1;
+			}
+
+			/* .r-contain .room-content .doc-wrap #doc-content{
+            top:50%!important;
+            left:50%!important;
+            transform:translate(-50%, -50%);
+        } */
+			.r-contain .room-content .chat-content {
+				z-index: 1;
+			}
+
+			.chat-content .chat-item,
+			.qa-content .qa-item {
+				width: 100%;
+				min-height: 30px;
+				display: flex;
+				flex-direction: row;
+				align-items: flex-start;
+				justify-content: flex-start;
+				box-sizing: border-box;
+				padding: 10px;
+				margin-bottom: 10px;
+			}
+
+			.qa-content .qa-item {
+				flex-direction: column;
+				margin-bottom: 10px;
+				padding: 5px 22px;
+			}
+
+			.qa-content .qa-item .self-qa {
+				display: flex;
+				flex-direction: row;
+				width: 100%;
+			}
+
+			.qa-item .self-qa .avatar {
+				width: 32px;
+				height: 32px;
+				background: #eaeaea;
+				margin-right: 10px;
+				overflow: hidden;
+				border-radius: 16px;
+			}
+
+			.qa-item .self-qa .avatar img {
+				display: inline-block;
+				width: 32px;
+				height: 32px;
+				border-radius: 16px;
+			}
+
+			.qa-item .self-qa .wrap {
+				display: flex;
+				flex: 1;
+				flex-direction: column;
+			}
+
+			.self-qa .r-wrap .r-info {
+				display: flex;
+				flex-direction: row;
+				align-items: center;
+				justify-content: space-between;
+				color: #6f6e6e;
+				font-size: 16px;
+			}
+
+			.self-qa .r-wrap .r-content {
+				flex: 1;
+				color: #fff;
+				overflow: hidden;
+				word-wrap: break-word;
+				font-size: 16px;
+				width: 100%;
+				min-height: 1px;
+				margin-top: 5px;
+			}
+
+			.qa-item .r-answer {
+				width: 240px;
+				margin: 0px 0px 10px 30px;
+				overflow: hidden;
+				min-height: 30px;
+				display: flex;
+				flex-direction: column;
+				justify-content: flex-start;
+				background: #202026;
+				border: 1px solid #393940;
+				box-sizing: border-box;
+				padding: 5px;
+			}
+
+			.qa-item .r-answer .answer-info {
+				font-size: 12px;
+				color: #909090;
+				display: flex;
+				flex-direction: row;
+				align-items: center;
+				justify-content: space-between;
+			}
+
+			.qa-item .r-answer .answer-info .answer-role {
+				color: red;
+			}
+
+			.qa-item .r-answer .answer-content {
+				margin-top: 5px;
+				font-size: 14px;
+				color: #fff;
+				overflow: hidden;
+				word-wrap: break-word;
+			}
+
+			.chat-content .chat-item .l-avatar {
+				width: 28px;
+				height: 28px;
+				background: #eaeaea;
+				margin-right: 10px;
+				overflow: hidden;
+				border-radius: 16px;
+			}
+
+			.chat-content .chat-item .l-avatar img {
+				display: inline-block;
+				width: 100%;
+				height: 100%;
+				border-radius: 16px;
+			}
+
+			.chat-content .chat-item .r-info,
+			.qa-content .qa-item .r-wrap {
+				flex: 1;
+				overflow: hidden;
+			}
+
+			.chat-item .r-info .r-name-info {
+				display: flex;
+				flex-direction: row;
+				align-items: center;
+				justify-content: flex-start;
+				font-size: 14px;
+				color: #1ad5ce;
+			}
+
+			.chat-item .r-info .r-name-info .r-role {
+				margin-left: 10px;
+				background-color: rgba(30, 144, 255, .2);
+				color: #1e90ff;
+			}
+
+			.chat-item .r-info .r-content {
+				flex: 1;
+				font-size: 14px;
+				color: #fff;
+				width: 100%;
+				min-height: 1px;
+				margin-top: 5px;
+				overflow: hidden;
+				word-wrap: break-word;
+			}
+
+			.chat-item .r-info .r-content-iamge {
+				min-height: 1px;
+				width: 100%;
+				display: flex;
+				flex-direction: row;
+				flex-wrap: wrap;
+				align-items: center;
+				margin-top: 10px;
+			}
+
+			.chat-item .r-info .r-content-iamge img {
+				display: inline-block;
+				width: 80px;
+				height: 80px;
+				margin-right: 5px;
+			}
+
+			.r-contain .room-content .notice-content {
+				width: 100%;
+				min-height: 30px;
+				box-sizing: border-box;
+				padding: 8px 20px 8px 16px;
+				overflow-y: scroll;
+			}
+
+			.notice-content div {
+				font-size: 14px;
+				min-height: 20px;
+				color: #f7f7f7;
+				margin-bottom: 4px;
+				text-align: left;
+			}
+
+			.notice-content .notice-title {
+				margin-left: -8px;
+			}
+
+			.notice-content .notice-text {
+				width: 100%;
+				overflow: hidden;
+				word-wrap: break-word;
+			}
+
+			.notice-content .notice-time {
+				color: #999999;
+			}
+
+			.r-contain .room-interact {
+				height: 70px;
+				padding: 12px 16px 16px 16px;
+				position: relative;
+				background: #222;
+			}
+
+			.room-interact .msg-control {
+				width: 100%;
+				height: 100%;
+				display: flex;
+				flex-direction: column;
+				position: relative;
+			}
+
+			.msg-control .face-pannel {
+				width: 200px;
+				height: 200px;
+				position: absolute;
+				bottom: 82px;
+				left: 0px;
+				background: #fff;
+				display: none;
+				overflow-y: scroll;
+				z-index: 20;
+			}
+
+			.msg-control .face-pannel img {
+				width: 24px;
+				height: 24px;
+				margin: 5px;
+				display: inline-block;
+			}
+
+			.msg-control .pic-tool {
+				width: 100%;
+				height: 22px;
+				padding: 0px 0px 8px 0px;
+			}
+
+			.msg-control .pic-tool span {
+				display: inline-block;
+				/* width:20px; */
+				width: 40px;
+				height: 20px;
+				margin-right: 10px;
+				color: #fff;
+			}
+
+			.msg-control .pic-tool span:hover,
+			.msg-control .send-msg .chat-send-msg:hover,
+			.msg-control .send-msg .qa-send-msg:hover {
+				cursor: pointer;
+			}
+
+			.msg-control .send-msg {
+				height: 40px;
+				width: 100%;
+				border-radius: 20px;
+				overflow: hidden;
+				justify-content: center;
+				background: #151515;
+			}
+
+			.msg-control .send-msg:after {
+				clear: both;
+			}
+
+			.msg-control .chat-send-control {
+				display: block;
+			}
+
+			.msg-control .qa-send-control {
+				display: none;
+			}
+
+			.msg-control .send-msg .chat-msg,
+			.msg-control .send-msg .qa-msg {
+				width: 60%;
+				height: 40px;
+				border: none;
+				outline: none;
+				color: #f7f7f7;
+				word-break: break-all;
+				padding: 0 20px 0 5px;
+				background: #151515;
+				text-indent: 15px;
+				float: left;
+			}
+
+			.msg-control .send-msg .chat-send-msg,
+			.msg-control .send-msg .qa-send-msg {
+				display: inline-block;
+				width: 50px;
+				height: 40px;
+				line-height: 40px;
+				margin-right: 10px;
+				border-radius: 15px;
+				border: none;
+				outline: none;
+				color: #fff;
+				background: #151515;
+				float: right;
+			}
+
+			/*---------------手机----------------*/
+			.app-mobile {
+				width: 100%;
+			}
+
+			.app-mobile .video-wrap {
+				width: 100%;
+				height: 240px;
+			}
+
+			.mobile-doc-control {
+				width: 100%;
+				height: 100%;
+				display: flex;
+				flex-direction: row;
+				align-items: center;
+				justify-content: center;
+				flex-wrap: wrap;
+				display: none;
+				position: absolute;
+				top: 0px;
+				left: 0px;
+			}
+
+			.mobile-doc-control span {
+				display: inline-block;
+				height: 30px;
+				width: 50px;
+				text-align: center;
+				line-height: 30px;
+				color: #333;
+				background: #fff;
+				border-radius: 4px;
+				margin: 3px 5px;
+				font-size: 16px;
+			}
+
+			/*--------------签到---------------*/
+			.sign-wrap {
+				position: fixed;
+				left: 0px;
+				top: 0px;
+				width: 100%;
+				height: 100%;
+				background: rgba(0, 0, 0, .7);
+				z-index: 999;
+				display: none;
+			}
+
+			.sign {
+				position: absolute;
+				left: 50%;
+				top: 50%;
+				width: 260px;
+				height: 200px;
+				-webkit-transform: translate(-50%, -50%);
+				transform: translate(-50%, -50%);
+				background: #fff;
+				display: flex;
+				flex-direction: column;
+			}
+
+			.mobile-sign {
+				width: 300px;
+				margin: 0px;
+				transform: translate(-50%, -50%);
+			}
+
+			.mobile-sign .sign-title {
+				margin-top: 10px;
+			}
+
+			.mobile-sign .sign-btn {
+				margin-top: 10px;
+			}
+
+			.sign-header {
+				height: 44px;
+				line-height: 44px;
+				font-size: 14px;
+				border-top: 1px solid #e5e5e5;
+				border-bottom: 1px solid #e5e5e5;
+				color: #4e4e4e;
+				background-color: #f7f7f7;
+				text-align: center;
+				position: relative;
+			}
+
+			.sign-header img {
+				width: 13px;
+				height: 14px;
+				position: absolute;
+				right: 20px;
+				top: 16px;
+				cursor: pointer;
+			}
+
+			.sign-img {
+				width: 22px;
+				margin: auto;
+				display: none;
+				margin-top: 25px;
+			}
+
+			.sign-title {
+				font-size: 20px;
+				color: #333333;
+				font-weight: bold;
+				margin-top: 20px;
+				text-align: center;
+			}
+
+			.sign-time {
+				flex: 1;
+				text-align: center;
+				margin-top: 15px;
+				color: #4e4e4e;
+			}
+
+			.sign-time>span {
+				color: #F15C5C;
+			}
+
+			.sign-btn {
+				display: block;
+				margin: auto;
+				margin-top: 20px;
+				background-color: #F15C5C;
+				color: white;
+				text-align: center;
+				height: 40px;
+				line-height: 40px;
+				cursor: pointer;
+				width: 80%;
+				border-radius: 4px;
+				border: 0;
+			}
+
+			/*-----------------抽奖----------------*/
+			.vh-lottery-wrap {
+				width: 100%;
+				height: 100%;
+				background: rgba(0, 0, 0, .7);
+				position: fixed;
+				top: 0px;
+				left: 0px;
+				z-index: 996;
+				display: none;
+			}
+
+			.vh-lottery {
+				width: 300px;
+				min-height: 20px;
+				background: #fff;
+				border-radius: 8px;
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+			}
+
+			.vh-lottery .lottery-header {
+				width: 100%;
+				height: 40px;
+				line-height: 40px;
+				text-align: center;
+				color: #999;
+				font-size: 16px;
+			}
+
+			.vh-lottery .lottery-info {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: center;
+				padding: 5px 10px;
+				display: none;
+			}
+
+			.vh-lottery .lottery-info>div {
+				display: flex;
+				flex-direction: row;
+				align-items: center;
+				justify-content: center;
+				height: 30px;
+				margin: 5px 0px;
+			}
+
+			.vh-lottery .lottery-info>div>span {
+				display: inline-block;
+				width: 60px;
+				height: 30px;
+				line-height: 30px;
+				text-align: right;
+				color: #999;
+				font-size: 16px;
+				margin-right: 20px;
+			}
+
+			.vh-lottery .lottery-info>div>input {
+				flex: 1;
+				display: inline-block;
+				border: 1px solid #eaeaea;
+				outline: none;
+				text-indent: 10px;
+				border-radius: 5px;
+				color: #999;
+				font-size: 16px;
+				height: 100%;
+			}
+
+			.vh-lottery .lottery-info #lotterySubmit {
+				display: inline-block;
+				background: #F15C5C;
+				color: #fff;
+				font-size: 16px;
+				text-align: center;
+				height: 30px;
+				line-height: 30px;
+				border-radius: 5px;
+				border: none;
+				outline: none;
+				width: 150px;
+			}
+
+			.questionarie {
+				position: fixed;
+				top: 50%;
+				left: 50%;
+				width: 500px;
+				height: 600px;
+				z-index: 990;
+				background-color: white;
+				transition: all 0.3s ease-in-out;
+				transform: translate(-50%, -50%);
+				font-size: 12px;
+				/* overflow-scrolling: touch; */
+				-webkit-overflow-scrolling: touch;
+				display: none;
+			}
+
+			.mobile-question {
+				width: 100% !important;
+				height: 100% !important;
+			}
+
+			.questionarie .sign-content {
+				height: 556px;
+				overflow-y: scroll;
+			}
+
+			.questionarie-header {
+				height: 44px;
+				line-height: 44px;
+				font-size: 14px;
+				border-top: 1px solid #e5e5e5;
+				border-bottom: 1px solid #e5e5e5;
+				color: #4e4e4e;
+				background-color: #f7f7f7;
+				text-align: center;
+				position: relative;
+			}
+
+			.questionarie-header img {
+				width: 13px;
+				height: 14px;
+				position: absolute;
+				right: 20px;
+				top: 16px;
+				cursor: pointer;
+			}
+
+			#questionWrap {
+				height: 100%;
+			}
+
+			.marquee-label {
+				position: absolute;
+				top: 15%;
+				width: auto;
+				overflow: hidden;
+				color: #fff;
+				opacity: .3;
+				font-size: 20px;
+				white-space: nowrap;
+				z-index: 1011;
+				text-shadow: 2px 2px 6px rgba(0, 0, 0, .2);
+			}
+
+			.marquee-label.pos2 {
+				top: 15%;
+			}
+
+			.marquee-label.pos3 {
+				top: 50%;
+			}
+
+			.marquee-label.pos4 {
+				top: auto;
+				bottom: 15%;
+			}
+
+			.watermark-img {
+				max-width: 40px;
+				max-height: 40px;
+				position: absolute;
+				top: 10px;
+				left: 10px;
+				z-index: 1011;
+			}
+
+			.watermark-img.mark1 {
+				top: 10px;
+				left: 10px;
+			}
+
+			.watermark-img.mark2 {
+				top: 10px;
+				left: auto;
+				right: 10px;
+			}
+
+			.watermark-img.mark4 {
+				top: auto;
+				bottom: 10px;
+				left: 10px;
+			}
+
+			.watermark-img.mark3 {
+				top: auto;
+				bottom: 10px;
+				left: auto;
+				right: 10px;
+			}
+
+			/*---------------踢出蒙层--------------*/
+			.mask {
+				position: fixed;
+				top: 0px;
+				left: 0px;
+				width: 100%;
+				height: 100%;
+				text-align: center;
+				line-height: 200px;
+				font-size: 22px;
+				color: #fff;
+				background: rgba(0, 0, 0, 0.6);
+				display: none;
+				z-index: 1000;
+			}
+
+			.vh-toast {
+				position: fixed;
+				top: 10%;
+				left: 50%;
+				z-index: 200;
+				transform: translateX(-50%);
+				min-width: 120px;
+				height: 30px;
+				line-height: 30px;
+				text-align: center;
+				padding: 3px 15px;
+				border-radius: 10px;
+				background: #fbc4c4;
+				color: #f56c6c;
+				display: none;
+			}
+		</style>
+		<script src="VhallSDK.js"></script>
+		<style>
+			.vh-player-controller .vh-player-right .vh-player-definition {
+				min-height: 10px;
+				position: relative;
+				margin: 0px 5px;
+			}
+
+			.vh-player-controller .vh-player-right .vh-player-definition .vh-definition-btn {
+				width: 50px;
+				height: 24px;
+				margin-top: 14px;
+				line-height: 24px;
+				text-align: center;
+				background: rgba(0, 0, 0, 0.6);
+				border-radius: 12px;
+				color: #fff;
+				background: #333;
+				font-size: 14px;
+			}
+
+			.vh-player-controller .vh-player-right .vh-player-definition .vh-definition-btn:hover {
+				background: #409eff;
+				cursor: pointer;
+			}
+
+			.vh-player-controller .vh-player-right .vh-player-definition .vh-definition-list {
+				position: absolute;
+				bottom: 50px;
+				left: 0px;
+				width: 60px;
+				min-height: 10px;
+				padding-bottom: 5px;
+				display: none;
+			}
+
+			.vh-player-controller .vh-player-right .vh-player-definition .vh-definition-list .vh-quality-item {
+				height: 24px;
+				line-height: 24px;
+				background: rgba(0, 0, 0, 0.6);
+				text-align: center;
+				color: #fff;
+				font-size: 14px;
+			}
+
+			.vh-player-controller .vh-player-right .vh-player-definition .vh-definition-list .vh-quality-item:hover {
+				background: #409eff;
+				cursor: pointer;
+			}
+		</style>
+		<style>
+			.vh-player-right .vh-player-loop {
+				position: relative;
+				margin: 0px 5px;
+			}
+
+			.vh-player-right .vh-player-loop .vh-loop-btn {
+				width: 100px;
+				height: 24px;
+				margin-top: 14px;
+				line-height: 24px;
+				text-align: center;
+				background: rgba(0, 0, 0, 0.6);
+				border-radius: 12px;
+				color: #fff;
+				font-size: 14px;
+			}
+
+			.vh-player-right .vh-player-loop .vh-loop-btn:hover {
+				background: #409eff;
+				cursor: pointer;
+			}
+
+			.vh-player-right .vh-player-loop .vh-loop-list {
+				position: absolute;
+				bottom: 50px;
+				left: 0px;
+				width: 100px;
+				min-height: 10px;
+				padding-bottom: 5px;
+				display: none;
+			}
+
+			.vh-player-right .vh-player-loop .vh-loop-list .loop-item {
+				height: 24px;
+				line-height: 24px;
+				background: rgba(0, 0, 0, 0.6);
+				text-align: center;
+				color: #fff;
+				font-size: 14px;
+			}
+
+			.vh-player-right .vh-player-loop .vh-loop-list .loop-item:hover {
+				background: #409eff;
+				cursor: pointer;
+			}
+		</style>
+		<style>
+			.vh-player-left .vh-pause-btn {
+				display: none;
+				width: 16px;
+				height: 18px;
+				background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAkAgMAAADnSrLHAAAADFBMVEVHcEz///////////8Gn9AKAAAAA3RSTlMA40mAJZ3FAAAAHklEQVQY02OYxgAC0xhqwXQtw38w/X/E0rBwgIYLAEoaRA2Bu2/4AAAAAElFTkSuQmCC');
+				background-repeat: no-repeat;
+				background-size: 100% 100%;
+				cursor: pointer;
+			}
+
+			.vh-player-left .vh-play-btn {
+				display: block;
+				width: 16px;
+				height: 18px;
+				background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAkCAMAAADfNcjQAAAAOVBMVEVHcEz///////////////////////////////////////////////////////////////////////99PJZNAAAAEnRSTlMAKuyQatU8BeL5g1MYqZ2+DsbzwSs0AAAAuUlEQVQ4y4WU2RaEIAxDC7K6IOb/P3ZGxzm4lDavXLGEBCKiOQSSNGQgudhdH3Goi8QMiEhAk58YYMJVq3kBDneVmZ+xybrHIfHS/T/LG0AeL+dZwck3bz14DVEB4M9JUg/4T9IHgG3fxAoA0te1LAEoGmCJoAHyDosypDUycHgl+PBzu2t1CvJdlHpe1sZ/PomBwVBbYIqYFi60+dGfZ+yXWSzOFsTqJa56VSuvWn+K2gOyP0Gmv/gBafkv2boUnyIAAAAASUVORK5CYII=');
+				background-repeat: no-repeat;
+				background-size: 100% 100%;
+				cursor: pointer;
+			}
+
+			.vh-player-left .vh-play-btn:hover {
+				background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAkCAMAAADfNcjQAAAAM1BMVEVHcEwAe/8Afv8Aev8Aff8Ae/8Ae/8Aev8AhP8Ae/8Aev8Ae/8AfP8AfP8Af/8Aev8Aev+FxoPtAAAAEHRSTlMA1SrCPOv54Qdoi5p+Uxipzi1PkgAAALFJREFUOMudlFsOhSAMRAvyFJHZ/2qvl5ggQkvi/HJIyzAtEdFpDEnaHeBj4M9RxSLBASJi0KTyBMh4atMDENErnS/geAGwsQcSBvV1ygjAHY/3bJhJNW8V5trDAoC6O/EccHVSAQte9TkSAH+55iQAZQVYIqyAZQmxSatloHrFG3W7zVrtjfwXKYjfbbMYmHZ9HjllxNB2eZvEvpzy4Bhx9Hz+MrzL8aewWiD/FaT5wx+I6Sq+moNA1AAAAABJRU5ErkJggg==');
+			}
+
+			.vh-player-left .vh-pause-btn:hover {
+				background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAkAgMAAADnSrLHAAAADFBMVEVHcEwAev8Aev8Aev8xpZsyAAAAA3RSTlMA40mAJZ3FAAAAHklEQVQY02OYxgAC0xhqwXQtw38w/X/E0rBwgIYLAEoaRA2Bu2/4AAAAAElFTkSuQmCC');
+			}
+		</style>
+		<style>
+			.vh-player-right .vh-screen {
+				width: 30px;
+				height: 24px;
+				margin-top: 14px;
+				text-align: center;
+				position: relative;
+			}
+
+			.vh-player-right .vh-screen .vh-fullscreen-item {
+				width: 18px;
+				height: 18px;
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+			}
+
+			.vh-player-right .vh-screen #vhFullScreen {
+				background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkBAMAAAATLoWrAAAAMFBMVEVHcEzu7u7////t7e34+Pjt7e3t7e3////y8vLt7e3t7e3t7e3u7u7v7+/t7e3t7e0duasSAAAAD3RSTlMAbQPGDZW4CBPQ7KJMTkjzr+TDAAAAv0lEQVQoz53SMQ6CMBTG8TdoGFy4QQkJOrC6Q3R0aaL3kMmZY3iCrj1Kj+ARGJqYOD37utB+jYtv/OUfKPQRlbNjGTMm5CJxnZD6Re8xJ39qG4LqmL9RsWU/Al0xU3wbIFOsz5AF2kAWiCB7hYNLNq3U+5kkq+F3VENBdDET/TtbMyMt/ERy/AlZl97CniVz6Wmqu2Tyfes8JMspZjnFDOgQMiDJLFB4GgNJllFn4y7ocod0dgvFDvXlDlEr09AXDGWMDVnjKjQAAAAASUVORK5CYII=');
+				background-repeat: no-repeat;
+				background-size: 20px;
+				background-position: center;
+			}
+
+			.vh-player-right .vh-screen #vhFullScreen:hover {
+				cursor: pointer;
+				background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAMAAADW3miqAAAAOVBMVEVHcEwAif8Ae/8Ahf8Aev8Ae/8Ae/8Ah/8Aev8AhP8Aev8Aev8Ae/8AfP8AgP8AfP8AfP8Aev8Aev+4UdegAAAAEnRSTlMACdASlWm5A8YNpOx0TBRJTX28Ltb4AAAAtElEQVQ4y63UyxKDIAwF0GCR8LCV+v8f21DAuMCEzvTuGI+MJgGAqcSD48zY7Mc12xitPyMXROQDUu6+u+/kg/BzBSVNFRS9ogqyQVFfBIqqSFENdfUYokyP3sBq2D2M/fWqVmUejJ9AYGKKRkMIf45N7qWZMquLpp6lEkstC9Kuwy6gY5VvR9qw6k0TlYBYSehUIupqE1FTSUZNKehUN4jqfDn7VmiMhvLMTYNx4qYhxqHVBwPDFLiViganAAAAAElFTkSuQmCC');
+			}
+
+			.vh-player-right .vh-screen #vhExitFullScreen {
+				background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkBAMAAAATLoWrAAAAKlBMVEVHcEz19fXu7u7////t7e3t7e3t7e3////v7+/t7e3t7e3t7e3t7e3t7e3BLMSkAAAADXRSTlMAD20Dv5XMCUuz8qLol+ANWAAAAMFJREFUKM+N0TEKwkAQheHZhGBroblHXDyAlVUg4AmsJZDKi9gFPYIgpPAekiIG5y7OWO28jeKUX/6wySxRPLP2jpRw30TEGyJXdsGLNfdzeTAEWa7Zmh8BOc0yQ5rtgTRbWqIj8wHIlfwCogWzpdQXpSV3YYYq4W80mO2ojDf6b1KvAx+s0/0+JpumK48V0NYeqASXlcmGIJNd15AJ5ZAJyS08G0sEmRJkK/nwVLJT8Nvt7nOnAyzI5xFRca4mVvkGHmmBR0NR+YMAAAAASUVORK5CYII=');
+				background-repeat: no-repeat;
+				background-size: 20px;
+				background-position: center;
+				display: none;
+			}
+
+			.vh-player-right .vh-screen #vhExitFullScreen:hover {
+				cursor: pointer;
+			}
+		</style>
+		<style>
+			.vh-player-right .vh-player-speed {
+				min-height: 10px;
+				position: relative;
+				margin: 0px 5px;
+			}
+
+			.vh-player-right .vh-player-speed .vh-speed-btn {
+				width: 50px;
+				height: 24px;
+				line-height: 24px;
+				text-align: center;
+				background: rgba(0, 0, 0, 0.6);
+				border-radius: 12px;
+				color: #fff;
+				font-size: 14px;
+				background: #333;
+			}
+
+			.vh-player-right .vh-player-speed .vh-speed-btn:hover {
+				background: #409eff;
+				cursor: pointer;
+			}
+
+			.vh-player-right .vh-player-speed .vh-speed-list {
+				position: absolute;
+				bottom: 50px;
+				left: 0px;
+				width: 50px;
+				height: 100px;
+				overflow-y: scroll;
+				padding-bottom: 5px;
+				display: none;
+			}
+
+			.vh-player-right .vh-player-speed .vh-speed-list .speed-item {
+				height: 24px;
+				line-height: 24px;
+				background: rgba(0, 0, 0, 0.6);
+				text-align: center;
+				color: #fff;
+				font-size: 14px;
+			}
+
+			.vh-player-right .vh-player-speed .vh-speed-list .speed-item:hover {
+				background: #409eff;
+				cursor: pointer;
+			}
+		</style>
+		<style>
+			.vh-player-right .vh-player-voice {
+				position: relative;
+				margin: 0px 5px;
+				padding: 0px 10px;
+			}
+
+			.vh-player-right .vh-player-voice .vh-voice-btn {
+				width: 18px;
+				height: 18px;
+				text-align: center;
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+				background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACYAAAAoCAYAAACSN4jeAAAAAXNSR0IArs4c6QAAAr9JREFUWAnlmFGLTVEUx+cMJSUvmhdRN29SipopokhCeUAiPoLJJyC+AZ6YklcPrqK8eZh5GQ/yOiOKEoYHD0Ixw5jjt467T/+znHvnHDNz7pZV//Zae6291v/su+8+e5+Bgf9J0jRtGaJ5ZsicAlMgyFOUg30jSPEN4E5g49pZ7L2Nk6PoUfDekfHmeGPEqLwe3PIMOvY31/+lEWIU3Q9eueLBfIKyNRihXVFiFFkLroGFUFDaH+iXwWojIf2ZumLEyD4CnvmCHdv+iTu1uI9TXxU9ezoLJNFmmt1go9lOWtijYJXrX8C+Ai4mSTLnfF1Nau3AeRsMARs7VhpM4AXwHdSRlwTvKU1Ip0+kcfjGxW/L4qz6M53OMxJUVR0jcN0fyaTDJxKXkZ5w/jns4kPS8dgF9TLf4DykRbrpPonG4RsGX12MvSXypZVgzDJojQy8KnpQbf1MgbtV15IVDYOtZVyiNu4T2G0wKP3nCLuR2ZZARYKWpGpO08uS0X3dxc1g/34A5yhNUJZ0sb4qeYkZAp9d7C7LrdO4WK1l9/OzfSDpPZf4uNl9JdYhdN8RG4mFmP2pVLINPoYZe6es0KMhlu9dHYLz1sYwY/7dnM1gDMQKpxImayaWGbM3gMqjzHCbW9MbbIv6dllR2R4DsbYyQn8eps7+EfaCzl/iOO3g58VipkGb3dr0JQt1zpPkpEt0KbcJqHvsOZwP7qGQtyAaiuMY+FkISNNJjbFDWz8Oim8dqU/Y2wrEzKDzb4/WXW/YrnDhT4Xvtfht8e/zpPLDG85lvYxYYS3G2tRaR/DdBHaZGcX1QGNr6dTpdX2bxl/YKI2YSq1idYMpFN+FVx8CgnF9InDk6nxU+ahjG9GZvSqfoR42QsYXgVyvD3fz+If9mEZtCJwG9ukgyAuUA42S6FYMIoNgC9jULeaf7v8FmuWmnmTWVLIAAAAASUVORK5CYII=');
+				background-repeat: no-repeat;
+				background-size: 20px;
+				background-position: center;
+			}
+
+			.vh-player-right .vh-player-voice .vh-voice-btn:hover {
+				cursor: pointer;
+			}
+
+			.vh-player-right .vh-player-voice .vh-voice-list {
+				width: 30px;
+				height: 110px;
+				position: absolute;
+				bottom: 50px;
+				padding-bottom: 5px;
+				left: 50%;
+				transform: translateX(-50%);
+				display: none;
+				background: #000;
+			}
+
+			.vh-player-right .vh-player-voice .vh-voice-list #vhVoiceSlide {
+				height: 5px;
+				width: 100px;
+				transform: rotate(-90deg);
+				transform-origin: left;
+				position: absolute;
+				bottom: 0px;
+				left: 15px;
+			}
+		</style>
+		<style>
+			.vh-player-right .vh-player-barrage {
+				position: relative;
+				margin: 0px 5px;
+			}
+
+			.vh-player-right .vh-player-barrage .vh-barrage-btn {
+				width: 60px;
+				height: 24px;
+				margin-top: 14px;
+				line-height: 24px;
+				text-align: center;
+				background: rgba(0, 0, 0, 0.6);
+				border-radius: 12px;
+				color: #fff;
+				font-size: 14px;
+			}
+
+			.vh-player-right .vh-player-barrage .vh-barrage-btn:hover {
+				background: #409eff;
+				cursor: pointer;
+			}
+
+			.vh-player-right .vh-player-barrage .vh-barrage-list {
+				position: absolute;
+				bottom: 50px;
+				left: 0px;
+				width: 60px;
+				min-height: 10px;
+				padding-bottom: 5px;
+				display: none;
+			}
+
+			.vh-player-right .vh-player-barrage .vh-barrage-list .barrage-item {
+				height: 24px;
+				line-height: 24px;
+				background: rgba(0, 0, 0, 0.6);
+				text-align: center;
+				color: #fff;
+				font-size: 14px;
+			}
+
+			.vh-player-right .vh-player-barrage .vh-barrage-list .barrage-item:hover {
+				background: #409eff;
+				cursor: pointer;
+			}
+		</style>
+		<style type="text/css">
+			.com-input[data-v-723cbaec] {
+				position: relative;
+				display: inline-block;
+				width: 100%;
+				height: 40px;
+			}
+
+			.com-input[data-v-723cbaec] input {
+				outline: none;
+				display: inline-block;
+				width: 100%;
+				height: 100%;
+				font-size: 12px;
+				color: rgba(0, 0, 0, .65);
+				background-color: #fff;
+				background-image: none;
+				border: 1px solid #d2d2d2;
+				border-radius: 4px;
+				padding: 0 10px;
+				color: #999;
+			}
+
+			.com-input[data-v-723cbaec] input:focus {
+				border: 1px solid #999;
+				color: #666;
+			}
+
+			.com-input[data-v-723cbaec] input::-moz-placeholder {
+				color: #bfbfbf;
+				opacity: 1;
+			}
+
+			.com-input[data-v-723cbaec] input:-ms-input-placeholder {
+				color: #bfbfbf;
+			}
+
+			.com-input[data-v-723cbaec] input::-webkit-input-placeholder {
+				color: #bfbfbf;
+			}
+
+			.com-input[data-v-723cbaec] input[disabled] {
+				cursor: not-allowed;
+			}
+
+			.com-input[data-v-723cbaec] .limit {
+				font-size: 12px;
+				color: #999999;
+				position: absolute;
+				top: 50%;
+				-webkit-transform: translateY(-50%);
+				transform: translateY(-50%);
+				right: 8px;
+			}
+
+			.com-input[data-v-723cbaec] .limit .length {
+				color: #5ea6ed;
+			}
+
+			.com-input[data-v-723cbaec] .limit.area {
+				-webkit-transform: translateX(110%);
+				transform: translateX(110%);
+				top: auto;
+				bottom: 0;
+				line-height: normal;
+				right: 0;
+			}
+
+			.com-input[data-v-723cbaec] textarea {
+				resize: none;
+				outline: none;
+				display: inline-block;
+				padding: 4px 10px;
+				width: 100%;
+				height: 100%;
+				font-size: 12px;
+				line-height: 1.5;
+				color: rgba(0, 0, 0, .65);
+				background-color: #fff;
+				background-image: none;
+				border: 1px solid #d2d2d2;
+				border-radius: 4px;
+				color: #999;
+			}
+
+			.com-input[data-v-723cbaec] textarea.error {
+				border-color: #fc5659;
+			}
+
+			.com-input[data-v-723cbaec] textarea:focus {
+				border: 1px solid #999;
+				color: #666;
+			}
+
+			.com-input[data-v-723cbaec] textarea::-moz-placeholder {
+				color: #bfbfbf;
+				opacity: 1;
+			}
+
+			.com-input[data-v-723cbaec] textarea:-ms-input-placeholder {
+				color: #bfbfbf;
+			}
+
+			.com-input[data-v-723cbaec] textarea::-webkit-input-placeholder {
+				color: #bfbfbf;
+			}
+
+			.com-input[data-v-723cbaec] textarea[disabled] {
+				cursor: not-allowed;
+			}
+		</style>
+		<style type="text/css">
+			.q-edit-content .row[data-v-36105cd0] {
+				position: relative;
+			}
+
+			.q-edit-content[data-v-36105cd0] .error-msg {
+				position: absolute;
+				color: #fc5659;
+				padding-left: 10px;
+				line-height: 20px;
+				font-size: 12px;
+			}
+
+			.q-edit-content[data-v-36105cd0] .q-select-item {
+				width: 100%;
+				position: relative;
+			}
+
+			.q-edit-content[data-v-36105cd0] .q-select-item.display {
+				margin-bottom: 5px;
+			}
+
+			.q-edit-content[data-v-36105cd0] .el-radio__input {
+				margin-top: 8px;
+				float: left;
+			}
+
+			.q-edit-content[data-v-36105cd0] .el-radio__label {
+				display: block;
+				padding-right: 40px;
+				padding-left: 20px;
+			}
+
+			.q-edit-content[data-v-36105cd0] .el-radio__label .com-input {
+				margin-right: 8px;
+			}
+
+			.q-edit-content[data-v-36105cd0] .el-radio__label .com-input.error input {
+				border-color: #fc5659;
+				color: #fc5659;
+			}
+
+			.q-edit-content[data-v-36105cd0] .el-radio__label .com-input.error .limit {
+				display: none;
+			}
+
+			.q-edit-content[data-v-36105cd0] .remove {
+				position: absolute;
+				cursor: pointer;
+				font-size: 20px;
+				color: #606266;
+				top: 0;
+				right: 8px;
+			}
+
+			.q-edit-content[data-v-36105cd0] .remove:hover {
+				color: #fc5659;
+			}
+
+			.q-edit-content[data-v-36105cd0] .item-text {
+				display: inline-block;
+				font-size: 12px;
+				margin-top: 10px;
+				word-wrap: break-word;
+				word-break: break-all;
+				white-space: normal;
+			}
+		</style>
+		<style type="text/css">
+			.q-edit-content .row[data-v-f7116a84] {
+				position: relative;
+			}
+
+			.q-edit-content .row .remove[data-v-f7116a84] {
+				position: absolute;
+				top: 0;
+				right: 8px;
+				cursor: pointer;
+				font-size: 20px;
+				color: #606266;
+			}
+
+			.q-edit-content .row .remove[data-v-f7116a84]:hover {
+				color: #fc5659;
+			}
+
+			.q-edit-content[data-v-f7116a84] .error-msg {
+				position: absolute;
+				color: #fc5659;
+				padding-left: 10px;
+				line-height: 20px;
+				font-size: 12px;
+			}
+
+			.q-edit-content[data-v-f7116a84] .q-select-item {
+				width: 100%;
+				position: relative;
+				margin-bottom: 15px;
+			}
+
+			.q-edit-content[data-v-f7116a84] .q-select-item.display {
+				margin-bottom: 5px;
+			}
+
+			.q-edit-content[data-v-f7116a84] .q-select-item .el-checkbox__input {
+				margin-top: 8px;
+				float: left;
+			}
+
+			.q-edit-content[data-v-f7116a84] .q-select-item .el-checkbox__label {
+				display: block;
+				padding-right: 40px;
+				padding-left: 20px;
+			}
+
+			.q-edit-content[data-v-f7116a84] .q-select-item .el-checkbox__label .com-input {
+				margin-right: 8px;
+			}
+
+			.q-edit-content[data-v-f7116a84] .q-select-item .el-checkbox__label .com-input.error input {
+				border-color: #fc5659;
+				color: #fc5659;
+			}
+
+			.q-edit-content[data-v-f7116a84] .q-select-item .el-checkbox__label .com-input.error .limit {
+				display: none;
+			}
+
+			.q-edit-content[data-v-f7116a84] .q-select-item .item-text {
+				display: inline-block;
+				font-size: 12px;
+				margin-top: 5px;
+				word-wrap: break-word;
+				word-break: break-all;
+				white-space: normal;
+			}
+		</style>
+		<style type="text/css">
+			.q-edit-content[data-v-adf091e0] {
+				margin-bottom: 30px;
+			}
+
+			.q-edit-content.display[data-v-adf091e0] {
+				margin-bottom: 0;
+			}
+
+			.q-edit-content[data-v-adf091e0] .error-msg {
+				position: absolute;
+				color: #fc5659;
+				padding-left: 10px;
+				line-height: 20px;
+				font-size: 12px;
+			}
+
+			.q-edit-content[data-v-adf091e0] .q-select-item {
+				width: 100%;
+				position: relative;
+				margin-bottom: 15px;
+			}
+
+			.q-edit-content[data-v-adf091e0] .q-select-item .select-icon {
+				display: inline-block;
+				margin-top: 8px;
+			}
+
+			.q-edit-content[data-v-adf091e0] .q-select-item .select-input {
+				left: 20px;
+				right: 38px;
+				padding-left: 0;
+				position: absolute;
+				top: 0;
+				white-space: nowrap;
+			}
+
+			.q-edit-content[data-v-adf091e0] .q-select-item .select-input .com-input {
+				margin-right: 8px;
+			}
+
+			.q-edit-content[data-v-adf091e0] .q-select-item .select-input .com-input.error input {
+				border-color: #fc5659;
+				color: #fc5659;
+			}
+
+			.q-edit-content[data-v-adf091e0] .q-select-item .select-input .com-input.error .limit {
+				display: none;
+			}
+
+			.q-edit-content[data-v-adf091e0] .q-select-item .remove {
+				cursor: pointer;
+				font-size: 12px;
+			}
+		</style>
+		<style type="text/css">
+			.input-mobile input[data-v-7b077e9f]:focus {
+				border: 1px solid #999;
+				color: #666;
+			}
+
+			.input-mobile .input[data-v-7b077e9f] {
+				outline: none;
+				display: inline-block;
+				width: 100%;
+				height: 100%;
+				font-size: 12px;
+				color: rgba(0, 0, 0, .65);
+				background-color: #fff;
+				background-image: none;
+				border: 1px solid #d2d2d2;
+				border-radius: 4px;
+				padding: 0 10px;
+				color: #999;
+				height: 30px;
+				padding-right: 47px;
+			}
+
+			.input-mobile .input[data-v-7b077e9f]::-webkit-input-placeholder {
+				color: #999;
+			}
+
+			.input-mobile .input[data-v-7b077e9f]::-moz-placeholder {
+				color: #999;
+			}
+
+			.input-mobile .input[data-v-7b077e9f]::-ms-input-placeholder {
+				color: #999;
+			}
+
+			.input-mobile .input[data-v-7b077e9f]::placeholder {
+				color: #999;
+			}
+
+			.input-mobile #captcha[data-v-7b077e9f] {
+				margin-top: 14px;
+			}
+
+			.input-mobile #captcha[data-v-7b077e9f] .yidun.yidun--light {
+				margin: 0;
+			}
+
+			.input-mobile .vertify[data-v-7b077e9f] {
+				margin-top: 14px;
+				position: relative;
+				display: -webkit-box;
+				display: -ms-flexbox;
+				display: flex;
+				-webkit-box-align: center;
+				-ms-flex-align: center;
+				align-items: center;
+				-webkit-box-pack: justify;
+				-ms-flex-pack: justify;
+				justify-content: space-between;
+			}
+
+			.input-mobile .vertify .code-btn[data-v-7b077e9f] {
+				border: 1px solid #fc5659;
+				background-color: #fc5659;
+				display: inline-block;
+				height: 28px;
+				line-height: 28px;
+				color: #fff;
+				outline: none;
+				border-radius: 2px;
+				width: 30%;
+			}
+
+			.input-mobile .vertify .code[data-v-7b077e9f] {
+				display: inline-block;
+				width: 68%;
+				padding-right: 0px;
+			}
+		</style>
+		<style type="text/css">
+			.q-edit-content[data-v-65a55318] {
+				width: 100%;
+				margin-top: 10px;
+				position: relative;
+			}
+
+			.q-edit-content[data-v-65a55318] .com-input.code {
+				margin-top: 5px;
+				width: 60%;
+			}
+
+			.q-edit-content[data-v-65a55318] .com-button {
+				font-size: 12px;
+				padding: 6px 20px;
+			}
+
+			.q-edit-content[data-v-65a55318] .com-button.code {
+				margin-top: 5px;
+				width: 39%;
+				margin-left: 1px;
+			}
+
+			.q-edit-content[data-v-65a55318] .error-msg {
+				position: absolute;
+				color: #fc5659;
+				top: 33px;
+				line-height: 20px;
+				font-size: 12px;
+			}
+		</style>
+		<style type="text/css">
+			.q-edit-content[data-v-407da900] {
+				margin-top: 10px;
+			}
+
+			.q-edit-content[data-v-407da900] .error-msg {
+				position: absolute;
+				color: #fc5659;
+				padding-left: 10px;
+				line-height: 20px;
+				font-size: 12px;
+			}
+		</style>
+		<style type="text/css">
+			.q-edit-content[data-v-4d11991e] {
+				/*margin-bottom: 30px;*/
+			}
+
+			.q-edit-content .q-edit-select[data-v-4d11991e] {
+				display: block;
+				width: 100%;
+				margin-bottom: 10px;
+			}
+
+			.q-edit-content .q-edit-select .el-select[data-v-4d11991e] {
+				width: 100%;
+			}
+
+			.q-edit-content .q-edit-select .com-input[data-v-4d11991e] {
+				width: 100%;
+			}
+
+			.q-edit-content .q-edit-select .remove[data-v-4d11991e] {
+				cursor: pointer;
+				font-size: 12px;
+				margin-left: 10px;
+			}
+
+			.q-edit-content.display[data-v-4d11991e] {
+				margin-bottom: 0;
+			}
+
+			.q-edit-content[data-v-4d11991e] .error-msg {
+				position: absolute;
+				color: #fc5659;
+				padding-left: 10px;
+				line-height: 20px;
+				font-size: 12px;
+			}
+
+			.q-edit-content[data-v-4d11991e] .el-select .el-input.is-focus .el-input__inner {
+				border: 1px solid #999;
+				color: #666;
+			}
+
+			.q-edit-content[data-v-4d11991e] .el-select .el-input__inner:focus {
+				border-color: #999;
+			}
+
+			.q-edit-content .vhall-inline[data-v-4d11991e] {
+				display: inline-block;
+				width: auto;
+			}
+
+			.q-edit-content .edit[data-v-4d11991e] {
+				position: relative;
+			}
+
+			.q-edit-content .edit .area-title[data-v-4d11991e] {
+				display: inline-block;
+				margin-right: 40px;
+				width: calc(100% - 40px);
+				border: 1px solid #D2D2D2;
+				background-color: #F2F2F2;
+				height: 30px;
+				padding: 0 10px;
+				line-height: 30px;
+				border-radius: 2px;
+				margin-bottom: 14px;
+				color: #999;
+			}
+
+			.q-edit-content .edit .remove[data-v-4d11991e] {
+				position: absolute;
+				right: 0;
+				top: 7px;
+				color: #999999;
+				cursor: pointer;
+			}
+
+			.q-edit-content .edit .remove[data-v-4d11991e]:hover {
+				color: #FC5659;
+			}
+		</style>
+		<style type="text/css">
+			.q-edit-content[data-v-3a17fcb4] {
+				overflow: hidden;
+			}
+
+			.q-edit-content[data-v-3a17fcb4] * {
+				font-size: 12px;
+			}
+
+			.q-edit-content[data-v-3a17fcb4] .main-table {
+				overflow: auto;
+			}
+
+			.q-edit-content[data-v-3a17fcb4] .main-table .matrix-table {
+				position: relative;
+			}
+
+			.q-edit-content[data-v-3a17fcb4] .matrix-table {
+				border-right: 1px solid #dadada;
+				border-bottom: 1px solid #dadada;
+				border-collapse: collapse;
+				border-spacing: 0;
+				float: left;
+			}
+
+			.q-edit-content[data-v-3a17fcb4] .matrix-table.isShow td {
+				height: 35px;
+				padding: 0 10px;
+				white-space: nowrap;
+			}
+
+			.q-edit-content[data-v-3a17fcb4] .matrix-table td {
+				padding: 0 5px;
+				height: 35px;
+				text-align: center;
+				border-left: 1px solid #dadada;
+				border-top: 1px solid #dadada;
+			}
+
+			.q-edit-content[data-v-3a17fcb4] .matrix-table .remove {
+				cursor: pointer;
+			}
+
+			.q-edit-content[data-v-3a17fcb4] .matrix-table .com-input {
+				height: 24px;
+				width: 100px;
+			}
+
+			.q-edit-content[data-v-3a17fcb4] .matrix-table .el-radio,
+			.q-edit-content[data-v-3a17fcb4] .matrix-table .el-checkbox {
+				padding: 4px 0;
+			}
+
+			.q-edit-content[data-v-3a17fcb4] .matrix-table .el-radio .el-checkbox__original,
+			.q-edit-content[data-v-3a17fcb4] .matrix-table .el-checkbox .el-checkbox__original {
+				display: none;
+			}
+
+			.q-edit-content[data-v-3a17fcb4] .matrix-table .el-radio__label,
+			.q-edit-content[data-v-3a17fcb4] .matrix-table .el-checkbox__label {
+				display: none;
+			}
+
+			.q-edit-content[data-v-3a17fcb4] .error-msg {
+				position: absolute;
+				color: #fc5659;
+				padding-left: 10px;
+				line-height: 20px;
+				font-size: 12px;
+			}
+		</style>
+		<style type="text/css"></style>
+		<style type="text/css"></style>
+		<style type="text/css">
+			.q-edit-content[data-v-13d6068f] {
+				width: 100%;
+				margin-top: 10px;
+			}
+
+			.q-edit-content[data-v-13d6068f] .com-input.code {
+				margin-top: 5px;
+				width: 60%;
+			}
+
+			.q-edit-content[data-v-13d6068f] .com-button {
+				font-size: 12px;
+				padding: 6px 20px;
+			}
+
+			.q-edit-content[data-v-13d6068f] .com-button.code {
+				margin-top: 5px;
+				width: 39%;
+				margin-left: 1px;
+			}
+
+			.q-edit-content[data-v-13d6068f] .error-msg {
+				position: absolute;
+				color: #fc5659;
+				padding-left: 10px;
+				line-height: 20px;
+				font-size: 12px;
+			}
+		</style>
+		<style type="text/css">
+			.q-edit-content[data-v-4450c347] {
+				width: 100%;
+				margin-top: 10px;
+			}
+
+			.q-edit-content[data-v-4450c347] .com-input.code {
+				margin-top: 5px;
+				width: 60%;
+			}
+
+			.q-edit-content[data-v-4450c347] .com-button {
+				font-size: 12px;
+				padding: 6px 20px;
+			}
+
+			.q-edit-content[data-v-4450c347] .com-button.code {
+				margin-top: 5px;
+				width: 39%;
+				margin-left: 1px;
+			}
+
+			.q-edit-content[data-v-4450c347] .error-msg {
+				position: absolute;
+				color: #fc5659;
+				padding-left: 10px;
+				line-height: 20px;
+				font-size: 12px;
+			}
+		</style>
+		<style type="text/css">
+			.question-wrap[data-v-3a7895a4] {
+				width: 100%;
+				font-size: 12px;
+				position: relative;
+				border-radius: 4px;
+				border: 1px solid #d2d2d2;
+				margin-top: 30px;
+			}
+
+			.question-wrap.isLine[data-v-3a7895a4] {
+				border: 0;
+				margin-bottom: 0;
+			}
+
+			.question-wrap.isLine .question-content .q-edit[data-v-3a7895a4] {
+				margin-left: 0;
+			}
+
+			.question-wrap.isRemark .question-content .q-edit[data-v-3a7895a4] {
+				margin-left: 0;
+			}
+
+			.question-wrap.isRemark .question-content .q-edit.display .q-subject[data-v-3a7895a4] {
+				color: #999;
+				font-size: 14px;
+			}
+
+			.question-wrap[data-v-3a7895a4] .el-input--small {
+				font-size: 12px;
+			}
+
+			.question-wrap[data-v-3a7895a4] .el-radio+.el-radio {
+				margin-left: 0;
+			}
+
+			.question-wrap[data-v-3a7895a4] .el-checkbox+.el-checkbox {
+				margin-left: 0;
+			}
+
+			.question-wrap[data-v-3a7895a4] .com-input {
+				width: 100%;
+				height: 30px;
+			}
+
+			.question-wrap[data-v-3a7895a4] .com-input.area {
+				height: 80px;
+			}
+
+			.question-wrap[data-v-3a7895a4] .com-input input {
+				font-size: 12px;
+			}
+
+			.question-wrap[data-v-3a7895a4] .index {
+				float: left;
+				font-size: 12px;
+				color: #666;
+			}
+
+			.question-wrap[data-v-3a7895a4] .index.isLine {
+				display: none;
+			}
+
+			.question-wrap[data-v-3a7895a4] .index.isRemark {
+				display: none;
+			}
+
+			.question-wrap[data-v-3a7895a4] .question-content {
+				padding: 20px;
+				width: 100%;
+				background-color: #fff;
+			}
+
+			.question-wrap[data-v-3a7895a4] .question-content .q-edit {
+				/*margin-left: 20px;*/
+				/*margin-bottom: 15px;*/
+			}
+
+			.question-wrap[data-v-3a7895a4] .question-content .q-edit .q-subject {
+				margin-bottom: 14px;
+				font-size: 12px;
+				color: #666;
+			}
+
+			.question-wrap[data-v-3a7895a4] .question-content .q-edit .q-subject.error input {
+				border-color: #fc5659;
+				color: #fc5659;
+			}
+
+			.question-wrap[data-v-3a7895a4] .question-content .q-edit .q-subject.error .limit {
+				display: none;
+			}
+
+			.question-wrap[data-v-3a7895a4] .question-content .q-edit .line {
+				border-bottom: 1px solid #dadada;
+			}
+
+			.question-wrap[data-v-3a7895a4] .question-content .q-operate {
+				padding-left: 15px;
+				text-align: right;
+			}
+
+			.question-wrap[data-v-3a7895a4] .question-content .q-operate .add-select-item,
+			.question-wrap[data-v-3a7895a4] .question-content .q-operate .add-row-item,
+			.question-wrap[data-v-3a7895a4] .question-content .q-operate .add-column-item {
+				float: left;
+				cursor: pointer;
+				margin-top: 6px;
+				color: #666;
+			}
+
+			.question-wrap[data-v-3a7895a4] .question-content .q-operate .add-select-item:hover,
+			.question-wrap[data-v-3a7895a4] .question-content .q-operate .add-row-item:hover,
+			.question-wrap[data-v-3a7895a4] .question-content .q-operate .add-column-item:hover {
+				color: #5ea6ed;
+			}
+
+			.question-wrap[data-v-3a7895a4] .question-content .q-operate .add-row-item {
+				margin-right: 10px;
+			}
+
+			.question-wrap[data-v-3a7895a4] .question-content .q-operate .required-des {
+				display: inline-block;
+				vertical-align: middle;
+				color: #666;
+			}
+
+			.question-wrap[data-v-3a7895a4] .question-content .q-operate .el-switch__core {
+				height: 18px;
+			}
+
+			.question-wrap[data-v-3a7895a4] .question-content .q-operate .el-switch__core .el-switch__button {
+				width: 14px;
+				height: 14px;
+			}
+
+			.question-wrap[data-v-3a7895a4] .question-content .q-operate .sort,
+			.question-wrap[data-v-3a7895a4] .question-content .q-operate .copy,
+			.question-wrap[data-v-3a7895a4] .question-content .q-operate .del {
+				position: relative;
+				display: inline-block;
+				text-align: center;
+				width: 30px;
+				height: 30px;
+				line-height: 30px;
+				border-radius: 30px;
+				cursor: pointer;
+				font-size: 18px;
+				margin-left: 10px;
+				vertical-align: middle;
+			}
+
+			.question-wrap[data-v-3a7895a4] .question-content .q-operate .sort:hover,
+			.question-wrap[data-v-3a7895a4] .question-content .q-operate .copy:hover,
+			.question-wrap[data-v-3a7895a4] .question-content .q-operate .del:hover {
+				color: #fc5659;
+			}
+
+			.question-wrap[data-v-3a7895a4] .question-content .q-operate .del {
+				width: 17px;
+			}
+
+			.q-wrap .question-wrap[data-v-3a7895a4] {
+				margin-bottom: 0;
+			}
+
+			.q-wrap .question-content[data-v-3a7895a4] {
+				padding: 0px 20px;
+			}
+
+			.q-wrap .question-content .q-edit .q-subject[data-v-3a7895a4] {
+				margin-bottom: 0;
+				font-size: 16px;
+				color: #333333;
+			}
+
+			.q-wrap .question-content[data-v-3a7895a4] .item-text {
+				font-size: 14px !important;
+			}
+
+			.q-wrap .question-content[data-v-3a7895a4] .el-radio__input {
+				margin-top: 10px;
+			}
+
+			.q-wrap .question-content[data-v-3a7895a4] .select {
+				margin-top: 10px;
+			}
+
+			.q-wrap .question-content[data-v-3a7895a4] input {
+				font-size: 14px;
+			}
+
+			.q-wrap .index[data-v-3a7895a4] {
+				font-size: 16px;
+				color: #333333;
+			}
+		</style>
+		<style type="text/css">
+			.mod-item[data-v-f69eccc0] {
+				background-color: #fff;
+				display: inline-block;
+				color: #333;
+				z-index: 2000;
+				width: 400px;
+				-webkit-box-shadow: -5px 7px 25px 5px #999;
+				box-shadow: -5px 7px 25px 5px #999;
+			}
+
+			.alert-dia .mod-dialog .mod-header[data-v-f69eccc0] {
+				background: none;
+				font-size: 14px;
+				border-top: 3px solid #f33;
+				border-bottom: none;
+				padding: 5px 20px;
+				clear: both;
+			}
+
+			.close[data-v-f69eccc0] {
+				padding: 0;
+				float: right;
+				border: none;
+				color: #999;
+				font-size: 20px;
+				background-color: #fff;
+				outline: none;
+				cursor: pointer;
+			}
+
+			.close[data-v-f69eccc0]:hover {
+				color: #666;
+			}
+
+			.mod-body[data-v-f69eccc0] {
+				padding: 20px;
+			}
+
+			.mod-dialog[data-v-f69eccc0] {
+				position: relative;
+				background-color: #fff;
+				z-index: 100;
+			}
+
+			.mod-bg[data-v-f69eccc0] {
+				position: fixed;
+				top: 0;
+				left: 0;
+				height: 100%;
+				width: 100%;
+			}
+		</style>
+		<style type="text/css">
+			.question-edit-wrap[data-v-7059d8d6] {
+				margin: 0 auto;
+				height: 100%;
+				/*max-width: 740px;*/
+				color: #666;
+				position: relative;
+			}
+
+			.question-edit-wrap .btn-box[data-v-7059d8d6] {
+				position: relative;
+				margin-bottom: 35px;
+			}
+
+			.question-edit-wrap .btn-box button[data-v-7059d8d6],
+			.question-edit-wrap .btn-box a[data-v-7059d8d6] {
+				font-size: 12px;
+				height: 30px;
+				line-height: 28px;
+				width: 80px;
+				border: solid 1px #999999;
+				border-radius: 2px;
+				background-color: #fff;
+				color: #666;
+				outline: none;
+				cursor: pointer;
+			}
+
+			.question-edit-wrap .btn-box button[data-v-7059d8d6]:hover,
+			.question-edit-wrap .btn-box a[data-v-7059d8d6]:hover {
+				color: #fff;
+				border: 1px solid #fc5659;
+				background-color: #fc5659;
+			}
+
+			.question-edit-wrap .btn-box .goback-btn[data-v-7059d8d6] {
+				display: inline-block;
+				position: absolute;
+				top: 0;
+				right: 0;
+				text-decoration: none;
+				text-align: center;
+				float: right;
+			}
+
+			.question-edit-wrap .btn-box .add-que[data-v-7059d8d6] {
+				position: relative;
+			}
+
+			.question-edit-wrap .btn-box .add-que .que-box[data-v-7059d8d6] {
+				position: absolute;
+				top: 36px;
+				left: 0;
+			}
+
+			.question-edit-wrap .btn-box .add-que .que-box .title[data-v-7059d8d6] {
+				color: #333;
+				font-size: 14px;
+				margin-bottom: 15px;
+			}
+
+			.question-edit-wrap .question-content[data-v-7059d8d6] {
+				padding: 0 20px 20px 20px;
+			}
+
+			.question-edit-wrap[data-v-7059d8d6] .el-switch__core:after {
+				top: 0;
+			}
+
+			.question-edit-wrap[data-v-7059d8d6] .com-input {
+				margin-right: 8px;
+			}
+
+			.question-edit-wrap[data-v-7059d8d6] .com-input.error input {
+				border-color: #fc5659;
+				color: #fc5659;
+			}
+
+			.question-edit-wrap[data-v-7059d8d6] .com-input.error .limit {
+				display: none;
+			}
+
+			.question-edit-wrap[data-v-7059d8d6] * {
+				-webkit-box-sizing: border-box;
+				box-sizing: border-box;
+			}
+
+			.question-edit-wrap[data-v-7059d8d6] ul {
+				list-style: none;
+				margin: 0;
+				padding: 0;
+			}
+
+			.question-edit-wrap[data-v-7059d8d6] .edit-content {
+				height: 100%;
+				width: 100%;
+				font-size: 14px;
+			}
+
+			.question-edit-wrap[data-v-7059d8d6] .edit-content .edit-content-left {
+				height: 100%;
+				width: 240px;
+				padding: 0 30px;
+				position: absolute;
+				left: 0;
+				background-color: white;
+				border: 1px solid #dadada;
+			}
+
+			.question-edit-wrap[data-v-7059d8d6] .edit-content .edit-content-left .fixed-info {
+				margin-top: 30px;
+			}
+
+			.question-edit-wrap[data-v-7059d8d6] .edit-content .edit-content-left .custom-info {
+				margin-top: 50px;
+			}
+
+			.question-edit-wrap[data-v-7059d8d6] .edit-content .edit-content-left ul {
+				margin-top: 10px;
+				overflow: hidden;
+			}
+
+			.question-edit-wrap[data-v-7059d8d6] .edit-content .edit-content-left li {
+				width: 70px;
+				height: 30px;
+				line-height: 30px;
+				margin-right: 32px;
+				margin-bottom: 15px;
+				float: left;
+				font-size: 12px;
+				text-align: center;
+				border-radius: 4px;
+				border: 1px solid #dadada;
+				cursor: pointer;
+			}
+
+			.question-edit-wrap[data-v-7059d8d6] .edit-content .edit-content-left li:nth-child(2n) {
+				margin-right: 0;
+			}
+
+			.question-edit-wrap[data-v-7059d8d6] .edit-content .edit-content-main {
+				position: relative;
+				height: 100%;
+				min-height: 500px;
+			}
+
+			.question-edit-wrap[data-v-7059d8d6] .edit-content .edit-content-main .base-info {
+				/*margin: auto;*/
+				/*padding: 25px 25px 10px;*/
+				margin-bottom: 25px;
+				background-color: white;
+			}
+
+			.question-edit-wrap[data-v-7059d8d6] .edit-content .edit-content-main .base-info .com-input {
+				height: 30px;
+			}
+
+			.question-edit-wrap[data-v-7059d8d6] .edit-content .edit-content-main .base-info .q-title {
+				margin-bottom: 20px;
+				width: 100%;
+				height: 100px;
+				border: 1px solid #D2D2D2;
+				background-color: #FAFAFA;
+				padding: 20px;
+				border-radius: 2px;
+			}
+
+			.question-edit-wrap[data-v-7059d8d6] .edit-content .edit-content-main .base-info .q-title .show-des {
+				font-size: 12px;
+				color: #666;
+				margin-bottom: 10px;
+			}
+
+			.question-edit-wrap[data-v-7059d8d6] .edit-content .edit-content-main .base-info .q-des {
+				width: 100%;
+				height: 167px;
+				padding: 20px;
+				border: 1px solid #D2D2D2;
+				background-color: #FAFAFA;
+				text-align: left;
+				border-radius: 2px;
+				/*> div {*/
+				/*height: 100%;*/
+				/*}*/
+			}
+
+			.question-edit-wrap[data-v-7059d8d6] .edit-content .edit-content-main .base-info .q-des .show-des {
+				font-size: 12px;
+				color: #666;
+				margin-bottom: 10px;
+				overflow: hidden;
+			}
+
+			.question-edit-wrap[data-v-7059d8d6] .edit-content .edit-content-main .base-info .q-des .editing {
+				margin-bottom: -25px;
+			}
+
+			.question-edit-wrap[data-v-7059d8d6] .edit-content .edit-content-main .base-info .q-des .com-input {
+				height: 97px;
+				width: 100%;
+			}
+
+			.question-edit-wrap[data-v-7059d8d6] .edit-content .edit-content-main .base-info .q-des .limit {
+				bottom: 4px;
+				right: 59px;
+			}
+
+			.question-edit-wrap[data-v-7059d8d6] .edit-content .edit-content-main .question-info {
+				width: 100%;
+				background-color: white;
+				/*padding: 25px 25px 30px;*/
+			}
+
+			.question-edit-wrap[data-v-7059d8d6] .edit-content .edit-content-main .question-bottom {
+				width: 100%;
+				background-color: white;
+				height: 60px;
+				line-height: 60px;
+				text-align: center;
+			}
+
+			.question-edit-wrap[data-v-7059d8d6] .edit-content .edit-content-main .question-bottom /deep/ button {
+				width: 160px;
+				height: 30px;
+				border: none;
+				border-radius: 2px;
+				background-color: #fc5659;
+				color: #fff;
+				font-size: 12px;
+				line-height: 10px;
+			}
+
+			.question-edit-wrap[data-v-7059d8d6] .edit-content .edit-content-main .question-bottom /deep/ button:hover {
+				background-color: #ff7b78;
+			}
+
+			.question-edit-wrap[data-v-7059d8d6] .modal-body {
+				padding-top: 0;
+			}
+
+			.question-edit-wrap[data-v-7059d8d6] .q-edit-content {
+				margin-top: 0;
+			}
+		</style>
+		<style type="text/css">
+			.vhall-question-content {
+				width: 100%;
+				height: 100%;
+				/*padding: 30px 0;*/
+				/*.funActions .button-list .btn-li a div {*/
+				/*display: inline-block;*/
+				/*vertical-align: middle*/
+				/*}*/
+				/*.funActions .button-list .btn-li a .icon-yx {*/
+				/*height: 16px;*/
+				/*width: 16px;*/
+				/*background-image: url(./signup-form/email.png);*/
+				/*background-size: 16px 16px;*/
+				/*vertical-align: middle*/
+				/*}*/
+				/*.funActions .button-list .btn-li a .icon-xb {*/
+				/*height: 16px;*/
+				/*width: 16px;*/
+				/*background-image: url(./signup-form/gender.png);*/
+				/*background-size: 16px 16px;*/
+				/*vertical-align: middle*/
+				/*}*/
+				/*.funActions .button-list .btn-li a .icon-dx {*/
+				/*height: 16px;*/
+				/*width: 16px;*/
+				/*background-image: url(./signup-form/radio-btn.png);*/
+				/*background-size: 16px 16px;*/
+				/*vertical-align: middle*/
+				/*}*/
+				/*.funActions .button-list .btn-li a .icon-duox {*/
+				/*height: 16px;*/
+				/*width: 16px;*/
+				/*background-image: url(./signup-form/checkbox-btn.png);*/
+				/*background-size: 16px 16px;*/
+				/*vertical-align: middle*/
+				/*}*/
+				/*.funActions .button-list .btn-li a .icon-wd {*/
+				/*height: 16px;*/
+				/*width: 16px;*/
+				/*background-image: url(./signup-form/Q-and-A.png);*/
+				/*background-size: 16px 16px;*/
+				/*vertical-align: middle*/
+				/*}*/
+				/*.funActions .button-list .btn-li a .icon-city {*/
+				/*height: 16px;*/
+				/*width: 16px;*/
+				/*background-image: url(./questionnaire/city.png);*/
+				/*background-size: 16px 16px;*/
+				/*vertical-align: middle*/
+				/*}*/
+				/*.funActions .button-list .btn-li a .icon-chapter {*/
+				/*height: 16px;*/
+				/*width: 16px;*/
+				/*background-image: url(./questionnaire/chapter.png);*/
+				/*background-size: 16px 16px;*/
+				/*vertical-align: middle*/
+				/*}*/
+			}
+
+			.vhall-question-content-baseInfo__title__label {
+				font-size: 12px;
+				color: #666666;
+			}
+
+			.vhall-question-content input {
+				/*background: rgb(242, 242, 242) !important;*/
+				border: 1px solid #d2d2d2;
+			}
+
+			.vhall-question-content-desc {
+				text-align: center;
+			}
+
+			.vhall-question-content-desc text-area {
+				line-height: 2;
+			}
+
+			.vhall-question-content .funActions .button-list .btn-li {
+				width: 100%;
+			}
+
+			.vhall-question-content .funActions .button-list .btn-li .disable {
+				background-color: #f8f8f8;
+				border-color: #e4e4e4;
+				color: #d7d7d7;
+			}
+
+			.vhall-question-content .funActions .button-list .btn-li .disable:hover {
+				border-color: #e4e4e4;
+			}
+
+			.vhall-question-content .funActions .button-list .btn-li a {
+				display: inline-block;
+				width: 80px;
+				height: 30px;
+				margin-right: 8px;
+				margin-bottom: 10px;
+				line-height: 30px;
+				border: 1px solid #fc5659;
+				border-radius: 2px;
+				background-color: #fff;
+				text-align: center;
+				text-decoration: none;
+				color: #fc5659;
+			}
+
+			.vhall-question-content .funActions .button-list .btn-li a:nth-child(4n) {
+				margin-right: 0;
+			}
+
+			.vhall-question-content .funActions .button-list .btn-li a:link {
+				font-size: 12px;
+				color: #fc5659;
+			}
+
+			.vhall-question-content .funActions .button-list .btn-li a:hover {
+				border-color: #fc5659;
+				background-color: #fc5659;
+				color: #fff;
+			}
+
+			.vhall-question-content .funActions .button-list .btn-li a.disabled {
+				border-color: #d2d2d2;
+				background-color: #fff;
+				color: #d2d2d2;
+				cursor: default;
+			}
+		</style>
+		<style type="text/css">
+			.q-wrap[data-v-1685f1fa] {
+				width: 100%;
+				height: 100%;
+				overflow: auto;
+				font-size: 16px;
+			}
+
+			.q-wrap .vhall-btn-primary[data-v-1685f1fa] {
+				border: 1px solid #fc5659;
+				width: 158px;
+				height: 30px;
+				line-height: 30px;
+				border-radius: 2px;
+				background-color: #fc5659;
+				font-size: 12px;
+				color: #fff;
+				outline: none;
+				display: block;
+				margin: 0 auto;
+				padding: 0;
+				text-decoration: none;
+			}
+
+			.q-wrap .vhall-btn-primary[data-v-1685f1fa]:hover {
+				background-color: #ff7b78;
+				border-color: #ff7b78;
+			}
+
+			.q-wrap .vhall-question-title[data-v-1685f1fa] {
+				/*height: 120px;*/
+				width: 100%;
+				/*background: url('./signup-form/form-head-new1.png');*/
+				/*background: url('//cnstatic01.e.vhall.com/static/images/questionnaire/show-header.png?v=BTc%2FbE46UqLn3cbkqbEFDQ%3D%3D');*/
+				/*background-size: 100% 100%;*/
+			}
+
+			.q-wrap .vhall-question-title img[data-v-1685f1fa] {
+				width: 100%;
+			}
+
+			.q-wrap[data-v-1685f1fa] * {
+				-webkit-box-sizing: border-box;
+				box-sizing: border-box;
+			}
+
+			.q-wrap[data-v-1685f1fa] .q-title {
+				text-align: center;
+				/*padding: 18px 0 10px 0;*/
+				margin-top: 20px;
+				font-size: 30px;
+				color: #333;
+				font-family: 'PingFangSC', 'Microsoft Yahei', Arial;
+			}
+
+			.q-wrap[data-v-1685f1fa] .q-des {
+				/*text-align: center;*/
+				font-size: 16px;
+				color: #333;
+				margin: 20px 60px 0;
+				word-break: break-all;
+			}
+
+			.q-wrap[data-v-1685f1fa] .q-split {
+				height: 16px;
+				border-bottom: 2px solid #dadada;
+				margin-bottom: 15px;
+			}
+
+			.q-wrap[data-v-1685f1fa] .question-wrap {
+				border: 0;
+			}
+
+			.q-wrap[data-v-1685f1fa] .q-btns {
+				width: 100%;
+				height: 100px;
+				line-height: 100px;
+				margin-top: 30px;
+				text-align: center;
+				font-size: 12px;
+			}
+
+			[data-v-1685f1fa] .select {
+				display: -webkit-box;
+				display: -ms-flexbox;
+				display: flex;
+				-webkit-box-pack: justify;
+				-ms-flex-pack: justify;
+				justify-content: space-between;
+				width: 100%;
+			}
+
+			[data-v-1685f1fa] .select .vhall-inline {
+				width: 48%;
+			}
+
+			[data-v-1685f1fa] .el-radio__input.is-checked+.el-radio__label {
+				color: #666;
+			}
+
+			[data-v-1685f1fa] .el-radio {
+				color: #666;
+			}
+
+			[data-v-1685f1fa] .el-checkbox__input.is-checked+.el-checkbox__label {
+				color: #666;
+			}
+
+			[data-v-1685f1fa] .el-checkbox {
+				color: #666;
+			}
+		</style>
+		<style type="text/css">
+			.q-wrap[data-v-736ff9c4] {
+				width: 100%;
+				height: 100%;
+				overflow: auto;
+				font-size: 16px;
+			}
+
+			.q-wrap .vhall-question-title[data-v-736ff9c4] {
+				width: 100%;
+			}
+
+			.q-wrap .vhall-question-title img[data-v-736ff9c4] {
+				width: 100%;
+			}
+
+			.q-wrap .q-btns span[data-v-736ff9c4] {
+				border: 1px solid #fc5659;
+				background-color: #fc5659;
+				font-size: 14px;
+				color: #fff;
+				outline: none;
+				display: block;
+				width: calc(100% - 40px);
+				height: 40px;
+				border-radius: 4px;
+				line-height: 40px;
+				text-align: center;
+				margin: 20px auto;
+			}
+
+			.q-wrap[data-v-736ff9c4] * {
+				-webkit-box-sizing: border-box;
+				box-sizing: border-box;
+			}
+
+			.q-wrap[data-v-736ff9c4] .com-input .limit.area {
+				-webkit-transform: none;
+				transform: none;
+				bottom: -20px;
+			}
+
+			.q-wrap[data-v-736ff9c4] .com-input input {
+				-webkit-transform: translate3d(0, 0, 0) !important;
+				transform: translate3d(0, 0, 0) !important;
+				-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+			}
+
+			.q-wrap[data-v-736ff9c4] .q-title {
+				text-align: center;
+				padding: 18px 0 10px 0;
+			}
+
+			.q-wrap[data-v-736ff9c4] .q-des {
+				text-align: left;
+				font-size: 12px;
+				padding: 0px 20px;
+				line-height: 1.6;
+			}
+
+			.q-wrap[data-v-736ff9c4] .q-split {
+				margin-bottom: 15px;
+			}
+
+			.q-wrap[data-v-736ff9c4] .question-wrap {
+				border: 0;
+			}
+
+			.q-wrap[data-v-736ff9c4] .q-btns {
+				width: 100%;
+				line-height: 100px;
+				height: 100px;
+				text-align: center;
+				font-size: 12px;
+			}
+
+			.q-wrap[data-v-736ff9c4] .question-content .index {
+				font-size: 14px;
+			}
+
+			.q-wrap[data-v-736ff9c4] .question-content .q-edit .q-subject {
+				font-size: 14px;
+			}
+
+			.q-wrap[data-v-736ff9c4] .question-content .com-input {
+				height: 40px;
+			}
+
+			.q-wrap[data-v-736ff9c4] .question-content .el-input--small .el-input__inner {
+				height: 40px;
+				line-height: 40px;
+			}
+
+			.q-wrap[data-v-736ff9c4] .question-content .el-date-editor.el-input {
+				width: 100%;
+			}
+
+			.q-wrap[data-v-736ff9c4] .question-content .q-edit-content .q-select-item {
+				width: 100%;
+				position: relative;
+				display: -webkit-box;
+				display: -ms-flexbox;
+				display: flex;
+				min-height: 40px;
+				padding: 10px 0px;
+				-webkit-box-align: center;
+				-ms-flex-align: center;
+				align-items: center;
+				-webkit-box-orient: horizontal;
+				-webkit-box-direction: reverse;
+				-ms-flex-direction: row-reverse;
+				flex-direction: row-reverse;
+				margin-top: 10px;
+				border: 1px solid #d2d2d2;
+				margin-bottom: 0px;
+			}
+
+			.q-wrap[data-v-736ff9c4] .question-content .el-radio__input {
+				margin-top: 0px;
+				margin-right: 10px;
+			}
+
+			.q-wrap[data-v-736ff9c4] .question-content .q-edit-content .item-text {
+				-webkit-box-flex: 1;
+				-ms-flex: 1;
+				flex: 1;
+				font-size: 12px;
+				margin-top: 0px;
+				word-wrap: break-word;
+				word-break: break-all;
+				white-space: normal;
+			}
+
+			.q-wrap[data-v-736ff9c4] .question-content .el-radio__label {
+				-webkit-box-flex: 1;
+				-ms-flex: 1;
+				flex: 1;
+				padding-left: 10px;
+			}
+
+			.q-wrap[data-v-736ff9c4] .question-content .q-select-item .el-checkbox__input {
+				margin-top: 0px;
+				margin-right: 10px;
+			}
+
+			.q-wrap[data-v-736ff9c4] .question-content .q-select-item .el-checkbox__label {
+				-webkit-box-flex: 1;
+				-ms-flex: 1;
+				flex: 1;
+			}
+
+			.q-wrap[data-v-736ff9c4] .question-content .error-msg {
+				position: static;
+				position: initial;
+				color: #fc5659;
+				top: 0px;
+			}
+
+			[data-v-736ff9c4] .select {
+				width: 100%;
+			}
+
+			[data-v-736ff9c4] .select .vhall-inline {
+				width: 100%;
+			}
+		</style>
+		<style>.vhallPlayer-container {
+  display: block!important;
+  z-index: 90!important;
+}
+.vhallPlayer-container.hiddneControl {
+  display: none!important;
+}
+.vhallPlayerh5-shadow.hiddneControl {
+  display: none!important;
+}
+/*---------------------------------------视频播放器控制栏-----------------------------------------*/
+.vh-player-controller {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  box-sizing: border-box;
+  padding: 0px 20px;
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+  height: 50px;
+  left: 0px;
+  z-index: 30;
+  background: rgba(0, 0, 0, 0.5);
+}
+.vh-player-controller .vh-player-left {
+  width: 16px;
+  height: 18px;
+}
+.vh-player-controller .vh-player-right {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  height: 50px;
+}
+.vh-player-record-control {
+  position: absolute;
+  right: 0px;
+  top: 30%;
+  transform: translateY(-30%);
+  z-index: 25;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+}
+.vh-player-record-control .vh-player-speed {
+  margin-bottom: 10px;
+}
+.vh-player-record-control .vh-player-speed:hover,
+.vh-player-record-control .vh-player-definition:hover {
+  cursor: pointer;
+}
+.vh-player-record-control .vh-player-speed,
+.vh-player-record-control .vh-player-definition {
+  width: 50px;
+}
+.vh-player-record-control .vh-speed-btn,
+.vh-player-record-control .vh-definition-btn {
+  text-align: center;
+  box-sizing: border-box;
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+  line-height: 30px;
+  padding: 5px;
+  background: #333;
+  font-size: 12px;
+}
+.vh-player-record-control .vh-speed-list,
+.vh-player-record-control .vh-definition-list {
+  display: none;
+}
+.vh-player-record-control .vh-player-speed .vh-speed-list {
+  z-index: 100;
+  background: #333;
+  height: 100%;
+}
+.vh-player-record-control .vh-player-speed .vh-speed-list .speed-item {
+  width: 100%;
+  text-align: center;
+}
+.vh-player-record-control .vh-player-definition .vh-definition-list {
+  z-index: 100;
+  background: #333;
+  height: 100%;
+}
+.vh-player-record-control .vh-player-definition .vh-definition-list .vh-quality-item {
+  width: 100%;
+  text-align: center;
+}
+.vhallPlayer-controller-box {
+  padding: 0px 10px;
+}
+.vhallPlayer-controller-box .vhallPlayer-definition-component,
+.vhallPlayer-controller-box .vhallPlayer-speed-component,
+.vhallPlayer-controller-box .vhallPlayer-config-component {
+  display: none;
+}
+.vhallPlayer-controller-box .v-c-left .vhallPlayer-playBtn {
+  margin-right: 15px;
+}
+.watermark-img {
+  max-width: 40px;
+  max-height: 40px;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 1011;
+}
+.watermark-img.mark1 {
+  top: 10px;
+  left: 10px;
+}
+.watermark-img.mark2 {
+  top: 10px;
+  left: auto;
+  right: 10px;
+}
+.watermark-img.mark4 {
+  top: auto;
+  bottom: 10px;
+  left: 10px;
+}
+.watermark-img.mark3 {
+  top: auto;
+  bottom: 10px;
+  left: auto;
+  right: 10px;
+}
+.marquee-label {
+  width: auto;
+  min-height: 20px;
+  position: absolute;
+  right: -100%;
+  top: 15%;
+  white-space: nowrap;
+  -webkit-animation: 6s linear 1s 1 reverse both marque;
+  animation: 6s linear 1s 1 reverse both marque;
+}
+#docFullScreenBtn {
+  position: absolute;
+  top: 20px;
+  left: 30px;
+  width: 30px;
+  height: 30px;
+  border-radius: 15px;
+  background: rgba(0, 0, 0, 0.6);
+  color: #333;
+  z-index: 30;
+  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkBAMAAAATLoWrAAAAMFBMVEVHcEzu7u7////t7e34+Pjt7e3t7e3////y8vLt7e3t7e3t7e3u7u7v7+/t7e3t7e0duasSAAAAD3RSTlMAbQPGDZW4CBPQ7KJMTkjzr+TDAAAAv0lEQVQoz53SMQ6CMBTG8TdoGFy4QQkJOrC6Q3R0aaL3kMmZY3iCrj1Kj+ARGJqYOD37utB+jYtv/OUfKPQRlbNjGTMm5CJxnZD6Re8xJ39qG4LqmL9RsWU/Al0xU3wbIFOsz5AF2kAWiCB7hYNLNq3U+5kkq+F3VENBdDET/TtbMyMt/ERy/AlZl97CniVz6Wmqu2Tyfes8JMspZjnFDOgQMiDJLFB4GgNJllFn4y7ocod0dgvFDvXlDlEr09AXDGWMDVnjKjQAAAAASUVORK5CYII=');
+  background-size: 20px 20px;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: none;
+}
+.vh-full-srceen-doc {
+  position: fixed!important;
+  top: 0px;
+  left: 0px;
+  width: 100%!important;
+  height: 100%!important;
+  z-index: 99999999999999!important;
+  background: #000;
+}
+.vh-full-srceen-doc #doc-content {
+  top: 50%!important;
+  left: 50%!important;
+  transform: translate(-50%, -50%) !important;
+}
+.vh-full-srceen-doc #docFullScreenBtn {
+  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkBAMAAAATLoWrAAAAKlBMVEVHcEz19fXu7u7////t7e3t7e3t7e3////v7+/t7e3t7e3t7e3t7e3t7e3BLMSkAAAADXRSTlMAD20Dv5XMCUuz8qLol+ANWAAAAMFJREFUKM+N0TEKwkAQheHZhGBroblHXDyAlVUg4AmsJZDKi9gFPYIgpPAekiIG5y7OWO28jeKUX/6wySxRPLP2jpRw30TEGyJXdsGLNfdzeTAEWa7Zmh8BOc0yQ5rtgTRbWqIj8wHIlfwCogWzpdQXpSV3YYYq4W80mO2ojDf6b1KvAx+s0/0+JpumK48V0NYeqASXlcmGIJNd15AJ5ZAJyS08G0sEmRJkK/nwVLJT8Nvt7nOnAyzI5xFRca4mVvkGHmmBR0NR+YMAAAAASUVORK5CYII=');
+}
+.marque-hidden {
+  display: none;
+}
+.mobile-flash-default-doc-pic {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  line-height: 180px;
+  color: #999;
+  font-size: 18px;
+  z-index: -1;
+  background: #000;
+}
+@-webkit-keyframes marque {
+  from {
+    right: 100%;
+  }
+  to {
+    right: -110%;
+  }
+}
+@keyframes marque {
+  from {
+    right: 100%;
+  }
+  to {
+    right: -110%;
+  }
+}
+</style>
+		<script type="text/javascript" id="VhallBaseSDK" src="vhall-msg-1.0.7.js"></script>
+		<script charset="utf-8" src="vue.js"></script>
+		<link rel="stylesheet" href="index.css">
+		<script charset="utf-8" src="index.js"></script>
+		<style type="text/css">
+			.vhallPlayer-playBtn {
+				margin-right: 30px;
+			}
+
+			.vhallPlayer-playBtn.play {
+				display: block;
+				width: 16px;
+				height: 18px;
+				background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAkCAMAAADfNcjQAAAAOVBMVEVHcEz///////////////////////////////////////////////////////////////////////99PJZNAAAAEnRSTlMAKuyQatU8BeL5g1MYqZ2+DsbzwSs0AAAAuUlEQVQ4y4WU2RaEIAxDC7K6IOb/P3ZGxzm4lDavXLGEBCKiOQSSNGQgudhdH3Goi8QMiEhAk58YYMJVq3kBDneVmZ+xybrHIfHS/T/LG0AeL+dZwck3bz14DVEB4M9JUg/4T9IHgG3fxAoA0te1LAEoGmCJoAHyDosypDUycHgl+PBzu2t1CvJdlHpe1sZ/PomBwVBbYIqYFi60+dGfZ+yXWSzOFsTqJa56VSuvWn+K2gOyP0Gmv/gBafkv2boUnyIAAAAASUVORK5CYII=);
+				background-repeat: no-repeat;
+				background-size: 100% 100%;
+				cursor: pointer;
+			}
+
+			.vhallPlayer-playBtn.play:hover {
+				background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAkCAMAAADfNcjQAAAAM1BMVEVHcEwAe/8Afv8Aev8Aff8Ae/8Ae/8Aev8AhP8Ae/8Aev8Ae/8AfP8AfP8Af/8Aev8Aev+FxoPtAAAAEHRSTlMA1SrCPOv54Qdoi5p+Uxipzi1PkgAAALFJREFUOMudlFsOhSAMRAvyFJHZ/2qvl5ggQkvi/HJIyzAtEdFpDEnaHeBj4M9RxSLBASJi0KTyBMh4atMDENErnS/geAGwsQcSBvV1ygjAHY/3bJhJNW8V5trDAoC6O/EccHVSAQte9TkSAH+55iQAZQVYIqyAZQmxSatloHrFG3W7zVrtjfwXKYjfbbMYmHZ9HjllxNB2eZvEvpzy4Bhx9Hz+MrzL8aewWiD/FaT5wx+I6Sq+moNA1AAAAABJRU5ErkJggg==);
+			}
+
+
+			.vhallPlayer-playBtn.pause {
+				display: block;
+				width: 16px;
+				height: 18px;
+				background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAkAgMAAADnSrLHAAAADFBMVEVHcEz///////////8Gn9AKAAAAA3RSTlMA40mAJZ3FAAAAHklEQVQY02OYxgAC0xhqwXQtw38w/X/E0rBwgIYLAEoaRA2Bu2/4AAAAAElFTkSuQmCC);
+				background-repeat: no-repeat;
+				background-size: 100% 100%;
+				cursor: pointer;
+			}
+
+			.vhallPlayer-playBtn.pause:hover {
+				background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAkAgMAAADnSrLHAAAADFBMVEVHcEwAev8Aev8Aev8xpZsyAAAAA3RSTlMA40mAJZ3FAAAAHklEQVQY02OYxgAC0xhqwXQtw38w/X/E0rBwgIYLAEoaRA2Bu2/4AAAAAElFTkSuQmCC);
+			}
+		</style>
+		<style type="text/css">
+			.vhallPlayer-time-box {}
+
+			.vhallPlayer-time-box i {
+				font-style: initial;
+				color: #fff;
+				margin: 0 5px;
+			}
+
+			.vhallPlayer-time-box span.current-time {
+				color: #fff;
+				font-size: 14px;
+			}
+
+			.vhallPlayer-time-box span.all-time {
+				color: #bbbbbb;
+				font-size: 14px;
+			}
+		</style>
+		<style type="text/css">
+			html,
+			body {
+				width: 100%;
+			}
+
+			:-webkit-full-screen video {
+				width: 100%;
+				height: 100%;
+			}
+
+			.vhallPlayer-definition-component {
+				margin-right: 30px;
+				position: relative;
+				z-index: 10;
+			}
+
+			.vhallPlayer-definition-component span.vhallPlayer-definitionBtn {
+				color: #ECECEC;
+				font-size: 14px;
+				height: 26px;
+				display: block;
+				line-height: 26px;
+				background: rgba(0, 0, 0, 0.5);
+				border-radius: 13px;
+				cursor: pointer;
+				position: relative;
+				width: 58px;
+				text-align: center;
+			}
+
+			.vhallPlayer-definition-component span.vhallPlayer-definitionBtn:hover {
+				background: rgba(0, 122, 255, 1);
+			}
+
+			.vhallPlayer-definition-component span.vhallPlayer-definitionBtn.active {
+				background: rgba(0, 122, 255, 1);
+			}
+
+			.vhallPlayer-definition-component .definition-popup {
+				padding-bottom: 20px;
+				position: absolute;
+				bottom: 25px;
+				left: 50%;
+				transform: translateX(-50%);
+				list-style: none;
+				width: 120px;
+				border-radius: 4px;
+				box-sizing: border-box;
+				opacity: 0;
+				visibility: visible;
+				display: none;
+				transition: all 0.5s linear;
+			}
+
+
+			.vhallPlayer-definition-component .definition-popup .definition-title {
+				color: #ECECEC;
+				text-align: center;
+				font-size: 14px;
+				line-height: 39px;
+				height: 39px;
+				border-bottom: 1px solid rgba(216, 216, 216, 0.5);
+			}
+
+			.vhallPlayer-definition-component .definition-popup ul.definition-list-box {
+				list-style: none;
+				width: 120px;
+				background: rgba(0, 0, 0, 1);
+				box-shadow: 0px 4px 12px 0px rgba(0, 0, 0, 0.2), 0px 2px 4px 0px rgba(0, 0, 0, 0.1);
+				border-radius: 4px;
+			}
+
+			.vhallPlayer-definition-component .definition-popup ul.definition-list-box li {
+				font-size: 14px;
+				color: #ECECEC;
+				text-align: center;
+				padding: 10px 0;
+				cursor: pointer;
+			}
+
+			.vhallPlayer-definition-component .definition-popup ul.definition-list-box li:hover,
+			.vhallPlayer-definition-component .definition-popup ul.definition-list-box li.active {
+				color: #007AFF;
+			}
+		</style>
+		<style type="text/css">
+			.vhallPlayer-speed-component {
+				margin-right: 30px;
+				position: relative;
+				z-index: 10;
+			}
+
+			.vhallPlayer-speed-component .speed-popup {
+				padding-bottom: 20px;
+				position: absolute;
+				bottom: 27px;
+				left: 50%;
+				transform: translateX(-50%);
+				list-style: none;
+				width: 120px;
+				border-radius: 4px;
+				box-sizing: border-box;
+				opacity: 0;
+				visibility: visible;
+				display: none;
+				transition: all 0.5s linear;
+			}
+
+			.vhallPlayer-speed-component .speed-popup .vhallPlayer-speedTitle {
+				color: #ECECEC;
+				text-align: center;
+				font-size: 14px;
+				line-height: 39px;
+				height: 39px;
+				border-bottom: 1px solid rgba(216, 216, 216, 0.5);
+			}
+
+			.vhallPlayer-speed-component .speed-popup ul.speed-list-box {
+				list-style: none;
+				width: 120px;
+				background: rgba(0, 0, 0, 1);
+				box-shadow: 0px 4px 12px 0px rgba(0, 0, 0, 0.2), 0px 2px 4px 0px rgba(0, 0, 0, 0.1);
+				border-radius: 4px;
+			}
+
+			.vhallPlayer-speed-component .speed-popup ul.speed-list-box li {
+				font-size: 14px;
+				color: #ECECEC;
+				text-align: center;
+				padding: 10px 0;
+				cursor: pointer;
+			}
+
+			.vhallPlayer-speed-component .speed-popup ul.speed-list-box li:hover,
+			.vhallPlayer-speed-component .speed-popup ul.speed-list-box li.active {
+				color: #007AFF;
+			}
+
+			.vhallPlayer-speed-component span.vhallPlayer-speedBtn {
+				color: #ECECEC;
+				font-size: 14px;
+				height: 26px;
+				display: block;
+				text-align: center;
+				line-height: 26px;
+				background: rgba(0, 0, 0, 0.5);
+				border-radius: 13px;
+				cursor: pointer;
+				width: 52px;
+			}
+
+			.vhallPlayer-speed-component span.vhallPlayer-speedBtn:hover {
+				background: rgba(0, 122, 255, 1);
+			}
+
+			.vhallPlayer-speed-component span.vhallPlayer-speedBtn.active {
+				background: rgba(0, 122, 255, 1);
+			}
+		</style>
+		<style type="text/css">
+			.vhallPlayer-progress-container {
+				position: relative;
+				height: 4px;
+				background: rgba(255, 255, 255, 0.5);
+				transition: height .2s;
+				cursor: pointer;
+			}
+
+			.vhallPlayer-progress-container:hover {
+				height: 10px;
+			}
+
+			.vhallPlayer-progress-container .vhallPlayer-progress-play {
+				background: #007AFF;
+				height: 100%;
+				position: absolute;
+				z-index: 2;
+				transition: all .1s ease;
+			}
+
+			.vhallPlayer-progress-container .vhallPlayer-progress-load {
+				background: rgba(255, 255, 255, 0.6);
+				height: 100%;
+				position: absolute;
+				z-index: 1;
+				transition: all .1s ease;
+			}
+
+			.vhallPlayer-progress-container .vhallPlayer-progress-scrubber {
+				pointer-events: none;
+				width: 24px;
+				height: 24px;
+				background: rgba(0, 122, 255, 0.5);
+				border-radius: 50%;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: center;
+				position: absolute;
+				z-index: 3;
+				left: 0;
+				top: 50%;
+				margin-left: -12px;
+				margin-top: -12px;
+				transform: scale(0);
+				transition: all .1s ease;
+			}
+
+			.vhallPlayer-progress-container:hover .vhallPlayer-progress-scrubber {
+				transform: scale(1);
+			}
+
+			.vhallPlayer-progress-container .vhallPlayer-progress-scrubber>i {
+				width: 14px;
+				height: 14px;
+				display: block;
+				background: #fff;
+				border-radius: 50%;
+			}
+		</style>
+		<style type="text/css">
+			.v-p-markpoint {
+				position: absolute;
+				top: 50%;
+				transform: translate3d(-50%, -50%, 0);
+				width: 6px;
+				height: 6px;
+				background: rgba(255, 255, 255, 1);
+				z-index: 10;
+				border-radius: 100%;
+				cursor: pointer;
+			}
+
+			.v-p-markpoint__mark {
+				display: none;
+				position: absolute;
+				bottom: 8px;
+				transform: translate3d(-50%, 0, 0);
+				width: 6px;
+				width: 160px;
+				min-height: 50px;
+				background: rgba(0, 0, 0, 0.8);
+				border-radius: 0px 0px 4px 4px;
+				color: #fff;
+				line-height: 20px;
+				z-index: 10;
+			}
+		</style>
+		<style type="text/css">
+			.vhallPlayer-fullScreen-btn {
+				display: block;
+				width: 18px;
+				height: 18px;
+				background-repeat: no-repeat;
+				background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkBAMAAAATLoWrAAAAMFBMVEVHcEzu7u7////t7e34+Pjt7e3t7e3////y8vLt7e3t7e3t7e3u7u7v7+/t7e3t7e0duasSAAAAD3RSTlMAbQPGDZW4CBPQ7KJMTkjzr+TDAAAAv0lEQVQoz53SMQ6CMBTG8TdoGFy4QQkJOrC6Q3R0aaL3kMmZY3iCrj1Kj+ARGJqYOD37utB+jYtv/OUfKPQRlbNjGTMm5CJxnZD6Re8xJ39qG4LqmL9RsWU/Al0xU3wbIFOsz5AF2kAWiCB7hYNLNq3U+5kkq+F3VENBdDET/TtbMyMt/ERy/AlZl97CniVz6Wmqu2Tyfes8JMspZjnFDOgQMiDJLFB4GgNJllFn4y7ocod0dgvFDvXlDlEr09AXDGWMDVnjKjQAAAAASUVORK5CYII=);
+				background-size: 100% 100%;
+				cursor: pointer;
+			}
+
+			.vhallPlayer-fullScreen-btn:hover {
+				background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAMAAADW3miqAAAAOVBMVEVHcEwAif8Ae/8Ahf8Aev8Ae/8Ae/8Ah/8Aev8AhP8Aev8Aev8Ae/8AfP8AgP8AfP8AfP8Aev8Aev+4UdegAAAAEnRSTlMACdASlWm5A8YNpOx0TBRJTX28Ltb4AAAAtElEQVQ4y63UyxKDIAwF0GCR8LCV+v8f21DAuMCEzvTuGI+MJgGAqcSD48zY7Mc12xitPyMXROQDUu6+u+/kg/BzBSVNFRS9ogqyQVFfBIqqSFENdfUYokyP3sBq2D2M/fWqVmUejJ9AYGKKRkMIf45N7qWZMquLpp6lEkstC9Kuwy6gY5VvR9qw6k0TlYBYSehUIupqE1FTSUZNKehUN4jqfDn7VmiMhvLMTYNx4qYhxqHVBwPDFLiViganAAAAAElFTkSuQmCC);
+			}
+
+
+			.vhallPlayer-fullScreen-btn.full {
+				background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkBAMAAAATLoWrAAAAKlBMVEVHcEz19fXu7u7////t7e3t7e3t7e3////v7+/t7e3t7e3t7e3t7e3t7e3BLMSkAAAADXRSTlMAD20Dv5XMCUuz8qLol+ANWAAAAMFJREFUKM+N0TEKwkAQheHZhGBroblHXDyAlVUg4AmsJZDKi9gFPYIgpPAekiIG5y7OWO28jeKUX/6wySxRPLP2jpRw30TEGyJXdsGLNfdzeTAEWa7Zmh8BOc0yQ5rtgTRbWqIj8wHIlfwCogWzpdQXpSV3YYYq4W80mO2ojDf6b1KvAx+s0/0+JpumK48V0NYeqASXlcmGIJNd15AJ5ZAJyS08G0sEmRJkK/nwVLJT8Nvt7nOnAyzI5xFRca4mVvkGHmmBR0NR+YMAAAAASUVORK5CYII=);
+			}
+
+			.vhallPlayer-fullScreen-btn.full:hover {
+				background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAMAAADW3miqAAAAOVBMVEVHcEwAif8Ae/8Ag/8Ae/8Aev8Aev8Ah/8Ahf8Aev8Ae/8Ae/8AfP8Ae/8Ae/8Ae/8Aev8Aev8Aev84y8xRAAAAEnRSTlMACc8SacW4Aw2V9qIuTXNI6XoUbX2tAAAAuUlEQVQ4y63Tyw6EIAwFUBB5R3T6/x87DFBxAS0m01UTT4rWixBLJU2IkkM7AGi5gEC70isdoh0et3X1yd0xHOW68rnZxwc6jYpA+VWaotA9i0SoIomaumjUFIVsLlSzFRh41AQleI3OaVhuEqL4a9le05U9vnaSr5qqXuN8lSy8QsELEhnyduAkUvkWGlL9UNoYVUKsGFWTzqh2HWiFd4ZUCffclB3/4MvXB1UdTGaKOrlkqTx1LYNfgq4UhFKiYg4AAAAASUVORK5CYII=);
+			}
+		</style>
+		<style type="text/css">
+			.vhallPlayer-volume-component {
+				margin-right: 30px;
+				position: relative;
+			}
+
+			.vhallPlayer-volume-component span.vhallPlayer-volume-btn {
+				display: block;
+				width: 18px;
+				height: 18px;
+				background-repeat: no-repeat;
+				background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACYAAAAoCAYAAACSN4jeAAAAAXNSR0IArs4c6QAAAr9JREFUWAnlmFGLTVEUx+cMJSUvmhdRN29SipopokhCeUAiPoLJJyC+AZ6YklcPrqK8eZh5GQ/yOiOKEoYHD0Ixw5jjt467T/+znHvnHDNz7pZV//Zae6291v/su+8+e5+Bgf9J0jRtGaJ5ZsicAlMgyFOUg30jSPEN4E5g49pZ7L2Nk6PoUfDekfHmeGPEqLwe3PIMOvY31/+lEWIU3Q9eueLBfIKyNRihXVFiFFkLroGFUFDaH+iXwWojIf2ZumLEyD4CnvmCHdv+iTu1uI9TXxU9ezoLJNFmmt1go9lOWtijYJXrX8C+Ai4mSTLnfF1Nau3AeRsMARs7VhpM4AXwHdSRlwTvKU1Ip0+kcfjGxW/L4qz6M53OMxJUVR0jcN0fyaTDJxKXkZ5w/jns4kPS8dgF9TLf4DykRbrpPonG4RsGX12MvSXypZVgzDJojQy8KnpQbf1MgbtV15IVDYOtZVyiNu4T2G0wKP3nCLuR2ZZARYKWpGpO08uS0X3dxc1g/34A5yhNUJZ0sb4qeYkZAp9d7C7LrdO4WK1l9/OzfSDpPZf4uNl9JdYhdN8RG4mFmP2pVLINPoYZe6es0KMhlu9dHYLz1sYwY/7dnM1gDMQKpxImayaWGbM3gMqjzHCbW9MbbIv6dllR2R4DsbYyQn8eps7+EfaCzl/iOO3g58VipkGb3dr0JQt1zpPkpEt0KbcJqHvsOZwP7qGQtyAaiuMY+FkISNNJjbFDWz8Oim8dqU/Y2wrEzKDzb4/WXW/YrnDhT4Xvtfht8e/zpPLDG85lvYxYYS3G2tRaR/DdBHaZGcX1QGNr6dTpdX2bxl/YKI2YSq1idYMpFN+FVx8CgnF9InDk6nxU+ahjG9GZvSqfoR42QsYXgVyvD3fz+If9mEZtCJwG9ukgyAuUA42S6FYMIoNgC9jULeaf7v8FmuWmnmTWVLIAAAAASUVORK5CYII=);
+				background-size: 100% 100%;
+				cursor: pointer;
+			}
+
+			.vhallPlayer-volume-component span.vhallPlayer-volume-btn:hover,
+			.vhallPlayer-volume-component span.vhallPlayer-volume-btn.active {
+				background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACYAAAAoCAYAAACSN4jeAAAAAXNSR0IArs4c6QAABBtJREFUWAnlWEtoVGcU/s4kUYuhXYRQEKXBTZ9ULFaq1EUXBUWlD/qg0KZQCVFE68rFzCSOmmRTmkQQjS200EW7sC9ooYUiXbQuUkuhwVQo6CqVgggSIzWxk+N37szc+/93XnfGwIie4fKf/5xzz/nmf55zgfuKctoDe+6A5A7eLX91QN/AIgaheDJQCi6gDe/jiPxUblxbsjTARrQLN3CSgF6vEG6e4F7EUfmlgq6qKFVVk1SR1R0Edb4KKPOyHHkcTuquZNdeYhpuc/ogbmGMU/de2buCmwS6IpQLng35hExzIzaoLxDUFINXAvU7BM948RWdXj9BpzFgo/oA0jqO/3GGoB7x/AulQA4d2IQhueDpmugkn8qMbsRVfMYYj5bFEUwTaC9G5I8yXZOCCFhG19DHZk7DqjJfih4G3kt5m6cTrjBgFA8ji/0y7+lqdQZ0PTfE5zTpZrwshmUibl4AltYMAx+isoNtUrpEw3fp9NekL4R2eXxI/rGgrziBAZ3lcWJAQ0oho2+xN8SnI5TWZ05hGdY1Bcp8C38R2bh/ShzPRyLAFv8BV1CHn6F+K9fSbuRkro5tdXUKB6n8LzRQ/k3gI15jhRlkp51Tty40KDBjsb79Q1s/57mWvmxoLZU5KgqOyjlk9W3GPs2ncDIoHue+7qPFSbMSbn9/VY2IO8xFT000Sfym9QQ973G8X8YwVkNEGzvHHA9LwnYGG+6642sVU4DnrN9aYGm5QgTfOMDAqX2l9cAMgeJbD9giNt4dwISbyqXiAd/aqTRAD+Gyi4sjGNw8rQeW55HlkyUDLV78hmAudjdLYQRbP2Iay92Af+6OEVO8akBCEpw1vrUjlgtKvO0hKGPa8bU1rQW2gA+IYbkBKdLfTA6mjLcdYRd0pEzrqCk8sks8xSy1m5duIwmh5yTWyeo+pjuveVLhhVQkYR40ybMjOG1LwhrtDAH2Maf/sYZNQVXrEs/qy4z5FR93xs4ynQpzMlOM1w0SGazmv/yBGckEc6eGK5/QjeK4B0owy6S9P9STSTEL/YJtls8tV1GH78cC/mRKvKWOXTW11Qolmmfy9RJT6+mSwNoo91rqYqTWVKZ1GyN/zPgGcC8H5zsD41IEzJVW4q18A8s3rVC+AX9R945XvtUCVsl/TOYuvpgq1h2W39CF9ZQe4+NnvcATHIFJrr1Dbt4e89BQN/mIuW7tE0GelU28GjcbgX0i6OUk2ShG1GDKnnzEohDg966fWew9TQCfuOKAV2wgYL8iF1wrs6sjaA6YOc3JLBftLu7rnQT4rxfH/dJjCsU5T5+g0zywkvMh+R4r8RTBnS6JYm2eZ1QmJqvbbW6NVXOb0Tc5OiNUrw1MBBeDg/OInKn2SjX50gKzKLmgJOwht8Dptsr93qLbJNAFdZSMm/cAAAAASUVORK5CYII=);
+			}
+
+			.vhallPlayer-volume-component span.vhallPlayer-volume-btn.active.mute,
+			.vhallPlayer-volume-component span.vhallPlayer-volume-btn.mute:hover {
+				background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACwAAAAkCAYAAADy19hsAAAAAXNSR0IArs4c6QAAA+9JREFUWAnFWU1oE1EQnpekKiqCIoJStSIqKIKitypSKhXxrB48aBE9SIsFa9UkxS020VMPvQgeSlEqWEE9CP6cqqLgQVDRgwdBUCiIKP7Satvxm90ku6+7m2w2m+TBy743M2/m29nZefM2iqJsBm+kf9QDlftyau+Roj7qV++jMqMiUTTKcXpJ3dDVhz5X06loHKB3RgU6pikPM0nzBoB9iqWX0HWwoo9pOfpFGUbREqGVGByjKToJMFnomFdCT2sJfmB2OA+neS1i9RHN0AAA62AVfUEIHNAQMC3R5hVMygPMrCjFHQD5Gn2Hy66i29RAmyijbrp4ERGCh4TBTZSiIdht8bD9DV7tBNARD16kJBuwwfNpmrbiMa/wsLAaIXAe9IUunqK78PZxgB138apAsACn+DAADcLwojJsfIdsF4AOl7GmYtEEpbkNXi3PqKKHiNWjZKhPFSMoU0ECXu0tY81PxGo3vHqljDW6aJL3gmCtjyHu+9UdXcAxS/MaOPMabG5GvwzZs4qS/AsiCwpiitxvONMkFryFV4fg1c8F2WKDJLPGziprV03yR9Abc7xp6D0EB9zQZGVigR3DaJVMzRan7RLDNlihZpSeQ03Jqv3E8YRHkCrFrg3aC2wOQnl5OArcEgaEfGS3POiDJskPrMLTvaBe1B6wxKyEgTfoDsTsGHh2GMhdxOgqwvGYNZTfWjd5/N6gBwHFDTZB7Xh3ZgRm7T2cd443aL3cFc86wNYXsFi3QHdhpGcU4Sl6PBuskOvnYbEuLxjTaYx0zwqPqRm7734ZOlv9APtlAxudnj1y9PoA9gMrYeCdPayUB2btAfuBtVJXi0/2kM3FBF17wFIbFEtd3tkjjjXDZHBj7QFLIeNsHqkrlz30zUWOYlO0XmqJ3+h2PZHiUac+cxym+HEpyRGk6mI6Y85ku01gB8ttCtoS8bTUGOJZAavoFWSfyRntCQju85m2ujAJXl76VWuiqpe3mRpRGxQ0+w1SvBJg1wlY3NiElJd7IHvfT96THqSALwbYU2kwYoyy6gFE23EXP4ItgRRTG/2lN7jZI4HXRCRo7zClDqGEQygXOYRmZx1Cq+RhG3ApDxjcBK8OQazFQ/QbxakD9er1Aq9KgIOnNUN9oAy1InQ60f8UgFmDxSjJJbnfQq5cNosX6TS4h51m5VMVm+nGnV3kUxXRCfD19Jg/0zn1hBgH97BTuXzvbaBd8PQp9AknC0CXusDKJ9eIWjjAYlySfUYNAPAWzJ4XxcP4cBhRCw84D6BfvQPkZgA/B9Jknly4KvpKc8yat0CqZBAuhv0sWn8ZGAiJ3biBSVzHcO3Bk5BvEZG0/7wSMnd7T3dqAAAAAElFTkSuQmCC);
+			}
+
+			.vhallPlayer-volume-component span.vhallPlayer-volume-btn.mute {
+				background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACwAAAAkCAYAAADy19hsAAAAAXNSR0IArs4c6QAAAwhJREFUWAnVmT1PFFEUhhmwMGptYUDZbGFiZ/AXUGjsaAyJFNJIZaMNdrb+AysJ2BAxsbKxMRKNsaXwBxASSDQYNRI0UdbnrPfsnjnemd3lzjJ4k5fzdc8579ydjzvDyEiFo9VqXQLL4FPAE2SzwhbVlILUGFgEP4Af2ziOD2nIXATvPUtnr1WzNAlVIDQK7oJ9Ry5m7ia0Sk+FURO8iTHDJ+fvDR9L73qICpDIwB2w5wkF+znyrJT28UO0S0uBwCR45YkE+zNyznbw82wsRT+hyTQ4hX4ZnFOfkRfQH4AzxqfqC5SFLMt21DF0Cdlb4CsYZHxh8nwROV+oaN7Afgpf9cX7sF8yZ7ysma9RNnegGIWLrnbfU+xvYKGfBj5Zc/BfB1sBM+qPSeY0wFsgv/5DmSNX/XfkaZPwzOiq/kT5AJY4Vz+qs0xSt2Xj5GVi495C6K/zG32O0FOJ2cG8BvZrcN74rwzt9iOE7dCm+GR17fiFMatxkdiyspt2UtCn6iA8Q3MhaUeHNM4iso/bB2WzRLdHmqKX1SU2C2Kk5aEUW9kV/KO1EZbGBaQP8PvRJRsScxPaR1HBn1xRjFhJ3LGVtql5snUTDv3lNIit7Dr+v6eBPVp7OKLbWIreT13mNMCmnxvszoWY4+En54IJRq+6xMvIavq/pDWiMoFjLlXrqbRBfEVk14nF7h7d+7QWVGkLp+haT6XWwi4iu0JM3mJiF2J3pbWgSi2cKrWeSq2HLXsDP9pkzZwY6X2Sxut40vltbI5sD9LTsoHfA53ND0cRe8MdePOjjSPyEb7F4F9C3mbzc+DnyYYILuJeBifBBngnK3yk20uaSs8pgei9BvMmwDQQ0u3kaxiDjvo28IH0PIz9udXrIGp5RWpvqgPpSl9C5Wilrg7OyU4v9Q1V0n8SlL3m37QEhLAdNnZkOgQy8H98SLGrAukmKLq7HJ9PVY60PEbvAXkC9RrbNrdWHab9fG5drZWkbw7pMXAfxD5o7+LX13qfWq8NMfmXwRqQj4M7YBVMVMnqDxwn/eKOnMdZAAAAAElFTkSuQmCC);
+			}
+
+			.vhallPlayer-verticalSlider-popup {
+				position: absolute;
+				bottom: 18px;
+				left: 50%;
+				transform: translateX(-50%);
+				width: 40px;
+				padding-bottom: 27px;
+				z-index: 10;
+				display: none;
+			}
+
+			.vhallPlayer-verticalSlider-popup .vhallPlayer-verticalSlider-box {
+				width: 40px;
+				height: 110px;
+				background: rgba(0, 0, 0, 0.7);
+				box-shadow: 0px 4px 12px 0px rgba(0, 0, 0, 0.2), 0px 2px 4px 0px rgba(0, 0, 0, 0.1);
+				border-radius: 2px 0px 0px 2px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+			}
+
+			.vhallPlayer-verticalSlider-popup .vhallPlayer-verticalSlider-box .verticalSlider-range {
+				width: 4px;
+				height: 90px;
+				background: rgba(255, 255, 255, 0.3);
+				border-radius: 2px;
+				position: relative;
+				cursor: pointer;
+			}
+
+			.vhallPlayer-verticalSlider-popup .vhallPlayer-verticalSlider-box .verticalSlider-range .verticalSlider-value {
+				background: rgba(0, 122, 255, 1);
+				border-radius: 2px;
+				width: 100%;
+				position: absolute;
+				bottom: 0;
+				height: 0%;
+				pointer-events: none;
+			}
+
+			.vhallPlayer-verticalSlider-popup .vhallPlayer-verticalSlider-box .verticalSlider-range .verticalSlider-circle {
+				width: 8px;
+				height: 8px;
+				background: rgba(236, 236, 236, 1);
+				box-shadow: 0px 0px 6px 0px rgba(1, 122, 253, 0.8);
+				border-radius: 50%;
+				position: absolute;
+				left: 50%;
+				transform: translateX(-50%);
+				top: 100%;
+				margin-top: -4px;
+			}
+		</style>
+		<style type="text/css">
+			.vhall-player-switch {
+				user-select: none;
+			}
+
+			.vhall-player-switch input {
+				display: none;
+			}
+
+			.vhall-player-switch .button-label {
+				position: relative;
+				display: inline-block;
+				width: 50px;
+				border-radius: 30px;
+				overflow: hidden;
+				height: 22px;
+				background: #444444;
+				cursor: pointer;
+			}
+
+			.vhall-player-switch .circle {
+				position: absolute;
+				top: 0;
+				left: 0;
+				top: 50%;
+				transform: translateY(-50%);
+				width: 18px;
+				height: 18px;
+				border-radius: 50%;
+				background-color: #fff;
+			}
+
+			.vhall-player-switch .button-label .text {
+				line-height: 22px;
+				font-size: 14px;
+			}
+
+			.vhall-player-switch .on {
+				color: #fff;
+				display: none;
+				text-indent: 10px;
+			}
+
+			.vhall-player-switch .off {
+				color: #fff;
+				display: inline-block;
+				text-indent: 25px;
+			}
+
+			.vhall-player-switch .button-label .circle {
+				left: 0;
+				transition: all 0.1s;
+			}
+
+			.vhall-player-switch>input:checked+label.button-label .circle {
+				left: 30px;
+			}
+
+			.vhall-player-switch>input:checked+label.button-label .on {
+				display: inline-block;
+			}
+
+			.vhall-player-switch>input:checked+label.button-label .off {
+				display: none;
+			}
+
+			.vhall-player-switch>input:checked+label.button-label {
+				background-color: #007AFF;
+			}
+		</style>
+		<style type="text/css">
+			.vhallPlayer-config-component {
+				margin-right: 30px;
+				position: relative;
+				z-index: 10;
+			}
+
+			.vhallPlayer-config-component span.vhallPlayer-config-btn {
+				display: block;
+				width: 18px;
+				height: 18px;
+				background-repeat: no-repeat;
+				background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACYAAAAkCAYAAADl9UilAAAAAXNSR0IArs4c6QAAAqFJREFUWAm1mD9rFUEUxbMSIhZpBC20SKFtJK1tLAQ/hEJKG5tgrIQEkyJ+hxSCVlYWghDB3iKCoIUWil3AKoVi8/ydMLPM3jczu7M778JhZu7fs7uTO/PSLBXIbDZbwf0OuAUuFoT+xPdD0zQa6wqk1sFnMFb+ErhdlRUJN8DvsYxM3GEVcpVJeY695Joce5HC/h5cNn6vWH83utTyAoaHwOZ4zp57nApK6jNvqvdpbdJquaolChhOzjk5QUDGTkfnHh1oGWTWxTUIUJ+KtYTiPZXhdW7KkDvoxOK4AmLNszopXzhD7q73WcLpHrCyMFK+MAVjjfutt4vYjmH1sjVmJsSsgl1wAs4cNJduNRPamvC7DUL5FRqfhhbmu60xMcFnE/wwceFSts1EeKvG50oYxPxURnXlYnEFjwlcywTLdux8M25xUzExCukTHYHscebKyefIxTjVsKGYGGl1dQnf1D/WT8A1B82l8yLfcdcdnmjwHsP3EwhlxzPwI0b7x3TibXbEt9oeu2GSvzBrLa3uZsQnqxrzKbMJaxnHELP3sPsRMlZnYyIhXdVydzlo9QYvXSC97LFPNPefT6T2vNGNiikXEpdsfnX7XGPF3BH5Jk8BbEWbP/mJuQ6f8ehb4Pw19bwG+Wy5mJRruh/C+gEIRdef8HPNJcU++UgixzJ4DUL52BZDuwb0uy+UIeT8Ia7eVnSI4x8jpfrPWmKaoNiW1kgvuU6SgQtqpEh9xXZpLg3KQ0NMy6rkyJci9Q3b9TlSXoFxYeRGk1okucmkFkGuGqkB5HQdVmMcgqv42ZaAapbfU55EaiRBbM8p8RSZRsqThUFNcnVIBeQOprwiF/uFMd0SfDHG9DkVOPkpSfVj9BFYB6X/6nxHzD7n5h/GXvkPWpzNoOd1xckAAAAASUVORK5CYII=);
+				background-size: 100% 100%;
+				cursor: pointer;
+			}
+
+			.vhallPlayer-config-component span.vhallPlayer-config-btn:hover,
+			.vhallPlayer-config-component span.vhallPlayer-config-btn.active {
+				background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACYAAAAkCAYAAADl9UilAAAAAXNSR0IArs4c6QAAA2pJREFUWAm9WL9PFEEU/uZCMCZKQaxsLLQUQ/wLjJBoQbSwp6CkITGiBA8kBE4QaksLC2JNR4KGys4EY6EFDYWWFGpiQGV83+7O3ezuzO7MevqSuZl5P797+/bN3CnE0JIexAnGxOQaFM5EmB6K7h5WFecgUkFaVFrQI/iNLVldDbbJKx7Ll2kLuM08270LAzavR8Xpa2gMu91EcFvYwIp6WGdRD6yfoAyaAHDVwPygtiSDByZOzdwS+XQp2zXg/MB8oGocOkE28OUG1sCRE5DNjPRZBhbpwI5du47wnQcWYVgLwqcQGIOFmRL7lKslNKkp49M1d9S+vAhjEusoJz7FLNq6Y3hpxtKO/k6Y+ebZb1AmKmdf5oDb6KidNGO/MP5fQRGYL3MKMxQP8AOnGEnm3sdWSHfGuj6Pr3ggZndkXMnM2d+2MYRNPFLfMp57IrgFPSFH3duugk6xpBkrHsghzbOtbwqoD1IvizJGZZzLBteLiYw6dXS21KiTy0Gv+Osc2HIGPMWuALhks3NryqgTAi5nmG7igfHxabwQ83yrcThPdKhLm0iKB8aasjOl5IYGzMm4mI05gUxeStRN69Bwgua0+INUu0p3uysuWE8dtW7x1qUVcLtm8fhyPLH2tcv4jAGXC15fFvbcFnnmjXWoullNgLk99ZnbBFjxHjbpwFTkFW0cJnlWkxrbFhejXTcKy1lNmcc3KcW/LLVnE22iKD5j7OgKh90oGoOyZqF/ycaagCIvJerSJpJ8wHx8JMeMwpTEyefEHVjLl5iqPJpORMNBBkAvA6nSdHL6OwwS1op6g5Yc/HbmirqUUYe6PlrSA/iJ5zlx5tMA2xPhcVeBP9N4N+PVxEcMOCQHLutJ4b2M79nYT3iU1YN6JXm/lwuhsMN9L42PNTv6RkHpSHhjyRUlJ/jLTZqpMijgEy7gOu6rHyZjSH4h82JoU0jmbP2QtR/UgaRpnKDoppcx47Stn8mtYNZsk5nX4H5krhrUDUnOZxO3DIySfwEuAhQhuIH1G1wkqGpgVeBamED55kmLMrFPsSUU3z7IzVUh9/hsY3/GjJbrsRpZ87kSFN3WA6NWf8HVgmLIXrvgzkf8P6uFpz5xMF/hY9Xjs/2EZcxYzOtb4nhG6oU/98L/6uQxw44+jFXTp4xL3/wHz7c+kBW6maYAAAAASUVORK5CYII=);
+			}
+
+			.vhallPlayer-config-component .vhallPlayer-config-popup {
+				position: absolute;
+				bottom: 18px;
+				padding-bottom: 27px;
+				z-index: 10;
+				right: -47px;
+				display: none;
+			}
+
+			.vhallPlayer-config-component .vhallPlayer-config-popup .vhallPlayer-config-box {
+				width: 143px;
+				background: #000000;
+				padding: 20px;
+				box-shadow: 0px 4px 12px 0px rgba(0, 0, 0, 0.2), 0px 2px 4px 0px rgba(0, 0, 0, 0.1)
+			}
+
+			.vhallPlayer-config-component .vhallPlayer-config-popup .vhallPlayer-config-box .vhallPlayer-config-item {
+				display: flex;
+				flex-direction: row;
+				justify-content: space-between;
+				align-items: center;
+			}
+
+			.vhallPlayer-config-component .vhallPlayer-config-popup .vhallPlayer-config-box .vhallPlayer-config-item span.looptext {
+				font-size: 14px;
+				color: #ffffff;
+			}
+
+			.vhallPlayer-config-component .vhallPlayer-config-popup .vhallPlayer-config-box .vhallPlayer-config-item.loop.disabled {
+				pointer-events: none;
+			}
+
+			.vhallPlayer-config-component .vhallPlayer-config-popup .vhallPlayer-config-box .vhallPlayer-config-item.loop.disabled .looptext {
+				color: rgba(68, 68, 68, 1);
+			}
+
+			.vhallPlayer-config-component .vhallPlayer-config-popup .vhallPlayer-config-box .vhallPlayer-config-item.loop .vhall-player-switch .button-label {
+				width: 25px;
+				height: 11px;
+			}
+
+			.vhallPlayer-config-component .vhallPlayer-config-popup .vhallPlayer-config-box .vhallPlayer-config-item.loop .vhall-player-switch .button-label .circle {
+				width: 9px;
+				height: 9px;
+			}
+
+			.vhallPlayer-config-component .vhallPlayer-config-popup .vhallPlayer-config-box .vhallPlayer-config-item.loop .vhall-player-switch>input:checked+label.button-label .circle {
+				left: 15px;
+			}
+		</style>
+		<style type="text/css">
+			* {
+				margin: 0;
+				padding: 0;
+			}
+
+			.vhallPlayer-container {
+				position: absolute;
+				width: 100%;
+				bottom: 0;
+				user-select: none;
+				opacity: 1;
+				transition: all 0.15s;
+				visibility: visible;
+				z-index: 99999999999999999;
+			}
+
+			.vhallPlayer-container.hide {
+				visibility: hidden;
+				opacity: 0;
+			}
+
+			.vhallPlayer-container.close {
+				display: none !important;
+			}
+
+			.vhallPlayer-container .vhallPlayer-barrage-box {
+				display: flex;
+				flex-direction: row;
+				align-items: center;
+				padding: 0 30px;
+				background: #010001;
+				height: 50px;
+			}
+
+			.vhallPlayer-container .vhallPlayer-controller-box {
+				height: 50px;
+				background: rgba(0, 0, 0, 0.5);
+				display: flex;
+				flex-direction: row;
+				align-items: center;
+				padding: 0 30px;
+				justify-content: space-between;
+			}
+
+			.vhallPlayer-container .vhallPlayer-controller-box .v-c-left {
+				display: flex;
+				flex-direction: row;
+				align-items: center;
+			}
+
+			.vhallPlayer-container .vhallPlayer-controller-box .v-c-right {
+				display: flex;
+				flex-direction: row;
+				align-items: center;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app" style="min-width: 1200px;">
+			<div class="mask"></div>
+			<div class="vh-toast"></div>
+			<div class="app-pc">
+				<div class="l-contain">
+					<div class="demo-tool-tip" style="display: block;">小助手</div>
+					<div class="vh-doc-control" style="display: block;"><span class="doc-contorl-move">移动</span> <span class="doc-contorl-in">放大</span>
+						<span class="doc-contorl-out">缩小</span> <span class="doc-contorl-reset">重置</span> <span class="doc-contorl-next">下一页</span>
+						<span class="doc-contorl-prev">上一页</span></div>
+					<div class="demo-control">
+						<div class="demo-control-flash"><span class="demo-btn-speed-list">倍速列表(回放)</span></div>
+						<div class="demo-control-flash"><input id="demoSetSpeed" placeholder="0.5, 1, 2"><span class="demo-btn-set-speed">倍速(回放)</span></div>
+						<div class="demo-control-flash"><span class="demo-btn-barrage-open">打开弹幕</span></div>
+						<div class="demo-control-flash"><span class="demo-btn-barrage-close">关闭弹幕</span></div><span class="demo-btn-set-barrage-style demo-control-flash">设置弹幕样式</span>
+						<span class="demo-control-definition demo-control-flash">获取清晰度列表</span>
+						<div class="demo-control-flash"><select id="demoDefinitionVal"></select> <span class="demo-btn-definition">清晰度</span></div><span
+						 class="demo-btn-play demo-control-flash">播放</span> <span class="demo-btn-pause demo-control-flash">暂停</span>
+						<span class="demo-btn-destroy">销毁播放器</span> <span class="demo-btn-chat-live">获取直播历史聊天消息</span> <span class="demo-btn-chat-record">获取回放历史聊天消息</span>
+						<span class="demo-btn-quesAns-record">获取回放问答记录</span> <span class="demo-btn-quesAns-live">获取直播问答记录</span> <span
+						 class="demo-btn-announcement">获取历史公告记录</span> <span class="demo-btn-room-info">获取当期那活动状态</span> <span class="demo-btn-user-info">获取当前用户参会信息</span>
+						<span id="flashQuesBtn">发送flash问卷答案</span>
+						<div><input id="demoChangeName"><span class="demo-btn-change-name">改昵称</span></div>
+					</div>
+					<div class="doc-wrap" id="docWrap" style="visibility: hidden;">
+						<div id="docFullScreenBtn"></div>
+						<div id="doc-content" style="position: absolute; left: 0px; display: none;"></div>
+						<div id="board-content" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; margin: auto; display: block; width: 1408px; height: 792px; overflow: auto;">
+							<div id="vh-drag-area-57825" width="100%" height="100%" style="width: 1408px; height: 792px; position: absolute; overflow: hidden;">
+								<div class="canvas-container" style="width: 1408px; height: 792px; position: relative; user-select: none;"><canvas
+									 id="vh-canvas-94781" style="position: absolute; z-index: 2; width: 1408px; height: 792px; left: 0px; top: 0px; touch-action: none; user-select: none;"
+									 class="lower-canvas" width="1408" height="792"></canvas><canvas class="upper-canvas " width="1408" height="792"
+									 style="position: absolute; z-index: 2; width: 1408px; height: 792px; left: 0px; top: 0px; touch-action: none; user-select: none;"></canvas></div>
+							</div>
+						</div>
+						<style>#doc-content::-webkit-scrollbar,#board-content::-webkit-scrollbar{display:none;}</style>
+					</div>
+				</div>
+				<div class="r-contain">
+					<div class="video-wrap" id="video" style="position: relative;"><video id="vh-video" width="100%" height="100%"
+						 crossorigin="anonymous" z-index="0" webkit-playsinline="true" playsinline="true" x5-playsinline="true"
+						 mtt-playsinline="true" poster="http://cnstatic01.e.vhall.com/static/img/video_default_nologo.png" autoplay=""
+						 src="blob:http://cnstatic01.e.vhall.com/0989d858-2638-46a1-8c1e-88c1f3644128"></video><canvas id="vh-barrage"
+						 width="300" height="180" style="position: absolute; pointer-events: none; left: 0px; top: 0px; z-index: 5;"></canvas>
+						<div class="vhallPlayer-container hiddneControl" style="display: none;">
+							<div class="vhallPlayer-progress-box"></div>
+							<div class="vhallPlayer-controller-box">
+								<div class="v-c-left"><span class="vhallPlayer-playBtn play"></span></div>
+								<div class="v-c-right">
+									<div class="vhallPlayer-definition-component"><span class="vhallPlayer-definitionBtn">480p</span>
+										<div class="definition-popup">
+											<ul class="definition-list-box">
+												<div class="definition-title">清晰度</div>
+												<li>原画</li>
+												<li class="active">480p</li>
+												<li>360p</li>
+												<li>音频</li>
+											</ul>
+										</div>
+									</div>
+									<div class="vhallPlayer-volume-component"><span class="vhallPlayer-volume-btn"></span>
+										<div class="vhallPlayer-verticalSlider-popup">
+											<div class="vhallPlayer-verticalSlider-box">
+												<div class="verticalSlider-range">
+													<div class="verticalSlider-value" style="height: 50%;"></div>
+													<div class="verticalSlider-circle" style="top: 50%;"></div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="vhallPlayer-config-component"><span class="vhallPlayer-config-btn"></span>
+										<div class="vhallPlayer-config-popup">
+											<div class="vhallPlayer-config-box">
+												<div class="vhallPlayer-config-item loop disabled"><span class="looptext">循环播放</span>
+													<div class="vhall-player-switch loop" id="loop"><input type="checkbox" id="vhall-toggle-button" name="switch">
+														<label for="vhall-toggle-button" class="button-label">
+															<span class="circle"></span>
+
+														</label></div>
+												</div>
+											</div>
+										</div>
+									</div><span class="vhallPlayer-fullScreen-btn"></span>
+								</div>
+							</div>
+						</div>
+						<div class="vh-player-controller">
+							<div class="vh-player-left">
+								<span class="vh-play-btn" id="vhPlayBtn"></span>
+								<span class="vh-pause-btn" id="vhPauseBtn"></span>
+							</div>
+							<div class="vh-player-right">
+								<div class="vh-player-definition">
+									<div class="vh-definition-btn" id="vhDefinitionBtn">480p</div>
+									<div class="vh-definition-list" style="display: none;">
+										<div data-id="same" class="vh-quality-item">原画</div>
+										<div data-id="480p" class="vh-quality-item">480p</div>
+										<div data-id="360p" class="vh-quality-item">360p</div>
+										<div data-id="a" class="vh-quality-item">音频</div>
+									</div>
+								</div>
+
+								<div class="vh-player-voice">
+									<div class="vh-voice-btn" id="vhVoiceBtn"></div>
+									<div class="vh-voice-list">
+										<input type="range" id="vhVoiceSlide" min="0" max="100" step="1" value="1">
+									</div>
+								</div>
+
+								<div class="vh-player-barrage">
+									<div class="vh-barrage-btn" id="vhBarrageBtn">弹幕</div>
+									<div class="vh-barrage-list">
+										<div class="barrage-item" id="vhBarrageOn">开弹幕</div>
+										<div class="barrage-item" id="vhBarrageOff">关弹幕</div>
+									</div>
+								</div>
+
+								<div class="vh-screen">
+									<div class="vh-fullscreen-item" id="vhFullScreen"></div>
+									<div class="vh-fullscreen-item" id="vhExitFullScreen"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="menu-tab">
+						<div class="menu-tab-item active"><span>聊天</span></div>
+						<div class="menu-tab-item"><span>公告</span></div>
+						<div class="menu-tab-item"><span>问答</span></div>
+					</div>
+					<div class="room-content">
+						<div class="chat-content"></div>
+						<div class="notice-content"></div>
+						<div class="qa-content"></div>
+					</div>
+					<div class="room-interact">
+						<div id="chatControl" class="msg-control">
+							<div class="face-pannel"></div>
+							<div class="pic-tool"><span id="facePannel">表情</span></div>
+							<div class="send-msg chat-send-control"><input id="chatMsg" class="chat-msg" placeholder="请输入聊天内容"> <button
+								 class="chat-send-msg" id="sendMsg">发送</button></div>
+							<div class="send-msg qa-send-control"><input id="qaMsg" class="qa-msg" placeholder="请输入问答内容"> <button class="qa-send-msg"
+								 id="qaSendMsg">发送</button></div>
+						</div>
+						<div class="mobile-doc-control"><span class="mobile-doc-move">移动</span> <span class="mobile-doc-in">放大</span>
+							<span class="mobile-doc-out">缩小</span> <span class="mobile-doc-reset">重置</span> <span class="mobile-doc-next">下一页</span>
+							<span class="mobile-doc-prev">上一页</span></div>
+					</div>
+				</div>
+				<div class="sign-wrap">
+					<div class="sign">
+						<div class="sign-header">签到 <img class="sign-close" src="modal-close.png"></div>
+						<div class="vh-sign-content"><img class="sign-img" src="sign-icon.png">
+							<div class="sign-title">主持人发起了签到</div>
+							<div class="sign-time">您还有<span class="sign-second">0秒</span>钟签到时间</div><button class="sign-btn">签到</button>
+						</div>
+					</div>
+				</div>
+				<div class="vh-lottery-wrap">
+					<div class="vh-lottery">
+						<div class="lottery-header"></div>
+						<div class="lottery-info">
+							<div><span>手机号</span><input id="lotteryPhone"></div>
+							<div><span>姓名</span><input id="lotteryName"></div>
+							<div><span>备注</span><input id="lotteryMark"></div>
+							<div class="lottery-submit"><button id="lotterySubmit">提交</button></div>
+						</div>
+					</div>
+				</div>
+				<div class="questionarie">
+					<div class="questionarie-header">问卷 <img src="modal-close.png"></div>
+					<div class="sign-content">
+						<div id="questionWrap"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="pushstream.js"></script>
+		<script src="socket.io.min.js"></script>
+		<script src="swfobject.js"></script>
+		<script>
+			window.onload = () => {
+				// pc和mobile页面布局差异化
+				const _isPC = isPc()
+				let roomContentWrap = document.querySelector('.r-contain'),
+					tabMenus = document.querySelectorAll('.menu-tab-item'),
+					tabMenuWrap = document.querySelector('.menu-tab'),
+					docDom = document.createElement('div'),
+					tabDom = document.createElement('div'),
+					pcDocWrap = document.querySelector('.l-contain'),
+					sendMsgBtn = document.getElementById('sendMsg'),
+					qaSendMsgBtn = document.getElementById('qaSendMsg'),
+					facePannelBtn = document.getElementById('facePannel'),
+					facePannelWrap = document.querySelector('.face-pannel'),
+					signCloseBtn = document.querySelector('.sign-close'),
+					signBtn = document.querySelector('.sign-btn'),
+					chatControlContent = document.getElementById('chatControl'),
+					chatSendBtn = document.querySelector('.msg-control .chat-send-control'),
+					qaSendBtn = document.querySelector('.msg-control .qa-send-control'),
+					toastTimer = null, // toast timer
+					environment = '',
+					STATIC_URL = '',
+					IMG_HOST = '',
+					// 签到用参数
+					signParams = {
+						_openSignStatu: false, // 签到面板状态
+						_sign_timer: null,
+						_sign_id: '' // 签到id
+					},
+					// 聊天表情面板
+					chatFace = {
+						_openFasePannelStatu: false // 打开只绑定一次点击事件
+					},
+					// 问答开关状态
+					_qa = {
+						status: false
+					},
+					// 抽奖
+					lottery = {
+						id: ''
+					},
+					_userInfo = {
+						third_user_id: ''
+					}
+
+				// 根据不同终端类型自动添加doc容器
+				docDom.setAttribute('class', 'doc-wrap')
+				docDom.setAttribute('id', 'docWrap')
+				tabDom.setAttribute('class', 'menu-tab-item')
+				tabDom.innerHTML = `
+                <span>文档</span>
+            `
+				// pc和mobile页面结构区别设置
+				if (_isPC) {
+					app.style.minWidth = '1200px'
+					pcDocWrap.append(docDom)
+					document.querySelector('.demo-tool-tip').style.display = 'block'
+				} else {
+					pcDocWrap.style.display = 'none'
+					roomContentWrap.classList.add('app-mobile')
+					document.querySelector('.sign').classList.add('mobile-sign')
+					document.querySelector('.app-mobile .room-content').append(docDom)
+					tabMenuWrap.append(tabDom)
+					tabDom.addEventListener('click', (e) => {
+						facePannelWrap.style.display = 'none'
+						clickTab(e, tabDom)
+					})
+					facePannelBtn.style.display = 'none'
+					document.querySelector('.demo-control').style.display = 'none'
+				}
+
+				// 初始化实例
+				let SDK = new VhallSDK({
+					account: getQueryString('account'),
+					email: getQueryString('email'), // 可选
+					roomid: getQueryString('id'),
+					username: getQueryString('username') ? getQueryString('username') : '',
+					app_key: getQueryString('app_key'),
+					signedat: getQueryString('signedat'),
+					sign: getQueryString('sign'),
+					videoContent: '#video',
+					docContent: '#docWrap',
+					x5_video_fullscreen: true,
+					x5_video_type: null,
+					plugins: ['chat', 'doc', 'player', 'interactTools'],
+					questionarieContainer: '#questionWrap'
+				})
+				// 区分h5和flash控件
+				setTimeout(() => {
+					if (!SDK.config.vss) {
+						let demoDoms = document.querySelectorAll('.demo-control-flash')
+						demoDoms.forEach((item, index) => {
+							item.style.display = 'none'
+						})
+					}
+				}, 2000)
+
+				/**********************************业务代码****************************************/
+
+				// 判断设备类型
+				function isPc(target) {
+					let userAgentInfo = navigator.userAgent;
+					let Agents = ["Android", "iPhone",
+						"SymbianOS", "Windows Phone",
+						"iPad", "iPod"
+					];
+					let flag = true;
+					for (let v = 0; v < Agents.length; v++) {
+						if (userAgentInfo.indexOf(Agents[v]) > 0) {
+							flag = false;
+							break;
+						}
+					}
+					return flag;
+				}
+				// 获取路径参数
+				function getQueryString(name) {
+					var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+					var r = window.location.search.substr(1).match(reg);
+					if (r != null) return decodeURIComponent(r[2]);
+					return '';
+				}
+				// 切换tab
+				function clickTab(e, target) {
+					let contents = document.querySelectorAll('.room-content>div')
+
+					document.querySelector('.menu-tab .active').classList.remove('active')
+					target.classList.add('active')
+					contents.length > 0 && contents.forEach((item, index) => {
+						if ((e.target.innerHTML === '聊天' && index === 0) || (e.target.innerHTML === '公告' && index === 1) || (e.target.innerHTML ===
+								'问答' && index === 2) || (e.target.innerHTML === '文档' && index === 3)) {
+							item.style.zIndex = '1'
+						} else {
+							item.style.zIndex = '-1'
+						}
+					})
+					if (e.target.innerHTML == '聊天') {
+						chatControlContent.style.visibility = 'visible'
+						chatSendBtn.style.display = 'block'
+						qaSendBtn.style.display = 'none'
+						document.querySelector('.mobile-doc-control').style.display = 'none'
+					} else if (e.target.innerHTML == '问答' && _qa.status) {
+						chatControlContent.style.visibility = 'visible'
+						chatSendBtn.style.display = 'none'
+						qaSendBtn.style.display = 'block'
+						document.querySelector('.mobile-doc-control').style.display = 'none'
+					} else if (e.target.innerHTML == '文档' && !_isPC && SDK.config.vss) {
+						document.querySelector('.mobile-doc-control').style.display = 'block'
+						chatControlContent.style.visibility = 'hidden'
+					} else {
+						chatControlContent.style.visibility = 'hidden'
+						document.querySelector('.mobile-doc-control').style.display = 'none'
+					}
+					document.querySelector('.face-pannel').style.display = 'none'
+					document.getElementById('chatMsg').value = ''
+				}
+				// 聊天信息模板
+				function chatTemplate(type, msg) {
+					let {
+						data,
+						context
+					} = msg,
+					_temp = '',
+						role = context.role_name == 1 ? '主讲人' : (context.role_name == 3 ? '助理' : (context.role_name == 4 ? '嘉宾' : '')),
+						chatDom = document.querySelector('.chat-content'),
+						_div = document.createElement('div'),
+						avatar = context.avatar != '' ? context.avatar : STATIC_URL + '/static/images/watch/head50.png'
+					_div.setAttribute('class', 'chat-item')
+					if (data.type == 'text') {
+						_temp =
+							`
+                                <div class="l-avatar">
+                                    <img src="${avatar}"/>
+                                </div>
+                                <div class="r-info">
+                                    <div class="r-name-info">
+                                        <span class="r-name">${context.nick_name}</span>
+                                        <span class="r-role">${role}</span>
+                                    </div>
+                                    <div class="r-content">${data.text_content}</div>
+                                </div>
+                        `
+					} else if (data.type == 'image') {
+						let imgs = ``
+						data.image_urls.length > 0 && data.image_urls.forEach((item, index) => {
+							if (item.indexOf('webinars') > -1) {
+								// TODO:
+								let pic = item.replace('webinars', IMG_HOST + '/webinars')
+								item = pic
+							}
+							if (item.indexOf('http') > -1) {
+								imgs += `<img  src="${item}"/>`
+							} else {
+								imgs += `<img  src="http://${item}"/>`
+							}
+
+						})
+						_temp =
+							`
+                                <div class="l-avatar">
+                                    <img src="${context.avatar}"/>
+                                </div>
+                                <div class="r-info">
+                                    <div class="r-name-info">
+                                        <span class="r-name">${context.nick_name}</span>
+                                        <span class="r-role">${role}</span>
+                                    </div>
+                                    <div class="r-content">${data.text_content ? data.text_content : ''}</div>
+                                    <div class="r-content-iamge">
+                                        ${imgs} 
+                                    </div>
+                                </div>
+                        `
+					}
+					_div.innerHTML = _temp
+					if (type == 'live') {
+						chatDom.append(_div)
+					} else {
+						// 历史记录反转插入
+						chatDom.prepend(_div)
+					}
+					chatDom.scrollTop = chatDom.scrollHeight
+				}
+				// 控制报请面板以及选择表情
+				function handleFacesData(data) {
+					let dom = document.querySelector('.face-pannel'),
+						chatValue = document.getElementById('chatMsg'),
+						_temp = ``
+					data.length > 0 && data.forEach((item, index) => {
+						let img =
+							`
+                            <img src="${item.src}" class="faceImage" data-k="${item.name}"/>
+                        `
+						_temp += img
+					})
+					dom.innerHTML = _temp
+					let imgs = document.querySelectorAll('.msg-control .face-pannel img')
+					if (!chatFace._openFasePannelStatu) {
+						imgs.length > 0 && imgs.forEach((item, index) => {
+							item.addEventListener('click', (e) => {
+								chatValue.value += e.target.dataset.k
+							})
+						})
+					}
+				}
+				// 展示公告
+				function handleAnnouncement(val) {
+					let time = val.data ? val.data.push_time : val.publish_release_time
+					let text = val.data ? val.data.room_announcement_text : val.content
+					let dom = document.querySelector('.notice-content')
+					let _temp =
+						`
+                        <div class="notice-item">
+                                <div class="notice-title">【公告】</div>
+                                <div class="notice-text">${text}</div>
+                                <div class="notice-time">${time}</div>
+                        </div>
+                    `
+					dom.innerHTML += _temp
+					dom.scrollTop = dom.scrollHeight
+				}
+				// 签到
+				function handleSignIn(val) {
+					let data = val.data ? val.data : val,
+						showTime = Number(data.sign_show_time),
+						dom = document.querySelector('.sign-wrap'),
+						timeDom = document.querySelector('.sign-second')
+
+					signParams._sign_id = data.sign_id
+
+					if (!signParams._openSignStatu) {
+						dom.style.display = 'block'
+						signParams._openSignStatu = true
+					}
+					signParams._sign_timer = setInterval(() => {
+						if (showTime >= 0) {
+							timeDom.innerHTML = showTime + '秒'
+							showTime--
+						} else {
+							clearInterval(signParams._sign_timer)
+							dom.style.display = 'none'
+							signParams._sign_timer = null
+							signParams._sign_id = ''
+							signParams._openSignStatu = false
+						}
+					}, 1000)
+				}
+				/**********************************消息监听****************************************/
+
+				// 播放器初始化成功
+				SDK.$on('playerReady', () => {
+					console.log('demo:playerReady>>>>>>>')
+				})
+
+				// 推流成功
+				SDK.$on('publishStart', () => {
+					console.log('demo:publishStart>>>>>>>')
+					let dom = document.querySelector('.mask')
+					dom.style.display = 'none'
+					dom.innerHTML = ''
+				})
+				// 停止推流
+				SDK.$on('streamOver', () => {
+					console.log('demo:streamOver>>>>>>>')
+					let dom = document.querySelector('.mask')
+					dom.style.display = 'block'
+					dom.innerHTML = '直播断流'
+				})
+				// H5开播
+				SDK.$on('live_start', () => {
+					console.log('demo:live_start>>>>>>>')
+					let dom = document.querySelector('.mask')
+					dom.style.display = 'none'
+					dom.innerHTML = ''
+				})
+				// H5停播
+				SDK.$on('live_over', () => {
+					console.log('demo:live_over>>>>>>>')
+					let dom = document.querySelector('.mask')
+					dom.style.display = 'block'
+					dom.innerHTML = '直播结束'
+				})
+
+				// 监听发送自定义消息
+				SDK.$on('sendCustomEvent', (msg) => {
+					console.log('demo:sendCustomEvent>>>>>>', msg)
+				})
+				// 监听自定义消息
+				SDK.$on('customEvent', (msg) => {
+					console.log('demo:customEvent>>>>>>', msg)
+				})
+				// 监听用户更新信息
+				SDK.$on('UpdateUser', (msg) => {
+					console.log('demo-updateUser>>>', msg)
+				})
+				// 监听用户上线
+				SDK.$on('userOnline', (msg) => {
+					console.log('demo:userOnline>>>>>>>', msg)
+				})
+				// 监听用户下线
+				SDK.$on('userOffline', (msg) => {
+					console.log('demo:userOffline>>>>>>>', msg)
+				})
+				// 监听聊天消息
+				SDK.$on('chatMsg', (msg) => {
+					console.log('demo-chatMsg>>>', msg)
+					chatTemplate('live', msg)
+				})
+				// 禁言消息
+				SDK.$on('disableChat', (msg) => {
+					let target = document.getElementById('chatMsg')
+					let qa = document.getElementById('qaMsg')
+					target.placeholder = '您已被禁言'
+					qa.placeholder = '您已被禁言'
+					target.setAttribute('disabled', 'disabled')
+					qa.setAttribute('disabled', 'disabled')
+					qaSendMsgBtn.setAttribute('disabled', 'disabled')
+					sendMsgBtn.setAttribute('disabled', 'disabled')
+				})
+				// 取消禁言
+				SDK.$on('permitChat', (msg) => {
+					let target = document.getElementById('chatMsg')
+					let qa = document.getElementById('qaMsg')
+					qa.placeholder = '请输入内容'
+					target.placeholder = '请输入内容'
+					target.removeAttribute('disabled')
+					sendMsgBtn.removeAttribute('disabled')
+					qa.removeAttribute('disabled')
+					qaSendMsgBtn.removeAttribute('disabled')
+				})
+				// 全体禁言及取消
+				SDK.$on('forbidChat', (msg) => {
+					let target = document.getElementById('chatMsg')
+					let qa = document.getElementById('qaMsg')
+					// status:1 全体禁言
+					if (msg.allStatus == 1) {
+						target.placeholder = '您已被禁言'
+						qa.placeholder = '您已被禁言'
+						target.setAttribute('disabled', 'disabled')
+						qa.setAttribute('disabled', 'disabled')
+						qaSendMsgBtn.setAttribute('disabled', 'disabled')
+						sendMsgBtn.setAttribute('disabled', 'disabled')
+					} else {
+						qa.placeholder = '请输入内容'
+						target.placeholder = '请输入内容'
+						target.removeAttribute('disabled')
+						sendMsgBtn.removeAttribute('disabled')
+						qa.removeAttribute('disabled')
+						qaSendMsgBtn.removeAttribute('disabled')
+					}
+				})
+				// 踢出消息
+				SDK.$on('kickout', (data) => {
+					let dom = document.querySelector('.mask')
+					dom.style.display = 'block'
+					dom.innerHTML = '您已被踢出'
+				})
+				// 取消踢出消息
+				SDK.$on('kickoutrestore', (data) => {
+					let dom = document.querySelector('.mask')
+					dom.style.display = 'none'
+					dom.innerHTML = ''
+				})
+				// 收到公告消息
+				SDK.$on('room_announcement', (data) => {
+					handleAnnouncement(data)
+				})
+				// 开始签到
+				SDK.$on('startSign', (data) => {
+					handleSignIn(data)
+				})
+				// 发送签到消息监听
+				SDK.$on('sendSign', (data) => {
+					clearInterval(signParams._sign_timer)
+					document.querySelector('.sign-wrap').style.display = 'none'
+					signParams._sign_timer = null
+					signParams._sign_id = ''
+					signParams._openSignStatu = false
+				})
+				// 获取直播历史聊天消息 保持和聊天消息相同消息体格式
+				SDK.$on('vhall_live_history_chat_msg', (res) => {
+					console.log('demo-liveHistoryChat>>>>', res)
+					let data = res.data
+					if (data.length > 0) {
+						data.forEach((item, index) => {
+							let msg = {
+								"data": {
+									type: 'text',
+									text_content: item.content
+								},
+								context: {
+									role_name: item.role_name,
+									avatar: item.avatar ? item.avatar : item.content.avatar,
+									nick_name: item.nick_name ? item.nick_name : item.nickname,
+								}
+							}
+							chatTemplate('history', msg)
+						})
+					}
+				})
+				// 获取回放历史聊天消息
+				SDK.$on('vhall_record_history_chat_msg', (res) => {
+					console.log('demo-recordHistoryChat>>>>', res)
+					let data = res.data
+					if (data.length > 0) {
+						data.forEach((item, index) => {
+							let msg = {
+								"data": {
+									type: 'text',
+									text_content: item.content
+								},
+								context: {
+									role_name: item.role_name,
+									avatar: item.avatar ? item.avatar : item.content.avatar,
+									nick_name: item.nick_name ? item.nick_name : item.nickname,
+								}
+							}
+							chatTemplate('history', msg)
+						})
+					}
+				})
+				// 获取历史公告信息 整理格式同公告监听
+				SDK.$on('vhall_history_notice', (res) => {
+					console.log('demo-historyNotice>>>>', res.data)
+					res.data.data.length > 0 && res.data.data.forEach((item, index) => {
+						let msg = {
+							data: {
+								push_time: item.created_at,
+								room_announcement_text: item.content
+							}
+						}
+						handleAnnouncement(msg)
+					})
+				})
+				// 收到问卷消息: 包含问卷id
+				SDK.$on('questionnaire_push', (data) => {
+					console.log('demo-questionairePush>>>>', data)
+				})
+				// 问卷提交成功
+				SDK.$on('questionarie_submit_success', (data) => {
+					console.log('demo-questionarieSubmitSuccess>>>', data)
+					document.querySelector('.questionarie').style.display = 'none'
+				})
+				// 问卷提交报错
+				SDK.$on('questionarie_submit_error', (data) => {
+					console.log('demo-questionarieSubmitError>>>', data)
+				})
+				// 获取问卷列表
+				SDK.$on('questionPagerList', (data) => {
+					console.log('demo-getQuestionariePagerList>>>', data)
+				})
+				// 开启问答
+				SDK.$on('question_answer_open', (data) => {
+					console.log('demo-questionAnswerOpen>>>', data)
+					handleQuestionAnswerSwitch('open')
+				})
+				// 关闭问答
+				SDK.$on('question_answer_close', (data) => {
+					console.log('demo-questionAnswerClose>>>', data)
+					handleQuestionAnswerSwitch('close')
+				})
+				// 发送问答
+				SDK.$on('question_answer_create', (msg) => {
+					// 回显
+					console.log('demo-questionAnswerCreate>>>', msg)
+					handleQuestionAnswerMsg(msg)
+				})
+				// 问答回复
+				SDK.$on('question_answer_commit', (data) => {
+					console.log('demo-questionAnswercommit>>>', data)
+					handleQAndACommit(data)
+				})
+				// 主讲人删除问答回答
+				SDK.$on('question_answer_backout', (data) => {
+					console.log('demo-questionAnswerBackout>>>', data)
+					handleDeleteAnswer(data)
+				})
+				// SDK.$on('question_answer_create', )
+				// 获取历史问答数据
+				SDK.$on('getQuestionList', (data) => {
+					console.log('demo-getQuestionList>>>', data)
+				})
+				// 开始抽奖
+				SDK.$on('lotteryStart', (data) => {
+					console.log('demo-startLottery>>>', data)
+					handleStartLottery(data)
+				})
+				// 结束抽奖
+				SDK.$on('lotteryResultNotice', (data) => {
+					console.log('demo-endLottery>>>', data)
+					handleEndLottery(data)
+				})
+				// 错误日志统一对外
+				SDK.$on('error', (({
+					msg,
+					data
+				}) => {
+					handleChangeToast(msg)
+					if (data) {
+						switch (data.code) {
+							case 1006:
+							case 1005:
+								console.error('验签失败')
+								window.location.href = `./login.html`
+								break;
+							default:
+								break;
+						}
+					}
+				}))
+				SDK.$on('hostNotice', () => {
+					console.log('demo-主持人下线')
+				})
+				/**********************************错误提示****************************************/
+				function handleChangeToast(data) {
+					let dom = document.querySelector('.vh-toast')
+					if (toastTimer) clearTimeout(toastTimer)
+					dom.style.display = 'block'
+					dom.innerHTML = data
+					toastTimer = setTimeout(() => {
+						dom.style.display = 'none'
+					}, 2000)
+				}
+				/**********************************获取房间信息****************************************/
+				// 获取房间信息
+				function getRoomInfo() {
+					// H5获取third_party_user_id 抽奖时使用
+					return new Promise((resolve, reject) => {
+						SDK.getRoominfo().then(res => {
+								let env = res.common.pushstreamPubUrl.indexOf('t-')
+								if (env > -1) {
+									environment = 'test'
+									STATIC_URL = './'
+									IMG_HOST = './'
+								} else {
+									environment = 'prod'
+									STATIC_URL = './'
+									IMG_HOST = './'
+								}
+								console.log('demo-getRoomInfo>>>', res)
+								if (res.vss) {
+									if (_isPC) {
+										// 显示文档调试工具
+										document.querySelector('.l-contain .vh-doc-control').style.display = 'block'
+									}
+								}
+								resolve(res)
+							})
+							.catch(e => {
+								reject(e)
+							})
+					})
+				}
+				// 获取当前用户参会信息
+				function getUserInfo() {
+					SDK.getUserinfo().then(res => {
+						console.log('demo-getUserInfo>>>', res)
+					})
+				}
+				// 更新当前用户昵称
+				function updateUserInfo(val) {
+					SDK.updateUserInfo(val)
+				}
+				/**********************************视频相关操作****************************************/
+				/**
+				 * @params val 速度值：【0.5, 1, 2】具体根据当前倍速列表值设置
+				 */
+				function setPlaySpeed(val) {
+					SDK.player.setSpeed(val)
+				}
+				// 获取当前可支持的倍速列表
+				function getSpeedList() {
+					SDK.player.getSpeedList((data) => {
+						console.log('demo-获取当前倍速列表>>>>', data)
+					})
+				}
+				// 打开弹幕
+				function openBarrage() {
+					SDK.player.openBarrage()
+				}
+				// 关闭弹幕
+				function closeBarrage() {
+					SDK.player.closeBarrage()
+				}
+				// 发送弹幕
+				function sendBarrage() {
+					SDK.player.sendBarrage()
+				}
+				/**
+				 * 设置弹幕样式
+				 * @params opt = {
+				 *  position: 0,     // 位置   int  0上    1中  2下  3全屏
+				 *  alpha: 0.2,      // 透明度 int  0~1
+				 *  fontsize: 15,    // 字体大小 int
+				 *  color: "#000000"  // 颜色   string
+				 * }
+				 */
+				function setBarrageStyle(opt) {
+					SDK.player.setBarrageInfo(opt)
+				}
+				/**
+				 * 设置清晰度
+				 * @params val :same 720px a等格式
+				 * same：原画
+				 * a: 音频
+				 */
+				function setPlayerDefinition(val) {
+					// 根据sdk数组index传递
+					SDK.player.setPlayerDefinition(val)
+				}
+				/*
+				 *@params s: 设置秒数
+				 *设置当前回放播放时间
+				 */
+				function setRecordTime(s) {
+					SDK.player.setCurrentTime(s)
+				}
+				// 播放
+				function play() {
+					SDK.player.play()
+				}
+				// 暂停
+				function pause() {
+					SDK.player.pause()
+				}
+				// 获取播放器可播放清晰度
+				function getDefinition() {
+					SDK.player.canPlayDefinitions((val) => {
+						if (val.length > 0) {
+							let dom = document.querySelector('#demoDefinitionVal')
+							let temp = ``
+							val.forEach(item => {
+								let str = `<option value="${item}">${item == 'a' ? '音频' : (item == 'same'? '原画' : item)}</option>`
+								temp += str
+							})
+							dom.innerHTML = temp
+						}
+						console.log('demo-获取清晰度列表', SDK.player.canPlayDefinitions())
+					})
+				}
+				// 播放器销毁
+				function destoryPlayer() {
+					SDK.player.destroy()
+				}
+				/**********************************聊天相关操作****************************************/
+				// 发送聊天消息
+				function sendChatMsg() {
+					let target = document.getElementById('chatMsg')
+					if (target.value == '') {
+						alert('请输入聊天内容')
+						return
+					} else if (target.value.length > 140) {
+						alert('最多输入140个文字')
+						return
+					}
+					SDK.chat.sendChat(target.value)
+					target.value = ''
+				}
+
+				// 发送自定义聊天消息
+				function sendCustomEvent() {
+					SDK.chat.sendCustomEvent({
+						type: 'ceshi_event',
+						data: {
+							id: 100,
+							name: 'hao'
+						}
+					})
+				}
+				/**
+				 * 获取直播聊天历史记录
+				 * @params currPage 当前页
+				 * @params pageSize 每页大小
+				 * @params startTime '2020/07/13' 查询开始时间
+				 * @params endTime '2020/07/13' 查询结束时间
+				 */
+				function getLiveHistoryChatMsg(params) {
+					SDK.vhall_get_live_history_chat_msg(params)
+						.then(res => {})
+						.catch(e => {})
+				}
+
+				/**
+				 * 回放拉取历史聊天，curr_page:需拉取数据的页数，每页20条
+				 * @params curr_page 当前页
+				 */
+				function getRecordHistoryChatMsg(curr_page) {
+					SDK.vhall_get_record_history_chat_msg(curr_page)
+						.then(res => {})
+						.catch(e => {})
+				}
+
+				/**********************************抽奖相关操作****************************************/
+				// 显示抽奖界面
+				function handleStartLottery(data) {
+					let dom = document.querySelector('.vh-lottery-wrap'),
+						head = document.querySelector('.vh-lottery .lottery-header')
+					info = document.querySelector('.vh-lottery .lottery-info')
+					head.innerHTML = '开始抽奖'
+					dom.style.display = 'block'
+					info.style.display = 'none'
+				}
+				// 抽奖结束提示用户或者填写信息
+				function handleEndLottery(data) {
+					let dom = document.querySelector('.vh-lottery-wrap'),
+						head = document.querySelector('.vh-lottery .lottery-header'),
+						info = document.querySelector('.vh-lottery .lottery-info'),
+						lotteryId = ''
+					dom.style.display = 'none'
+					head.innerHTML = ''
+					if (data.hasWin) {
+						dom.style.display = 'block'
+						head.innerHTML = '恭喜您中奖，请填写中奖信息'
+						info.style.display = 'block'
+						lottery.id = data.data ? data.data.lottery_id : data.lottery_id
+					} else {
+						dom.style.display = 'block'
+						head.innerHTML = '很遗憾您未中奖'
+						info.style.display = 'none'
+						setTimeout(() => {
+							document.querySelector('.vh-lottery-wrap').style.display = 'none'
+						}, 2000)
+					}
+				}
+				// 发送中奖人信息 { lottery_id:'抽奖id', name:'中奖人姓名',phone:'手机号', remarks:'备注' }
+				function submitLotteryInfo() {
+
+					let phone = document.getElementById('lotteryPhone').value,
+						name = document.getElementById('lotteryName').value,
+						mark = document.getElementById('lotteryMark').value
+					if (phone != '' && name != '' && mark != '') {
+						SDK.sendLotteryInfo({
+							lottery_id: lottery.id,
+							name,
+							phone,
+							remarks: mark
+						})
+					}
+					document.querySelector('.vh-lottery-wrap').style.display = 'none'
+				}
+				/**********************************签到相关操作****************************************/
+				// TODO: 发送签到请求，值来自于startSign事件中的msg的消息体sign_id
+				function sendSign(id) {
+					SDK.sendSign(id)
+				}
+				/**********************************公告相关操作****************************************/
+				// 获取历史直播公告记录,curr_page:需拉取数据的页数，默认值为1，每页20条
+				function getHistoryNotice(page) {
+					SDK.vhall_get_history_notice(page).then(res => {})
+				}
+				/**********************************问答相关操作****************************************/
+				// 切换问答输出按钮
+				function handleQuestionAnswerSwitch(type) {
+					let tab = document.querySelector('.menu-tab .active span')
+					if (type != 'open') {
+						_qa.status = false
+						if (tab.innerHTML == '问答') {
+							chatControlContent.style.visibility = 'hidden'
+						}
+					} else {
+						_qa.status = true
+						if (tab.innerHTML == '问答') {
+							chatControlContent.style.visibility = 'visible'
+							chatSendBtn.style.display = 'none'
+							qaSendBtn.style.display = 'block'
+						}
+					}
+
+				}
+				// 提问问题发送事件
+				function sendQuestionAnswerMsg() {
+					let target = document.getElementById('qaMsg')
+					if (target.value == '') {
+						alert('内容不能为空')
+					} else if (target.value.length > 140) {
+						alert('最多输入140个文字')
+						return
+					}
+					SDK.sendQuestion(target.value)
+					target.value = ''
+				}
+				// 自己发送的问答消息监听回显
+				function handleQuestionAnswerMsg(msg) {
+					if (msg.data) {
+						let qaWrap = document.querySelector('.room-content .qa-content')
+						let temp = questionAnswerTemplate(msg)
+						qaWrap.innerHTML += temp
+					}
+				}
+				// 主讲人回复问答消息
+				function handleQAndACommit(data) {
+					if (data.data) {
+						let qaWrap = document.querySelector('.room-content .qa-content')
+						let temp = questionAnswerCommitTemplate(data)
+						qaWrap.innerHTML += temp
+					}
+				}
+				// 删除回答
+				function handleDeleteAnswer(msg) {
+					let question_id = msg.data ? msg.data.question_answer_id : msg.id
+					let id = `.answer-temp-${question_id}`
+					let content = document.querySelector('.room-content .qa-content')
+					let dom = document.querySelector(id)
+					if (dom && content) {
+						content.removeChild(dom)
+					}
+				}
+				// 自己提问回显模板
+				function questionAnswerTemplate(msg) {
+					let {
+						avatar,
+						nick_name,
+						created_at,
+						content
+					} = msg.data
+					if (avatar == '') {
+						avatar = STATIC_URL + '/static/images/watch/head50.png'
+					}
+					let _temp =
+						`
+                        <div class="qa-item">
+                            <div class="self-qa">
+                                <div class="avatar">
+                                    <img src="${avatar}" alt="">
+                                </div>
+                                <div class="r-wrap">
+                                    <div class="r-info">
+                                        <span>${nick_name}</span>
+                                        <span>${created_at}</span>
+                                    </div>
+                                    <div class="r-content">
+                                        ${content}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `
+					return _temp
+				}
+				// 主讲人问答回复模板
+				function questionAnswerCommitTemplate(msg) {
+					console.log(6666, msg, msg.data.answer.content)
+					let {
+						type,
+						avatar,
+						nick_name,
+						created_at,
+						join_id,
+						content,
+						answer,
+						id
+					} = msg.data //id 问题id
+					let _temp = ''
+					let is_open = answer.is_open
+					let sendId = SDK.config.userInfo.userId
+					avatar == '' ? (avatar = STATIC_URL + '/static/images/watch/head50.png') : avatar
+					if (is_open == 1 || (is_open == 0 && sendId == join_id)) {
+						if (type == 'question_answer_commit' || type == 'answer') {
+							_temp =
+								`
+                                <div class="qa-item answer-temp-${answer.id}">
+                                    <div class="self-qa">
+                                        <div class="avatar">
+                                            <img src="${avatar}" alt="">
+                                        </div>
+                                        <div class="r-wrap">
+                                            <div class="r-info">
+                                                <span>${nick_name}</span>
+                                                <span>${created_at}</span>
+                                            </div>
+                                            <div class="r-content">
+                                                ${content}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="r-answer">
+                                        <div class="answer-info">
+                                            <div>${answer.nick_name}&nbsp;|&nbsp;<span class="answer-role">${answer.role_name == 'host' ? '主持人回答' : ''}</span></div>
+                                            <div>${answer.created_at}</div>
+                                        </div>
+                                        <div class="answer-content">${answer.content}</div>
+                                    </div>
+                                </div>
+                            `
+							return _temp
+						}
+					} else {
+						return ''
+					}
+
+				}
+				// 获取直播问答记录
+				function getLiveHistoryQuestionMsg() {
+					SDK.vhall_get_live_history_question_msg()
+						.then(data => {
+							let res = data.data,
+								qaWrap = document.querySelector('.room-content .qa-content'),
+								temp = ''
+							res.length > 0 && res.forEach((item, index) => {
+								if (item.data.answer) {
+									temp = questionAnswerCommitTemplate(item)
+								} else {
+									temp = questionAnswerTemplate(item)
+								}
+								qaWrap.innerHTML += temp
+							})
+						})
+						.catch(e => {
+							console.log('获取直播问答记录失败>>>', e)
+						})
+				}
+				// 获取回放问答记录
+				function getHistoryQuestionMsg() {
+					SDK.vhall_get_history_question_msg()
+						.then(data => {
+							let res = data.data,
+								qaWrap = document.querySelector('.room-content .qa-content'),
+								temp = ''
+							res.length > 0 && res.forEach((item, index) => {
+								if (item.data.answer) {
+									temp = questionAnswerCommitTemplate(item)
+								} else {
+									temp = questionAnswerTemplate(item)
+								}
+								qaWrap.innerHTML += temp
+							})
+						})
+				}
+				/**********************************文档相关操作****************************************/
+
+				// H5文档放大
+				function docZoomIn() {
+					SDK.doc.zoonIn()
+				}
+				// H5文档缩小
+				function docZoomOut() {
+					SDK.doc.zoomOut()
+				}
+				// H5文档重置大小
+				function docZoomReset() {
+					SDK.doc.docReset()
+				}
+				// H5文档移动
+				function docMove() {
+					SDK.doc.docMove()
+				}
+				// H5文档下一页
+				function docNextPage() {
+					SDK.doc.nextPage()
+				}
+				// H5文档上一页
+				function docPrevPage() {
+					SDK.doc.prevPage()
+				}
+				/**********************************问卷相关事件****************************************/
+				// 获取问卷列表:返回值触发消息监听得到
+				function getQuestionarieList(id) {
+					SDK.queryQuestionList(id)
+				}
+				// falsh 发送问卷答案 （H5包含整个功能,falsh对外提供方法）
+				// 数据格式
+				function sendQuestionAnswer(msg) {
+					let data = {
+						"survey_id": "8102",
+						"data": {
+							"text": {
+								"7722": "少时诵诗书所"
+							},
+							"c": {
+								"7720": {
+									"13275": "选项1"
+								}
+							},
+							"checkbox": {
+								"7721": {
+									"13277": "选项1",
+									"13278": "选项2",
+									"13279": "是是是"
+								}
+							},
+							"select": {
+								"7723": "19,1188"
+							}
+						}
+					}
+					SDK.sendQuestionPagerAnswer(data)
+				}
+				/**********************************点击事件****************************************/
+				function getEmojiList() {
+					const emojiUrl = 'https://cnstatic01.e.vhall.com/static/img/arclist'
+					const faceArr = {
+						'[微笑]': '1',
+						'[撇嘴]': '2',
+						'[色]': '3',
+						'[发呆]': '4',
+						'[得意]': '5',
+						'[流泪]': '6',
+						'[害羞]': '7',
+						'[闭嘴]': '8',
+						'[睡]': '9',
+						'[哭]': '10',
+						'[尴尬]': '11',
+						'[发怒]': '12',
+						'[调皮]': '13',
+						'[呲牙]': '14',
+						'[惊讶]': '15',
+						'[难过]': '16',
+						'[酷]': '17',
+						'[汗]': '18',
+						'[抓狂]': '19',
+						'[吐]': '20',
+						'[偷笑]': '21',
+						'[愉快]': '22',
+						'[白眼]': '23',
+						'[傲慢]': '24',
+						'[饥饿]': '25',
+						'[困]': '26',
+						'[惊恐]': '27',
+						'[流汗]': '28',
+						'[憨笑]': '29',
+						'[悠闲]': '30',
+						'[奋斗]': '31',
+						'[咒骂]': '32',
+						'[疑问]': '33',
+						'[嘘]': '34',
+						'[晕]': '35',
+						'[疯了]': '36',
+						'[衰]': '37',
+						'[骷髅]': '38',
+						'[敲打]': '39',
+						'[再见]': '40',
+						'[擦汗]': '41',
+						'[抠鼻]': '42',
+						'[鼓掌]': '43',
+						'[糗大了]': '44',
+						'[坏笑]': '45',
+						'[左哼哼]': '46',
+						'[右哼哼]': '47',
+						'[哈欠]': '48',
+						'[鄙视]': '49',
+						'[委屈]': '50',
+						'[快哭了]': '51',
+						'[阴险]': '52',
+						'[亲亲]': '53',
+						'[吓]': '54',
+						'[可怜]': '55',
+						'[菜刀]': '56',
+						'[西瓜]': '57',
+						'[啤酒]': '58',
+						'[篮球]': '59',
+						'[乒乓]': '60',
+						'[咖啡]': '61',
+						'[饭]': '62',
+						'[猪头]': '63',
+						'[玫瑰]': '64',
+						'[凋谢]': '65',
+						'[嘴唇]': '66',
+						'[爱心]': '67',
+						'[心碎]': '68',
+						'[蛋糕]': '69',
+						'[闪电]': '70',
+						'[炸弹]': '71',
+						'[刀]': '72',
+						'[足球]': '73',
+						'[瓢虫]': '74',
+						'[便便]': '75',
+						'[月亮]': '76',
+						'[太阳]': '77',
+						'[礼物]': '78',
+						'[拥抱]': '79',
+						'[强]': '80',
+						'[弱]': '81',
+						'[握手]': '82',
+						'[胜利]': '83',
+						'[抱拳]': '84',
+						'[勾引]': '85',
+						'[拳头]': '86',
+						'[差劲]': '87',
+						'[爱你]': '88',
+						'[NO]': '89',
+						'[OK]': '90'
+					}
+					const emojiToPath = key =>
+						key.includes('[删除]') ?
+						`${emojiUrl}/${faceArr[key]}@2x.png` :
+						`${emojiUrl}/Expression_${faceArr[key]}@2x.png`
+					let result = []
+					for (let key in faceArr) {
+						result.push({
+							name: key,
+							value: faceArr[key],
+							src: emojiToPath(key)
+						})
+					}
+					return result
+				}
+				// 切换tab
+				tabMenus.length && tabMenus.forEach((item, index) => {
+					item.addEventListener('click', (e) => {
+						facePannelWrap.style.display = 'none'
+						clickTab(e, item)
+					})
+				})
+				facePannelWrap.addEventListener('mouseleave', () => {
+					facePannelWrap.style.display = 'none'
+				})
+				// 发送聊天消息
+				sendMsgBtn && sendMsgBtn.addEventListener('click', () => {
+					sendChatMsg()
+				})
+				// 发送问答
+				qaSendMsgBtn && qaSendMsgBtn.addEventListener('click', () => {
+					sendQuestionAnswerMsg()
+				})
+				// 打开表情面板
+				facePannelBtn.addEventListener('click', () => {
+					let statu = facePannelWrap.style.display
+					if (statu == 'block') {
+						facePannelWrap.style.display = 'none'
+					} else {
+						facePannelWrap.style.display = 'block'
+						handleFacesData(getEmojiList())
+					}
+				})
+
+				// 关闭签到
+				signCloseBtn.addEventListener('click', () => {
+					signWrap = document.querySelector('.sign-wrap').style.display = 'none'
+					clearInterval(signParams._sign_timer)
+					signParams._sign_timer = null
+					signParams._sign_id = ''
+					signParams._openSignStatu = false
+				})
+				// 点击签到
+				signBtn.addEventListener('click', () => {
+					SDK.sendSign(signParams._sign_id)
+				})
+				document.getElementById('lotterySubmit').addEventListener('click', (e) => {
+					submitLotteryInfo()
+				})
+				let zoomIn = document.querySelector('.doc-contorl-in'),
+					zoomOut = document.querySelector('.doc-contorl-out'),
+					zoomMove = document.querySelector('.doc-contorl-move'),
+					zoomReset = document.querySelector('.doc-contorl-reset'),
+					nextDocPage = document.querySelector('.doc-contorl-next'),
+					prevDocPage = document.querySelector('.doc-contorl-prev'),
+					mobileZoomIn = document.querySelector('.mobile-doc-in'),
+					mobileZoomOut = document.querySelector('.mobile-doc-out'),
+					mobileZoomMove = document.querySelector('.mobile-doc-move'),
+					mobileZoomReset = document.querySelector('.mobile-doc-reset'),
+					mobileNextDocPage = document.querySelector('.mobile-doc-next'),
+					mobilePrevDocPage = document.querySelector('.mobile-doc-prev')
+				zoomIn && zoomIn.addEventListener('click', () => {
+					docZoomIn()
+				})
+				zoomOut && zoomOut.addEventListener('click', () => {
+					docZoomOut()
+				})
+				zoomMove && zoomMove.addEventListener('click', () => {
+					docMove()
+				})
+				zoomReset && zoomReset.addEventListener('click', () => {
+					docZoomReset()
+				})
+				nextDocPage && nextDocPage.addEventListener('click', () => {
+					docNextPage()
+				})
+				// 文档上一页 
+				prevDocPage && prevDocPage.addEventListener('click', () => {
+					docPrevPage()
+				})
+
+				mobileZoomIn && mobileZoomIn.addEventListener('click', () => {
+					docZoomIn()
+				})
+				mobileZoomOut && mobileZoomOut.addEventListener('click', () => {
+					docZoomOut()
+				})
+				mobileZoomMove && mobileZoomMove.addEventListener('click', () => {
+					docMove()
+				})
+				mobileZoomReset && mobileZoomReset.addEventListener('click', () => {
+					docZoomReset()
+				})
+				mobileNextDocPage && mobileNextDocPage.addEventListener('click', () => {
+					docNextPage()
+				})
+				// 文档上一页 
+				mobilePrevDocPage && mobilePrevDocPage.addEventListener('click', () => {
+					docPrevPage()
+				})
+				// demo模拟数据
+				// 获取倍速列表
+				document.querySelector('.demo-btn-speed-list').addEventListener('click', () => {
+					getSpeedList()
+				})
+				// 设置倍速
+				document.querySelector('.demo-btn-set-speed').addEventListener('click', () => {
+					let val = document.getElementById('demoSetSpeed').value
+					setPlaySpeed(val)
+				})
+				// 打开弹幕
+				document.querySelector('.demo-btn-barrage-open').addEventListener('click', () => {
+					openBarrage()
+				})
+				// 关闭弹幕
+				document.querySelector('.demo-btn-barrage-close').addEventListener('click', () => {
+					closeBarrage()
+				})
+				// 修改弹幕样式
+				document.querySelector('.demo-btn-set-barrage-style').addEventListener('click', () => {
+					setBarrageStyle({
+						position: 1, // 位置   int  0上    1中  2下  3全屏
+						alpha: 0.5, // 透明度 int  0~1
+						fontsize: 20, // 字体大小 int
+						color: "red" // 颜色   string
+					})
+				})
+				// 设置清晰度
+				document.querySelector('.demo-btn-definition').addEventListener('click', () => {
+					let val = document.getElementById('demoDefinitionVal').value
+					setPlayerDefinition(val)
+				})
+				// 播放
+				document.querySelector('.demo-btn-play').addEventListener('click', () => {
+					play()
+				})
+				// 暂停
+				document.querySelector('.demo-btn-pause').addEventListener('click', () => {
+					pause()
+				})
+				// 销毁播放器
+				document.querySelector('.demo-btn-destroy').addEventListener('click', () => {
+					destoryPlayer()
+				})
+				// 获取直播历史聊天消息
+				document.querySelector('.demo-btn-chat-live').addEventListener('click', () => {
+					getLiveHistoryChatMsg({
+						currPage: 1,
+						pageSize: 50,
+						startTime: '2020/07/13',
+						endTime: '2020/07/13',
+					})
+				})
+				// 获取回放历史聊天消息
+				document.querySelector('.demo-btn-chat-record').addEventListener('click', () => {
+					getRecordHistoryChatMsg(1)
+				})
+				// 获取回放问答记录
+				document.querySelector('.demo-btn-quesAns-record').addEventListener('click', () => {
+					getHistoryQuestionMsg()
+				})
+				// 获取直播问答记录
+				document.querySelector('.demo-btn-quesAns-live').addEventListener('click', () => {
+					getLiveHistoryQuestionMsg()
+				})
+				// 获取历史公告记录
+				document.querySelector('.demo-btn-announcement').addEventListener('click', () => {
+					getHistoryNotice()
+				})
+
+				// 获取当期那活动状态
+				document.querySelector('.demo-btn-room-info').addEventListener('click', () => {
+					getRoomInfo()
+				})
+				// 获取当期那活动状态
+				document.querySelector('.demo-btn-user-info').addEventListener('click', () => {
+					getUserInfo()
+				})
+				// 更新当前用户昵称
+				document.querySelector('.demo-btn-change-name').addEventListener('click', () => {
+					let val = document.getElementById('demoChangeName').value
+					updateUserInfo(val)
+				})
+				// 获取清晰度列表
+				document.querySelector('.demo-control-definition').addEventListener('click', () => {
+					getDefinition()
+				})
+				document.querySelector('#flashQuesBtn').addEventListener('click', () => {
+					sendQuestionAnswer()
+				})
+				document.querySelector('.demo-tool-tip').addEventListener('click', () => {
+					document.querySelector('.demo-control').style.right = '0px'
+				})
+
+				document.querySelector('.demo-control').addEventListener('click', () => {
+					document.querySelector('.demo-control').style.right = '-200px'
+				})
+				getRoomInfo()
+			}
+		</script>
+		<script src="vhall-jssdk-chat-2.0.9.js"></script>
+		<script src="vhall-jssdk-doc-3.1.0.js"></script>
+		<script src="vhall-jssdk-player-2.1.9.js"></script>
+	</body>
+</html>

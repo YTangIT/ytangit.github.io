@@ -1,0 +1,263 @@
+<html lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1">
+		<title>jsSDK Demo</title>
+		<link rel="stylesheet" href="bootstrap.min.css">
+		<script src="jquery.js"></script>
+		<script src="md5.min.js"></script>
+		<script src="//cnstatic01.e.vhall.com/jssdk/dist/3.0.0/VhallSDK.js"></script>
+		<link rel="stylesheet" href="Deme.css">
+		<style>
+			.vh-player-record-control {
+				position: absolute;
+				right: 0px;
+				top: 30%;
+				transform: translateY(-30%);
+				z-index: 25;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: center;
+				color: #fff;
+			}
+			
+			.vh-player-record-control .vh-player-speed {
+				margin-bottom: 10px;
+			}
+			
+			.vh-player-record-control .vh-player-speed:hover,
+			.vh-player-record-control .vh-player-definition:hover {
+				cursor: pointer;
+			}
+			
+			.vh-player-record-control .vh-player-speed,
+			.vh-player-record-control .vh-player-definition {
+				width: 50px;
+			}
+			
+			.vh-player-record-control .vh-speed-btn,
+			.vh-player-record-control .vh-definition-btn {
+				text-align: center;
+				box-sizing: border-box;
+				width: 40px;
+				height: 40px;
+				border-radius: 20px;
+				line-height: 30px;
+				padding: 5px;
+				background: #333;
+				font-size: 12px;
+			}
+			
+			.vh-player-record-control .vh-speed-list,
+			.vh-player-record-control .vh-definition-list {
+				display: none;
+			}
+			
+			.vh-player-record-control .vh-player-speed .vh-speed-list {
+				z-index: 100;
+				background: #333;
+				height: 100%;
+			}
+			
+			.vh-player-record-control .vh-player-speed .vh-speed-list .speed-item {
+				width: 100%;
+				text-align: center;
+			}
+			
+			.vh-player-record-control .vh-player-definition .vh-definition-list {
+				z-index: 100;
+				background: #333;
+				height: 100%;
+			}
+			
+			.vh-player-record-control .vh-player-definition .vh-definition-list .vh-quality-item {
+				width: 100%;
+				text-align: center;
+			}
+			
+			.vhallPlayer-controller-box {
+				padding: 0px 10px;
+			}
+			
+			.vhallPlayer-controller-box .vhallPlayer-definition-component,
+			.vhallPlayer-controller-box .vhallPlayer-speed-component,
+			.vhallPlayer-controller-box .vhallPlayer-config-component {
+				display: none;
+			}
+			
+			.vhallPlayer-controller-box .v-c-left .vhallPlayer-playBtn {
+				margin-right: 15px;
+			}
+			
+			.watermark-img {
+				max-width: 40px;
+				max-height: 40px;
+				position: absolute;
+				top: 10px;
+				left: 10px;
+				z-index: 1011;
+			}
+			
+			.watermark-img.mark1 {
+				top: 10px;
+				left: 10px;
+			}
+			
+			.watermark-img.mark2 {
+				top: 10px;
+				left: auto;
+				right: 10px;
+			}
+			
+			.watermark-img.mark4 {
+				top: auto;
+				bottom: 10px;
+				left: 10px;
+			}
+			
+			.watermark-img.mark3 {
+				top: auto;
+				bottom: 10px;
+				left: auto;
+				right: 10px;
+			}
+			
+			.marquee-label {
+				width: auto;
+				min-height: 20px;
+				position: absolute;
+				right: -100%;
+				top: 15%;
+				white-space: nowrap;
+				-webkit-animation: 6s linear 1s 1 reverse both marque;
+				animation: 6s linear 1s 1 reverse both marque;
+			}
+			
+			#docFullScreenBtn {
+				position: absolute;
+				top: 20px;
+				left: 30px;
+				width: 30px;
+				height: 30px;
+				border-radius: 15px;
+				background: rgba(0, 0, 0, 0.6);
+				color: #333;
+				z-index: 30;
+				background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkBAMAAAATLoWrAAAAMFBMVEVHcEzu7u7////t7e34+Pjt7e3t7e3////y8vLt7e3t7e3t7e3u7u7v7+/t7e3t7e0duasSAAAAD3RSTlMAbQPGDZW4CBPQ7KJMTkjzr+TDAAAAv0lEQVQoz53SMQ6CMBTG8TdoGFy4QQkJOrC6Q3R0aaL3kMmZY3iCrj1Kj+ARGJqYOD37utB+jYtv/OUfKPQRlbNjGTMm5CJxnZD6Re8xJ39qG4LqmL9RsWU/Al0xU3wbIFOsz5AF2kAWiCB7hYNLNq3U+5kkq+F3VENBdDET/TtbMyMt/ERy/AlZl97CniVz6Wmqu2Tyfes8JMspZjnFDOgQMiDJLFB4GgNJllFn4y7ocod0dgvFDvXlDlEr09AXDGWMDVnjKjQAAAAASUVORK5CYII=');
+				background-size: 20px 20px;
+				background-position: center;
+				background-repeat: no-repeat;
+				display: none;
+			}
+			
+			.vh-full-srceen-doc {
+				position: fixed !important;
+				top: 0px;
+				left: 0px;
+				width: 100% !important;
+				height: 100% !important;
+				z-index: 99999999999999 !important;
+				background: #000;
+			}
+			
+			.vh-full-srceen-doc #doc-content {
+				top: 50% !important;
+				left: 50% !important;
+				transform: translate(-50%, -50%) !important;
+			}
+			
+			.vh-full-srceen-doc #docFullScreenBtn {
+				background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkBAMAAAATLoWrAAAAKlBMVEVHcEz19fXu7u7////t7e3t7e3t7e3////v7+/t7e3t7e3t7e3t7e3t7e3BLMSkAAAADXRSTlMAD20Dv5XMCUuz8qLol+ANWAAAAMFJREFUKM+N0TEKwkAQheHZhGBroblHXDyAlVUg4AmsJZDKi9gFPYIgpPAekiIG5y7OWO28jeKUX/6wySxRPLP2jpRw30TEGyJXdsGLNfdzeTAEWa7Zmh8BOc0yQ5rtgTRbWqIj8wHIlfwCogWzpdQXpSV3YYYq4W80mO2ojDf6b1KvAx+s0/0+JpumK48V0NYeqASXlcmGIJNd15AJ5ZAJyS08G0sEmRJkK/nwVLJT8Nvt7nOnAyzI5xFRca4mVvkGHmmBR0NR+YMAAAAASUVORK5CYII=');
+			}
+			
+			.marque-hidden {
+				display: none;
+			}
+			
+			.mobile-flash-default-doc-pic {
+				position: absolute;
+				top: 0px;
+				left: 0px;
+				width: 100%;
+				height: 100%;
+				text-align: center;
+				line-height: 180px;
+				color: #999;
+				font-size: 18px;
+				z-index: -1;
+				background: #000;
+			}
+			
+			@-webkit-keyframes marque {
+				from {
+					right: 100%;
+				}
+			
+				to {
+					right: -110%;
+				}
+			}
+			
+			@keyframes marque {
+				from {
+					right: 100%;
+				}
+			
+				to {
+					right: -110%;
+				}
+			}
+			
+		</style>
+
+	</head>
+	<body>
+		<div class="login-wrapbox">
+			<div class="form-group"><label for="inputEmail3" class="col-sm-2 control-label">APPKey</label>
+				<div class="col-sm-10"><input class="form-control" id="APPKey" value="1ba3853a71fc0054d0b64f04b3fa9213"></div>
+			</div>
+			<div class="form-group"><label for="inputPassword3" class="col-sm-2 control-label">APPSecretKey</label>
+				<div class="col-sm-10"><input class="form-control" id="secretKey" value="4a22d2fbead1a439f8bf58d76e0b9dbe"></div>
+			</div>
+			<div class="form-group"><label for="inputPassword3" class="col-sm-2 control-label">房间id</label>
+				<div class="col-sm-10"><input class="form-control" id="roomID" value="368404449"></div>
+			</div>
+			<div class="form-group"><label for="inputPassword3" class="col-sm-2 control-label">AccoutId</label>
+				<div class="col-sm-10"><input class="form-control" id="accoutId" value="s55279146"></div>
+			</div>
+			<div class="form-group"><label for="inputPassword3" class="col-sm-2 control-label">昵称</label>
+				<div class="col-sm-10"><input class="form-control" id="userName" placeholder="昵称" value="测试测"></div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10"><button type="submit" class="btn btn-primary">触发</button></div>
+			</div>
+			<div style="width: 0px; height: 0px; overflow: hidden;" id="ajax"></div>
+		</div>
+		<script>
+			$(function() {
+				$('.btn').click(() => {
+					getSign()
+				})
+			})
+
+			function getSign() {
+				var appId = $('#APPKey').val();
+				var AccoutId = $('#accoutId').val();
+				var roomID = $('#roomID').val();
+				var userName = $('#userName').val();
+				var secretKey = $('#secretKey').val()
+
+				var date = Date.parse(new Date())
+
+				var sign =
+					`${secretKey}account${AccoutId}app_key${appId}roomid${roomID}signedat${date / 1000}username${userName}${secretKey}`
+
+				sign = md5(sign)
+				// account=55559&app_key=e4618c5bf425c2adf0620d9d8d642714&id=204317955&signedat=2562138485&username=dazhen&sign=77ef9f44a5d3b1db3cecf5d0cfd5b56d&t=1589942231330
+				window.location.href =
+					`Demo2.html?account=${AccoutId}&app_key=${appId}&id=${roomID}&signedat=${date / 1000}&username=${userName}&sign=${sign}`
+			}
+		</script>
+	</body>
+</html>
