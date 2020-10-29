@@ -32,5 +32,137 @@
     <div style="display: none;">
       <p id="detail">{"imgUrl":"https://obs.cn-north-1.myhuaweicloud.com/ysfw-app/headImg/93bc2f438ee341d5873873d0cd945d09.jpg","wxOrgId":"wxe34cf8935b50ada5","type":1,"aid":"5f96b03d3184f5097d681297","wxShareUrl":"https://app-ysq.yishifuwu.cn/app/circle-share/html/living.html?iid=5f96b03d3184f5097d681297","roomId":"388638371"}</p>
     </div>
-    <iframe id="live" style="margin-top: -3px; border: 0; box-shadow: 0 0 5px 0 #ccc; width: 100%; height: 100%;" allowfullscreen="true" src="https://live.vhall.com/webinar/inituser/634065413?email=2399405465017517053@d-chance.cn&amp;name=测* 医师"></iframe>
+    <iframe id="live" style="margin-top: -3px; border: 0; box-shadow: 0 0 5px 0 #ccc; width: 100%; height: 100%;" allowfullscreen="true" src="https://e.vhall.com/webinar/inituser/388638371?email=2399405465017517053@d-chance.cn&amp;name=测* 医师"></iframe>
+  
+  <script>
+      function getQuery(){
+        if(window.location.search === ''){
+          return {};
+        }else{
+          var keywords = window.location.search.substr(1);
+          var result = keywords.replace(/&/g, '","').replace(/=/g, '":"');
+          var data = '{"' + result + '"}';
+          return JSON.parse(data); 
+        }
+      }
+
+      function setQueryString(data){
+        var param = '';
+        for(var i in data){
+          param += i+'='+data[i]+'&';   //将js对象重组，拼接成url参数存入param变量中
+        }
+        return window.location.origin + window.location.pathname+ "?" + param.slice(0,param.length-1);
+      }
+
+    function getFullLiveUrl(url, params) {
+      if (!url || !params) {
+        return "";
+      }
+
+      if (url.lastIndexOf("?") !== url.length - 1) {
+        url += "?";
+      }
+
+      for (var key in params) {
+        if (params.hasOwnProperty(key)) {
+          url += key + "=" + params[key] + "&";
+        }
+      }
+
+      if (url.lastIndexOf("&") === url.length - 1) {
+        url = url.substr(0, url.length - 1);
+      }
+
+      return url;
+    }
+    
+    var browser = {
+        versions: function() {
+            var u = navigator.userAgent,
+                app = navigator.appVersion;
+            return {
+                trident: u.indexOf('Trident') > -1,
+                presto: u.indexOf('Presto') > -1,
+                webKit: u.indexOf('AppleWebKit') > -1,
+                gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1,
+                mobile: !!u.match(/AppleWebKit.*Mobile.*/),
+                ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/),
+                android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1,
+                iPhone: u.indexOf('iPhone') > -1,
+                iPad: u.indexOf('iPad') > -1,
+                webApp: u.indexOf('Safari') == -1,
+                souyue: u.indexOf('souyue') > -1,
+                superapp: u.indexOf('superapp') > -1,
+                weixin:u.toLowerCase().indexOf('micromessenger') > -1,
+                Safari:u.indexOf('Safari') > -1
+            };
+        }(),
+        language: (navigator.browserLanguage || navigator.language).toLowerCase()
+    };
+    
+    function replaceStr(str) {
+      if (str) {
+        if (str.length >= 2) {
+          var a = str.substring(1, 2);
+          return str.replace(a, '*') + ' 医师';
+        } else {
+          return str + '*' + ' 医师';
+        }
+      } else {
+        return '';
+      }
+    }
+    
+    
+    window.onload = function() {
+      var userInfo = sessionStorage.userInfo; // 获取用户信息
+
+      var res = JSON.parse($("#detail").html()); // 获取直播详情
+      
+      var data = getQuery();
+  
+      if (userInfo) {
+
+        if(data.userInfo){
+          data.userInfo = '';
+          window.location.replace(setQueryString(data));
+        }
+
+        var obj = { 
+          title: $('#title').html(),
+          summary: $('#summary').html(),
+        }
+        var liveUrl = "https://e.vhall.com/webinar/inituser";
+        var qaUrl = "https://e.vhall.com/webinar/qa";
+
+        obj.imgUrl = res.imgUrl;
+        obj.shareUrl = res.wxShareUrl;
+        document.querySelector("#shareObj").innerHTML = JSON.stringify(obj);
+
+        var roomId = res.roomId;  
+        var $live = document.querySelector("#live");
+        userInfo = JSON.parse(userInfo);
+        var email = "";
+        if(browser.versions.weixin){
+          email = userInfo.userId + "@d-chance.com";
+        } else {
+          email = userInfo.userId + "@d-chance.cn";
+        }
+        $live.src = getFullLiveUrl(liveUrl + "/" + roomId.trim(), {
+          email: email,
+          name: replaceStr(userInfo.name)
+        });
+      } else {
+
+        if (data.userInfo) {
+          var userInfo =JSON.parse(decodeURIComponent(data.userInfo));
+          sessionStorage.userInfo = JSON.stringify(userInfo);
+          data.userInfo = '';
+          window.location.replace(setQueryString(data));
+        } else {
+          window.location.href = "https://app-ysq.yishifuwu.cn/app/circle-share/html/living.html?iid=" + res.aid;
+        }
+      }
+    };
+</script>
 </body></html>
