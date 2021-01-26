@@ -4370,14 +4370,14 @@
 					SDK.player.sendBarrage()
 				}
 				/**
-				 * 设置弹幕样式 */
-				  @params opt = {
-				   position: 0,     // 位置   int  0上    1中  2下  3全屏
-				   alpha: 0.2,      // 透明度 int  0~1
-				   fontsize: 15,    // 字体大小 int
-				   color: "#ed16c4"  // 颜色   string
+				 * 设置弹幕样式 
+				  * @params opt = {
+				   * position: 0,     // 位置   int  0上    1中  2下  3全屏
+				   * alpha: 0.2,      // 透明度 int  0~1
+				   * fontsize: 15,    // 字体大小 int
+				   * color: "#ed16c4"  // 颜色   string
 				  }
-				
+				*/
 				function setBarrageStyle(opt) {
 					SDK.player.setBarrageInfo(opt)
 				}
@@ -4910,7 +4910,6 @@
 				signCloseBtn.addEventListener('click', () => {
 					signWrap = document.querySelector('.sign-wrap').style.display = 'none'
 					clearInterval(signParams._sign_timer)
-					signParams._sign_timer = null
 					signParams._sign_id = ''
 					signParams._openSignStatu = false
 				})
