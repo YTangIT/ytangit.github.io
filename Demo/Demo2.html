@@ -57,8 +57,7 @@
 
 			.demo-tool-tip:hover {
 				cursor: pointer;
-			}
-
+			
 			.demo-control {
 				width: 200px;
 				height: 100%;
@@ -4371,14 +4370,14 @@
 					SDK.player.sendBarrage()
 				}
 				/**
-				 * 设置弹幕样式
-				 * @params opt = {
-				 *  position: 0,     // 位置   int  0上    1中  2下  3全屏
-				 *  alpha: 0.2,      // 透明度 int  0~1
-				 *  fontsize: 15,    // 字体大小 int
-				 *  color: "#000000"  // 颜色   string
-				 * }
-				 */
+				 * 设置弹幕样式 */
+				  @params opt = {
+				   position: 0,     // 位置   int  0上    1中  2下  3全屏
+				   alpha: 0.2,      // 透明度 int  0~1
+				   fontsize: 15,    // 字体大小 int
+				   color: "#ed16c4"  // 颜色   string
+				  }
+				
 				function setBarrageStyle(opt) {
 					SDK.player.setBarrageInfo(opt)
 				}
